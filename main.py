@@ -1,27 +1,68 @@
-import requests
-import random
+from flask import Flask, render_template, request, jsonify
+import requests as req
 
-API_KEY = "9809efb51d21bca91ef442431f895a71"
+CLIENT_ID = 'fZZystuNmRezJL7O34gUK46UP1FV47Fc'
 
-url = "http://ws.audioscrobbler.com/2.0/"
+def get_links(nome: str):
 
-def getSimilar(artist: str):
+    # Buscar músicas
+    url = 'https://api-v2.soundcloud.com/search/tracks'
     params = {
-        "method": "artist.getsimilar",
-        "artist": artist,
-        "api_key": API_KEY,
-        "format": "json"
+        'q': nome,
+        'client_id': CLIENT_ID,
+        'limit': 5
     }
 
-    response = requests.get(url, params=params)
-
+    response = req.get(url, params=params)
     data = response.json()
-    artist = data["similarartists"]["artist"]
 
-    escolhido = random.choice(artist)
+    if 'collection' not in data:
+        print("Blank")
+        return []
 
-    return escolhido["name"]
+    tracks = []
+    for track in data['collection']:
+        tracks.append({
+            'title': track['title'],
+            'url': track['permalink_url']
+        })
+    
+    return tracks
 
-artista = input("Digite um artista: ")
 
-print(getSimilar(artista))
+# Create an instance of the Flask class
+app = Flask(__name__)
+
+# Use the route() decorator to tell Flask what URL should trigger the function
+@app.route("/")
+def index():
+    return render_template('app.html')
+
+@app.route("/get-music", methods=['POST'])
+def get_music():
+    data = request.get_json()
+    valor = data['valor']
+    print(valor)
+
+    links = get_links(valor)
+    
+    if links == []:
+        return jsonify({
+            "url": ''
+        }), 404
+    
+    url = links[0]['url']
+
+    # Debug
+    print(links[0])
+    print(links[0]['url'])
+
+    resp = jsonify({
+        "url": url
+    }), 200
+
+    return resp
+
+# Optional: Run the application directly when the script is executed
+if __name__ == '__main__':
+    app.run(debug=True)

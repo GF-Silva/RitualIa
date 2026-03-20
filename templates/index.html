@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Embed YouTube</title>
+</head>
+<body>
+
+  <input type="text" id="musicInput" />
+
+  <script>
+
+    // Monitora o input
+    document.getElementById('musicInput').addEventListener('keydown', async function(e) {
+
+      // Executa ao confirmar
+      if (e.key === 'Enter') {
+
+        // Chama a api pra obter o link da musica com o nome colocado
+        const response = await fetch('/get-music', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ valor: this.value })
+        });
+
+        const dados = await response.json();
+        console.log(dados);
+
+        if ( response.ok ) {
+          url = dados["url"];
+        
+          document.getElementById("player").src = `https://w.soundcloud.com/player/?url=${url}`;
+
+        } else {
+          console.log("nao encontrado")
+          document.getElementById("player").src = '';
+        }
+      }
+    });
+  </script>
+
+  <iframe id="player"
+    width="100%" height="166"
+    frameborder="0" allow="autoplay">
+  </iframe>
+
+</body>
+</html>

@@ -36,7 +36,7 @@ app = Flask(__name__)
 # Use the route() decorator to tell Flask what URL should trigger the function
 @app.route("/")
 def index():
-    return render_template('app.html')
+    return render_template('index.html')
 
 @app.route("/get-music", methods=['POST'])
 def get_music():

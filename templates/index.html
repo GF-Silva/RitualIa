@@ -1,48 +1,53 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Embed YouTube</title>
-</head>
-<body>
+<html>
+  <body>
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <div id="player"></div>
 
-  <input type="text" id="musicInput" />
+    <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
 
-  <script>
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    // Monitora o input
-    document.getElementById('musicInput').addEventListener('keydown', async function(e) {
-
-      // Executa ao confirmar
-      if (e.key === 'Enter') {
-
-        // Chama a api pra obter o link da musica com o nome colocado
-        const response = await fetch('/get-music', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ valor: this.value })
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          videoId: 'Gb5sbORA62w ',
+          playerVars: {
+            'playsinline': 1
+          },
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
         });
+      }
 
-        const dados = await response.json();
-        console.log(dados);
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
 
-        if ( response.ok ) {
-          url = dados["url"];
-        
-          document.getElementById("player").src = `https://w.soundcloud.com/player/?url=${url}`;
-
-        } else {
-          console.log("nao encontrado")
-          document.getElementById("player").src = '';
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          setTimeout(stopVideo, 6000);
+          done = true;
         }
       }
-    });
-  </script>
-
-  <iframe id="player"
-    width="100%" height="166"
-    frameborder="0" allow="autoplay">
-  </iframe>
-
-</body>
+      function stopVideo() {
+        player.stopVideo();
+      }
+    </script>
+  </body>
 </html>

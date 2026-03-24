@@ -1,0 +1,25 @@
+#player {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: '390';
+    width: '640';
+}
+
+#music-input {
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    transform: translate(-50%, -50%);
+    background-color: #ccc;
+}
+
+#confirm-music {
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    color: #ccc;
+}

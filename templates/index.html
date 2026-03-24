@@ -4,7 +4,29 @@
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <div id="player"></div>
 
+    <input id="video_input" placeholder="Enter video name">
+
     <script>
+      document.getElementById
+      function get_video() {
+        fetch('/get_video', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ video_name: document.getElementById('video_input').value })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.video_id) {
+            loadVideo(data.video_id);
+          } else {
+            console.error('Video not found');
+          }
+        })
+        .catch(error => console.error('Error fetching video:', error));
+      }
+
       // 2. This code loads the IFrame Player API code asynchronously.
       var tag = document.createElement('script');
 

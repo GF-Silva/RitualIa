@@ -3,7 +3,7 @@ import mysql.connector
 class Database:
     def __init__(self, host, user, password, database):
 
-        # Conecta
+        # Conecta com o sql
         self.conn = mysql.connector.connect(
             host=host,
             user=user,
@@ -11,8 +11,9 @@ class Database:
             database=database
         )
 
+        # Define o cursor
         self.cursor = self.conn.cursor()
-
+    
     def get_musics(self):
         self.cursor.execute("SELECT * FROM musicas")
 

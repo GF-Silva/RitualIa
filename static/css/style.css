@@ -6,7 +6,7 @@ body {
     grid-template-areas: 
     "navigation musicPlayer";
 
-    grid-template-columns: 60% 1f;
+    grid-template-columns: 60vw 1f;
     grid-template-rows: 100vh;
 }
 
@@ -14,9 +14,6 @@ body {
     grid-area: musicPlayer;
     position: relative;
     display: flex;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     width: 100%;
     height: auto;
     aspect-ratio: 16/9;

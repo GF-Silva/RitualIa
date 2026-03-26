@@ -42,6 +42,7 @@ class YoutubeFrameControls {
     // Método para tocar a música, recebe o nome da música, obtém o ID do vídeo e carrega o player
     async playMusic(musicName) {
 
+        // Obtem o Id da música chamando a api flask
         const musicId = await getVideoID(musicName);
 
         if (!musicId) {
@@ -49,6 +50,7 @@ class YoutubeFrameControls {
             return;
         }
 
+        // Destroi o player se já houver e recria usando Name
         if (this.player) {
             this.destroyPlayer();
         }
@@ -56,7 +58,9 @@ class YoutubeFrameControls {
         this.createPlayer(musicId);
     }
 
+    // Toca a música diretamente com o Id
     async playMusicById(musicId) {
+        // Destroi o player se já houver e recria usando Id
         if (this.player) {
             this.destroyPlayer();
         }
@@ -69,14 +73,14 @@ class YoutubeFrameControls {
         this.player = new YT.Player('player', {
             videoId: musicId,
             playerVars: {
-                modestbranding: 1, // menos logo do YouTube
-                fs: 0,             // remove fullscreen button
-                rel: 0,            // não mostra vídeos relacionados
+                modestbranding: 1,  // menos logo do YouTube
+                fs: 0,              // remove fullscreen button
+                rel: 0,             // não mostra vídeos relacionados
                 iv_load_policy: 3,  // remove anotações
-                autoplay: 1,     // inicia automático
-                controls: 0,     // esconde controles
-                playsinline: 1, // não força fullscreen no mobile
-                disablekb: 1    // desativa teclado
+                autoplay: 1,        // inicia automático
+                controls: 0,        // esconde controles
+                playsinline: 1,     // não força fullscreen no mobile
+                disablekb: 1        // desativa teclado
             },
             events: {
                 onReady: (event) => this.onPlayerReady(event),

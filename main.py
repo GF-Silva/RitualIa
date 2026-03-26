@@ -16,7 +16,6 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-
 @app.route("/get-music-id", methods=['GET'])
 def get_music_id():
 

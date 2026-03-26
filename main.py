@@ -20,22 +20,22 @@ music_data = {
 def index():
     return render_template('index.html')
 
+
 @app.route("/get-music-id", methods=['GET'])
 def get_music_id():
     
-    music_name = request.args.get("music_name")
-    
-    if music_name in music_data:
-        return jsonify({
-            'music_id': music_data[music_name]['music_id']
-        })
+    music_name = request.args.get("music-name")
 
+    if not music_name in music_data:
+        return jsonify({
+            'error': 'music not found'
+        }), 404
+        
     response = jsonify({
-        'error': 'music not found'
-    }), 404
+        'music_id': music_data[music_name]['music_id']
+    })
 
     return response
-
 
 
 # Optional: Run the application directly when the script is executed

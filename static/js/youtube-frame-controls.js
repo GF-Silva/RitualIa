@@ -1,10 +1,12 @@
+let youtubeFrameControls = null;
+
 async function getVideoID(musicName) {
     if (musicName == null) {
         return 'Get Video id: Empty music name'
     }
 
     const params = new URLSearchParams({
-        music_name: musicName
+        'music-name': musicName
     });
 
     const response = await fetch('/get-music-id?' + params.toString());
@@ -12,8 +14,9 @@ async function getVideoID(musicName) {
     const data = await response.json();
 
     if (response.ok) {
-        const musicId = data['music_id'];
-        return musicId;
+
+        // Retorna o ID do vídeo se a resposta for bem-sucedida
+        return data['music_id'];
 
     } else {
         console.log(data['error']);
@@ -21,33 +24,40 @@ async function getVideoID(musicName) {
     }
 }
 
+// método chamado quando a API do YouTube estiver pronta
+function onYouTubeIframeAPIReady() {
+    console.log('Api pronta');
+    youtubeFrameControls = new YoutubeFrameControls();
+}
+
+// Classe para controlar o player do YouTube
 class YoutubeFrameControls {
+
+    // Variáveis para armazenar o ID do vídeo e a instância do player
     constructor() {
         this.videoId = null;
-        this.player = '';
+        this.player = null;
         console.log('YoutubeFrameControls initialized');
     }
 
+    // Método para tocar a música, recebe o nome da música, obtém o ID do vídeo e carrega o player
     async playMusic(musicName) {
 
         const musicId = await getVideoID(musicName);
 
         if (!musicId) {
             console.log(`Erro" ${musicId}`);
-            return
+            return;
         }
 
         if (this.player) {
-            this.loadVideoById(musicId);
-        } else {
-            this.createPlayer(musicId);
+            this.destroyPlayer();
         }
+
+        this.createPlayer(musicId);
     }
 
-    onYouTubeIframeAPIReady() {
-        console.log('Api pronta');
-    }
-
+    // Método para criar o player do YouTube, recebe o ID do vídeo e configura os parâmetros do player
     createPlayer(musicId) {
         this.player = new YT.Player('player', {
             videoId: musicId,
@@ -62,42 +72,63 @@ class YoutubeFrameControls {
                 disablekb: 1    // desativa teclado
             },
             events: {
-                onReady: this.onPlayerReady,
-                onStateChange: this.onPlayerStateChange,
-                onError: this.onPlayerError
+                onReady: (event) => this.onPlayerReady(event),
+                onStateChange: (event) => this.onPlayerStateChange(event),
+                onError: (event) => this.onPlayerError(event)
             }
         });
     }
 
+    // Método chamado quando o player estiver pronto, inicia a reprodução do vídeo
     onPlayerReady(event) {
         event.target.playVideo();
     }
 
+    // Método chamado quando o estado do player muda, verifica se o vídeo terminou e loga uma mensagem
     onPlayerStateChange(event) {
         if (event.data === YT.PlayerState.ENDED) {
             console.log("acabou");
+            this.destroyPlayer();
         }
     }
 
+    // Método chamado quando ocorre um erro no player, loga o código do erro
     onPlayerError(event) {
         console.log("erro:", event.data);
     }
 
-    removePlayer() {
+    // Método para remover o player do YouTube, destrói a instância do player
+    destroyPlayer() {
         this.player.destroy();
+        this.player = null;
     }
 
+    // Método para carregar um novo vídeo no player, recebe o ID do vídeo e carrega-o no player
     loadVideoById(musicId) {
-        this.player.loadVideoById(musicId)
+        this.player.loadVideoById(musicId);
     }
 
+    // Método para parar o vídeo, chama a função stopVideo do player
     stopVideo() {
         this.player.stopVideo();
     }
 
+    // Método para pausar o vídeo, chama a função pauseVideo do player
+    pauseVideo() {
+        this.player.pauseVideo();
+    }
+
+    // Método para tocar o vídeo, chama a função playVideo do player
     playVideo() {
         this.player.playVideo();
     }
 }
 
-const youtubeFrameControls = new YoutubeFrameControls();
+// Adiciona um event listener ao botão de confirmação para tocar a música quando clicado
+document.getElementById('confirm-music').addEventListener('click', () => {
+
+    const musicName = document.getElementById('music-input').value;
+
+    youtubeFrameControls.playMusic(musicName);
+
+});

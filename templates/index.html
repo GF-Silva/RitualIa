@@ -8,9 +8,12 @@
     <div id="player"></div>
 
     <input id="music-input" placeholder="Enter video name">
-    <button id="confirm-music" onclick="playMusic(document.getElementById('music-input').value)">Confirmar</button>
     
-    <script src="{{ url_for('static', filename='js/youtube-frame.js') }}"></script>
+    <button id="confirm-music" onclick="youtubeFrameControls.playMusic(document.getElementById('music-input').value)">
+      Confirmar
+    </button>
+    
+    <script src="{{ url_for('static', filename='js/youtube-frame-controls.js') }}"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
   </body>
 </html>

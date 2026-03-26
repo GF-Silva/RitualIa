@@ -1,19 +1,15 @@
 from flask import Flask, render_template, request, jsonify
+from app.utils.database import Database
+
+db = Database(
+    "localhost",
+    "root",
+    "Gabriel455_300",
+    "ritualia"
+)
 
 # Create an instance of the Flask class
 app = Flask(__name__)
-
-# TODO: Calcular a duracao correta
-music_data = {
-    "Cálice": {
-        'artist': 'Chico Buarque',
-        'music_id': '9y2xB90A0CY'
-    },
-    "Onde anda você": {
-        'artist': 'Vinicius de Moraes & Toquinho',
-        'music_id': 'Gb5sbORA62w'
-    }
-}
 
 # Use the route() decorator to tell Flask what URL should trigger the function
 @app.route("/")
@@ -23,19 +19,22 @@ def index():
 
 @app.route("/get-music-id", methods=['GET'])
 def get_music_id():
-    
+
     music_name = request.args.get("music-name")
 
-    if not music_name in music_data:
-        return jsonify({
-            'error': 'music not found'
-        }), 404
+    music_id = db.get_music_id(music_name)
         
     response = jsonify({
-        'music_id': music_data[music_name]['music_id']
+        'music_id': music_id
     })
 
     return response
+
+@app.route("/get-music-data", methods=['GET'])
+def get_music_data():
+    music_data = db.get_musics()
+
+    return jsonify(music_data)
 
 
 # Optional: Run the application directly when the script is executed

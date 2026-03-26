@@ -14,7 +14,6 @@ async function getVideoID(musicName) {
     const data = await response.json();
 
     if (response.ok) {
-
         // Retorna o ID do vídeo se a resposta for bem-sucedida
         return data['music_id'];
 
@@ -50,6 +49,14 @@ class YoutubeFrameControls {
             return;
         }
 
+        if (this.player) {
+            this.destroyPlayer();
+        }
+
+        this.createPlayer(musicId);
+    }
+
+    async playMusicById(musicId) {
         if (this.player) {
             this.destroyPlayer();
         }

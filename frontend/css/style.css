@@ -1,10 +1,10 @@
 body {
     position: absolute;
-    width: 100vw;
+    width: 100%;
     height: 100%;
     display: grid;
     grid-template-areas: "navigation musicPlayer";
-    grid-template-columns: 60% 1f;
+    grid-template-columns: 60% 1fr;
     grid-template-rows: 100%;
 }
 

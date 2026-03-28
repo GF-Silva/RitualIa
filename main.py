@@ -1,41 +1,39 @@
-from flask import Flask, render_template, request, jsonify
+from fastapi import FastAPI
+from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.utils.database import Database
 
 db = Database(
     "localhost",
     "root",
     "Gabriel455_300",
-    "ritualia"
+    "Ritualia"
 )
 
 # Create an instance of the Flask class
-app = Flask(__name__)
+app = FastAPI()
 
-# Use the route() decorator to tell Flask what URL should trigger the function
-@app.route("/")
-def index():
-    return render_template('index.html')
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # No futuro, coloque aqui o IP do seu front
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.route("/get-music-id", methods=['GET'])
-def get_music_id():
-
-    music_name = request.args.get("music-name")
+@app.get("/get-music-id")
+async def get_music_id(music_name: str):
 
     music_id = db.get_music_id(music_name)
         
-    response = jsonify({
+    response = {
         'music_id': music_id
-    })
+    }
 
     return response
 
-@app.route("/get-music-data", methods=['GET'])
-def get_music_data():
+@app.get("/get-music-data")
+async def get_music_data():
     music_data = db.get_musics()
 
-    return jsonify(music_data)
-
-
-# Optional: Run the application directly when the script is executed
-if __name__ == '__main__':
-    app.run(debug=True)
+    return music_data

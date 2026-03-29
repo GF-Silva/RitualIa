@@ -8,7 +8,7 @@ def call_tst():
 
     musics = []
 
-    database_musics = database.get_musics()
+    database_musics = database.get_musics(15)
 
     for music in database_musics:
         music_data = {

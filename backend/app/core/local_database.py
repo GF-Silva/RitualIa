@@ -22,3 +22,5 @@ class LocalDatabase:
 
         with open("data/dados.json", "w", encoding="utf-8") as f:
             json.dump(musics, f, ensure_ascii=False, indent=2)
+        
+        return musics

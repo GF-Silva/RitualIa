@@ -3,6 +3,6 @@ from app.core import local_database
 
 router = APIRouter()
 
-@router.get('/tst')
+@router.get('/teste')
 def call_tst():
-    local_database.local_save_musics()
+    return local_database.local_save_musics()

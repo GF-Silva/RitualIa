@@ -18,8 +18,3 @@ class Database:
         self.cursor.execute("SELECT * FROM musicas ORDER BY RAND() LIMIT %s", (limit,))
 
         return self.cursor.fetchall()
-
-    def get_music_id(self, music_name: str):
-        self.cursor.execute(f"SELECT * FROM musicas WHERE titulo=%s", (music_name,))
-
-        return self.cursor.fetchall()[0][3]

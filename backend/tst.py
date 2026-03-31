@@ -1,5 +1,5 @@
-from app.utils.database import Database
-import json
+from app.core.database import Database
+import mysql.connector
 
 db = Database(
     "localhost",
@@ -8,21 +8,17 @@ db = Database(
     "Ritualia"
 )
 
-database_musics = db.get_musics()
+# Conecta com o sql
+conn = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="Gabriel455_300",
+    database="Ritualia"
+)
 
-musics = []
+# Define o cursor
+cursor = conn.cursor()
 
-for row in database_musics:
-    print(row)
-    music_data = {
-        "id": row[0],
-        "titulo": row[1],
-        "artista": row[2],
-        "source_id": row[3],
-        "plataforma": row[4]
-    }
-    musics.append(music_data)
+cursor.execute("SELECT * FROM musicas ORDER BY RAND() LIMIT %s", (10,))
 
-
-with open("data/dados.json", "w", encoding="utf-8") as f:
-    json.dump(musics, f, ensure_ascii=False, indent=2)
+print(cursor.fetchall())

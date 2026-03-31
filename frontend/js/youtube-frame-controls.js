@@ -1,27 +1,6 @@
 let youtubeFrameControls = null;
-
-async function getVideoID(musicName) {
-    if (musicName == null) {
-        return 'Get Video id: Empty music name'
-    }
-
-    const params = new URLSearchParams({
-        'music_name': musicName
-    });
-
-    const response = await fetch(`${API_URL}/get-music-id?` + params.toString());
-
-    const data = await response.json();
-
-    if (response.ok) {
-        // Retorna o ID do vídeo se a resposta for bem-sucedida
-        return data['music_id'];
-
-    } else {
-        console.log(data['error']);
-        return data['error']
-    }
-}
+let currentTime = null;
+let duration = null;
 
 // método chamado quando a API do YouTube estiver pronta
 function onYouTubeIframeAPIReady() {
@@ -93,6 +72,16 @@ class YoutubeFrameControls {
     // Método chamado quando o player estiver pronto, inicia a reprodução do vídeo
     onPlayerReady(event) {
         event.target.playVideo();
+
+        // Duração total da musica
+        duration = this.player.getDuration();
+        console.log("Duração:", duration);
+
+        // Atualiza o tempo em currentTime
+        setInterval(() => {
+            currentTime = this.player.getCurrentTime();
+            console.log("Tempo atual:", currentTime);
+        }, 1000);
     }
 
     // Método chamado quando o estado do player muda, verifica se o vídeo terminou e loga uma mensagem
@@ -112,6 +101,7 @@ class YoutubeFrameControls {
     destroyPlayer() {
         this.player.destroy();
         this.player = null;
+        this.currentTime = null;
     }
 
     // Método para carregar um novo vídeo no player, recebe o ID do vídeo e carrega-o no player

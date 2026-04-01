@@ -3,10 +3,10 @@ CREATE DATABASE Ritualia;
 USE Ritualia;
 
 -- Tabela de músicas
-CREATE TABLE musicas (
+CREATE TABLE musics (
     id INT NOT NULL AUTO_INCREMENT,
-    titulo VARCHAR(150) NOT NULL,
-    artista VARCHAR(150) NOT NULL,
+    music_name VARCHAR(150) NOT NULL,
+    artist VARCHAR(150) NOT NULL,
     source_id VARCHAR(20) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY unique_source (source_id)
@@ -14,15 +14,35 @@ CREATE TABLE musicas (
 
 -- Tabela de requests
 CREATE TABLE requests (
-    id INT NOT NULL AUTO_INCREMENT,
-    musica_id INT NOT NULL,
-    acessos VARCHAR(150) NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (musica_id) REFERENCES musicas(id)
+    music_id INT NOT NULL,
+    access INT NOT NULL DEFAULT 0,
+
+    PRIMARY KEY (music_id),
+    FOREIGN KEY (music_id) REFERENCES musics(id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE music_styles (
+	music_id INT NOT NULL,
+	styles JSON NOT NULL DEFAULT ('[]'),
+
+	PRIMARY KEY (music_id),
+	FOREIGN KEY (music_id) REFERENCES musics(id)
+) ENGINE=InnoDB;
+
+DELIMITER //
+
+CREATE TRIGGER after_music_insert
+AFTER INSERT ON musics
+FOR EACH ROW
+BEGIN
+    INSERT INTO requests (music_id, access) VALUES (NEW.id, 0);
+    INSERT INTO music_styles (music_id, styles) VALUES (NEW.id, '[]');
+END //
+
+DELIMITER ;
+
 -- Inserção de músicas
-INSERT INTO musicas (titulo, artista, source_id) VALUES
+INSERT INTO musics (music_name, artist, source_id) VALUES
 ('Apesar de Você', 'Chico Buarque', 'bGAJlOwUgHY'),
 ('A Carne', 'Elza Soares', 'HZXSo5lKk0g'),
 ('Construção', 'Chico Buarque', 'wBfVsucRe1w'),

@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from app.core import database
 
 router = APIRouter()
 

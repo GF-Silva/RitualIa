@@ -2,17 +2,25 @@ DROP DATABASE IF EXISTS Ritualia;
 CREATE DATABASE Ritualia;
 USE Ritualia;
 
+-- Entidade forte
+-- Constraints
+
 -- Tabela de músicas
 CREATE TABLE songs (
     id INT NOT NULL AUTO_INCREMENT,
     music_name VARCHAR(150) NOT NULL,
     artist VARCHAR(150) NOT NULL,
     source_id VARCHAR(20) NOT NULL,
+    -- context
+    -- played_times (requests)
+    -- Status (no futuro)
     PRIMARY KEY (id),
     UNIQUE KEY unique_source (source_id)
+    
+    -- Relacionar com genre_id, theme_id
 ) ENGINE=InnoDB;
 
--- Tabela de requests
+-- Tabela de requests - Remover
 CREATE TABLE requests (
     music_id INT NOT NULL,
     access INT NOT NULL DEFAULT 0,
@@ -21,13 +29,35 @@ CREATE TABLE requests (
     FOREIGN KEY (music_id) REFERENCES songs(id)
 ) ENGINE=InnoDB;
 
+-- Temas trabalhados
+-- Context, intent
 CREATE TABLE themes (
 	music_id INT NOT NULL,
-	name JSON NOT NULL DEFAULT ('[]'),
+	name JSON NOT NULL DEFAULT ('[]'), -- mantem - tira json, coloca string
 
 	PRIMARY KEY (music_id),
 	FOREIGN KEY (music_id) REFERENCES songs(id)
 ) ENGINE=InnoDB;
+
+-- generos
+
+-- ID 1 - Genero MPB
+create table genres (
+	music_id INT not null,
+	name JSON not null default ('[]'), -- Uma msc tem mais de um genero? Sim - Remover o json, colocar string normal
+	
+	primary key (music_id),
+	foreign key (music_id) references songs(id)
+) engine=InnoDB;
+
+-- sentimento
+create table emotions (
+	music_id INT not null,
+	name JSON not null default ('[]'),
+	
+	primary key (music_id),
+	foreign key (music_id) references songs(id)
+) engine=InnoDB;
 
 DELIMITER //
 
@@ -37,6 +67,8 @@ FOR EACH ROW
 BEGIN
     INSERT INTO requests (music_id, access) VALUES (NEW.id, 0);
     INSERT INTO themes (music_id, name) VALUES (NEW.id, '[]');
+	insert into genres (music_id, name) values (new.id, '[]');
+	insert into emotions (music_id, name) values (new.id, '[]');
 END //
 
 DELIMITER ;

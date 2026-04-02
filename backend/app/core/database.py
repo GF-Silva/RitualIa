@@ -19,14 +19,14 @@ class Database:
 
         return self.cursor.fetchall()
 
-    def get_musics_by_style(self, style: str, limit: int = 10):
+    def get_musics_by_theme(self, theme: str, limit: int = 10):
         self.cursor.execute("""
             SELECT musics.* FROM musics 
             JOIN music_styles ON musics.id = music_styles.music_id
             WHERE JSON_CONTAINS(music_styles.styles, %s)
             ORDER BY RAND()
             LIMIT %s
-        """, (f'"{style}"', limit))
+        """, (f'"{theme}"', limit))
 
         return self.cursor.fetchall()
     

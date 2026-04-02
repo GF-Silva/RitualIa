@@ -3,6 +3,7 @@
 **/*.pyc
 **/*.pyo
 **/.cpython-*/
+**/*.cpython-*.pyc
 
 # Ambiente virtual
 .venv/

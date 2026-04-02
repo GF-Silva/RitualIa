@@ -1,6 +1,6 @@
 # TODO: Ver quantas vezes a msc foi acessada (feito)
 # TODO: Ver o tempo atual e final da musica (feito)
-# TODO: Suporte a selecionar temas da musica (feito)
+# TODO: Suporte a selecionar temas da musica
 
 Micro Sd de 32GB
 

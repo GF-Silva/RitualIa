@@ -3,7 +3,7 @@ CREATE DATABASE Ritualia;
 USE Ritualia;
 
 -- Tabela de músicas
-CREATE TABLE musics (
+CREATE TABLE songs (
     id INT NOT NULL AUTO_INCREMENT,
     music_name VARCHAR(150) NOT NULL,
     artist VARCHAR(150) NOT NULL,
@@ -18,31 +18,31 @@ CREATE TABLE requests (
     access INT NOT NULL DEFAULT 0,
 
     PRIMARY KEY (music_id),
-    FOREIGN KEY (music_id) REFERENCES musics(id)
+    FOREIGN KEY (music_id) REFERENCES songs(id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE music_styles (
+CREATE TABLE themes (
 	music_id INT NOT NULL,
-	styles JSON NOT NULL DEFAULT ('[]'),
+	name JSON NOT NULL DEFAULT ('[]'),
 
 	PRIMARY KEY (music_id),
-	FOREIGN KEY (music_id) REFERENCES musics(id)
+	FOREIGN KEY (music_id) REFERENCES songs(id)
 ) ENGINE=InnoDB;
 
 DELIMITER //
 
 CREATE TRIGGER after_music_insert
-AFTER INSERT ON musics
+AFTER INSERT ON songs
 FOR EACH ROW
 BEGIN
     INSERT INTO requests (music_id, access) VALUES (NEW.id, 0);
-    INSERT INTO music_styles (music_id, styles) VALUES (NEW.id, '[]');
+    INSERT INTO themes (music_id, name) VALUES (NEW.id, '[]');
 END //
 
 DELIMITER ;
 
 -- Inserção de músicas
-INSERT INTO musics (music_name, artist, source_id) VALUES
+INSERT INTO songs (music_name, artist, source_id) VALUES
 ('Apesar de Você', 'Chico Buarque', 'bGAJlOwUgHY'),
 ('A Carne', 'Elza Soares', 'HZXSo5lKk0g'),
 ('Construção', 'Chico Buarque', 'wBfVsucRe1w'),

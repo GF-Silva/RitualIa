@@ -14,16 +14,16 @@ class Database:
         # Define o cursor
         self.cursor = self.conn.cursor()
     
-    def get_musics(self, limit: int = 10):
-        self.cursor.execute("SELECT * FROM musicas ORDER BY RAND() LIMIT %s", (limit,))
+    def get_music_data(self, limit: int = 10):
+        self.cursor.execute("SELECT * FROM musics ORDER BY RAND() LIMIT %s", (limit,))
 
         return self.cursor.fetchall()
 
     def get_musics_by_theme(self, theme: str, limit: int = 10):
         self.cursor.execute("""
-            SELECT musics.* FROM musics 
-            JOIN music_styles ON musics.id = music_styles.music_id
-            WHERE JSON_CONTAINS(music_styles.styles, %s)
+            SELECT songs.* FROM songs 
+            JOIN themes ON songs.id = themes.music_id
+            WHERE JSON_CONTAINS(themes.name, %s)
             ORDER BY RAND()
             LIMIT %s
         """, (f'"{theme}"', limit))

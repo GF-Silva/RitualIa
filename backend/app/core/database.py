@@ -13,31 +13,21 @@ class Database:
 
         # Define o cursor
         self.cursor = self.conn.cursor()
-    
-    def get_music_data(self, limit: int = 10):
-        self.cursor.execute("SELECT * FROM songs ORDER BY RAND() LIMIT %s", (limit,))
 
-        return self.cursor.fetchall()
-
-    def get_musics_by_filter(self, theme: str = None, genre: str = None, emotions: str = None, limit: int = 10):
+    def get_songs_by_filter(self, genres: str | None = None, emotions: str | None = None, limit: int = 10):
         filters = []
         joins = []
         params = []
 
-        if theme:
-            filters.append("JSON_CONTAINS(themes.name, %s)")
-            joins.append("JOIN themes ON songs.id = themes.music_id")
-            params.append(f'"{theme}"')
-
-        if genre:
-            filters.append("JSON_CONTAINS(genres.name, %s)")
-            joins.append("JOIN genres ON songs.id = genres.music_id")
-            params.append(f'"{genre}"')
+        if genres:
+            filters.append("songs_genres.genre_id = %s")
+            joins.append("JOIN songs_genres ON songs.id = songs_genres.song_id")
+            params.append(genres)
 
         if emotions:
-            filters.append("JSON_CONTAINS(emotions.name, %s)")
-            joins.append("JOIN emotions ON songs.id = emotions.music_id")
-            params.append(f'"{emotions}"')
+            filters.append("songs_emotions.emotion_id = %s")
+            joins.append("JOIN songs_emotions ON songs.id = songs_emotions.song_id")
+            params.append(emotions)
         
         where_clause = " AND ".join(filters) if filters else "1=1"
         joins_clause = " ".join(joins)
@@ -53,11 +43,11 @@ class Database:
 
         return self.cursor.fetchall()
     
-    def on_music_play(self, music_id: int):
-        self.cursor.execute("UPDATE requests SET access = access + 1 WHERE music_id = %s", (music_id,))
+    def on_song_play(self, song_id: int):
+        self.cursor.execute("UPDATE songs SET played_times = played_times + 1 WHERE id = %s", (song_id,))
         self.conn.commit()
 
-    def get_music_requests(self, music_id: int):
-        self.cursor.execute("SELECT * FROM requests WHERE music_id = %s", (music_id,))
+    def get_song_played_count(self, song_id: int):
+        self.cursor.execute("SELECT title, artist, played_times FROM songs WHERE id = %s", (song_id,))
 
         return self.cursor.fetchall()

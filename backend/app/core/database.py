@@ -44,7 +44,7 @@ class Database:
         return self.cursor.fetchall()
     
     def on_song_play(self, song_id: int):
-        self.cursor.execute("UPDATE songs SET played_times = played_times + 1 WHERE id = %s", (song_id,))
+        self.cursor.execute("UPDATE songs SET play_count = played_times + 1 WHERE id = %s", (song_id,))
         self.conn.commit()
 
     def get_song_play_count(self, song_id: int):

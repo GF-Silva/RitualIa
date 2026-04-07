@@ -14,7 +14,7 @@ class Database:
         # Define o cursor
         self.cursor = self.conn.cursor()
 
-    def get_songs_by_filter(self, genres: str | None = None, emotions: str | None = None, limit: int = 10):
+    def get_songs_by_filter(self, genres: str | None = None, emotions: str | None = None, limit: int = 1):
         filters = []
         joins = []
         params = []

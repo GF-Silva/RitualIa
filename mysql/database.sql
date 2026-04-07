@@ -11,7 +11,7 @@ CREATE TABLE songs (
     title VARCHAR(150) NOT NULL,
     artist VARCHAR(150) NOT NULL,
     source_id VARCHAR(20) NOT NULL,
-    played_times INT NOT NULL DEFAULT (0),
+    play_count INT NOT NULL DEFAULT (0),
     UNIQUE (title, artist)
     -- Status (no futuro)
 ) ENGINE=InnoDB;

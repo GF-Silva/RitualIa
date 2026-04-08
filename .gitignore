@@ -1,17 +1,32 @@
 # Python
-**/__pycache__/
-**/*.pyc
-**/*.pyo
-**/.cpython-*/
-**/*.cpython-*.pyc
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+*.cpython-*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
 # Ambiente virtual
 .venv/
 venv/
 env/
+.python-version
 
-# Variáveis de ambiente
+# Lockfiles locais
+uv.lock
+
+# Variaveis de ambiente
 .env
+.env.*
+!.env.example
+
+# Ferramentas locais
+.codex
+.codex/
 
 # IDEs
 .vscode/

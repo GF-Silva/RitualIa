@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Player Livro Final</title>
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="/pages/player/css/style.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <div class="row-player">
+
+            <!-- ABA -->
+            <div class="panel" id="panel" onclick="togglePanel()">
+                <div class="panel-content">
+                    História detalhada do autor, com imagens antigas e recentes.
+                </div>
+            </div>
+
+            <!-- PLAYER -->
+            <div class="player-box" id="playerBox">
+
+                <div id="ytplayer"></div>
+
+                <div class="info">
+                    <div id="author">Autor</div>
+                    <div id="music">Música</div>
+                </div>
+
+                <div class="time">
+                    <div id="current">0:00</div>
+                    <div id="duration">0:00</div>
+                </div>
+
+                <div class="progress">
+                    <div class="bar" id="bar"></div>
+                    <div class="dot" id="dot"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="pages/player/js/script.js"></script>
+    <script src="pages/player/js/youtube-frame-controls.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+
+</html>

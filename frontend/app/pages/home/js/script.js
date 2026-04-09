@@ -26,7 +26,7 @@ function addGenres() {
     locations.forEach((genres) => {
         const div = document.createElement("div");
         div.className = "card";
-        const imagePath = `img/${genres}`;
+        const imagePath = `pages/home/img/${genres}`;
         div.dataset.image = imagePath;
         div.style.backgroundImage = `url("${encodeURI(imagePath)}")`;
 
@@ -164,14 +164,27 @@ function mudarSentimento(dir) {
 updateDrum(false);
 update(false);
 
+let error = null;
+
 function showError(error) {
+    if (error == true) {
+        return;
+    }
+
     const overlay = document.createElement('div');
     overlay.className = "overlay";
     document.body.appendChild(overlay);
 
     const errorDisplay = document.createElement("div");
     errorDisplay.className = "error-display";
-    errorDisplay.textContent = error;
+
+    const title = document.createElement("h1");
+    title.textContent = "Erro inesperado";
+    title.style.textAlign = "center";
+    title.style.margin = "0 0 12px 0";
+
+    const message = document.createElement("p");
+    message.textContent = error;
 
     const exitBtn = document.createElement("btn");
     exitBtn.className = "btn-fechar";
@@ -194,9 +207,14 @@ function showError(error) {
     exitBtn.addEventListener("click", function() {
         overlay.remove();
         errorDisplay.remove();
+        error = null;
     });
 
+    error = true
+
     errorDisplay.appendChild(exitBtn);
+    errorDisplay.appendChild(title);
+    errorDisplay.appendChild(message);
     document.body.appendChild(errorDisplay);
 }
 
@@ -214,7 +232,6 @@ async function submitData() {
             genre: genero,
             emotion: sentimento
         });
-
         response = await fetch(`${API_URL}/get-songs-by-filter-name?${params}`);
 
         if (!response.ok) {
@@ -223,8 +240,9 @@ async function submitData() {
         }
 
         musicData = await response.json();
-
-        console.log(`Music id: ${musicData[0][3]}`);
+        musicArtist = await musicData[0][2];
+        musicId = musicData[0][3];
+        window.location.href = `/player?music-id=${musicId}&&music-author=${musicArtist}`;
     } catch (e) {
         console.log(e.message);
         showError(e);

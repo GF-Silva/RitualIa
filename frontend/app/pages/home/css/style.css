@@ -290,10 +290,10 @@ input[type=range]::-webkit-slider-thumb {
     background: rgba(0, 0, 0, 0.3); /* opcional, escurece um pouco */
     z-index: 1000;
 }
-
 .error-display {
     position: fixed;
     display: flex;
+    flex-direction: column;
     width: 80%;
     height: 20%;
     border-radius: 30px;
@@ -305,14 +305,27 @@ input[type=range]::-webkit-slider-thumb {
     border-color: #f28c28;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
-    color: #FF1111;
-    font-style: oblique;
     overflow-wrap: break-word;
     word-break: break-word;
-    text-align: center;
     padding: 0 20px;
     z-index: 1001;
+}
+
+.error-display h1 {
+    font-size: 2rem;
+    color: #f28c28;
+    font-style: normal;
+    margin: 0 0 8px 0;
+    text-align: center;
+}
+
+.error-display p {
+    font-size: 2rem;
+    color: #8B0000;
+    font-weight: 500;
+    font-style: oblique;
+    text-align: center;
+    margin: 0;
 }
 
 .btn-fechar {

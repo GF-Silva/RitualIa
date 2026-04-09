@@ -2,10 +2,15 @@ let youtubeFrameControls = null;
 let currentTime = null;
 let duration = null;
 
+const params = new URLSearchParams(window.location.search)
+const musicId = params.get('music-id');
+const musicAuthor = params.get('music-author');
+
 // método chamado quando a API do YouTube estiver pronta
 function onYouTubeIframeAPIReady() {
-    console.log('Api pronta');
+    console.log("Ready");
     youtubeFrameControls = new YoutubeFrameControls();
+    youtubeFrameControls.playMusic(musicId, musicAuthor);
 }
 
 // Classe para controlar o player do YouTube
@@ -18,38 +23,20 @@ class YoutubeFrameControls {
         console.log('YoutubeFrameControls initialized');
     }
 
-    // Método para tocar a música, recebe o nome da música, obtém o ID do vídeo e carrega o player
-    async playMusic(musicName) {
-
-        // Obtem o Id da música chamando a api flask
-        const musicId = await getVideoID(musicName);
-
-        if (!musicId) {
-            console.log(`Erro" ${musicId}`);
-            return;
-        }
-
-        // Destroi o player se já houver e recria usando Name
-        if (this.player) {
-            this.destroyPlayer();
-        }
-
-        this.createPlayer(musicId);
-    }
-
     // Toca a música diretamente com o Id
-    async playMusicById(musicId) {
+    async playMusic(musicId, musicAuthor) {
         // Destroi o player se já houver e recria usando Id
         if (this.player) {
             this.destroyPlayer();
         }
 
         this.createPlayer(musicId);
+        document.getElementById("author").textContent = musicAuthor;
     }
 
     // Método para criar o player do YouTube, recebe o ID do vídeo e configura os parâmetros do player
     createPlayer(musicId) {
-        this.player = new YT.Player('player', {
+        this.player = new YT.Player('ytplayer', {
             videoId: musicId,
             playerVars: {
                 modestbranding: 1,  // menos logo do YouTube
@@ -73,14 +60,20 @@ class YoutubeFrameControls {
     onPlayerReady(event) {
         event.target.playVideo();
 
-        // Duração total da musica
-        duration = this.player.getDuration();
-        console.log("Duração:", duration);
-
         // Atualiza o tempo em currentTime
         setInterval(() => {
+            duration = this.player.getDuration();
             currentTime = this.player.getCurrentTime();
-            console.log("Tempo atual:", currentTime);
+
+            if (duration) {
+                document.getElementById("duration").innerText = format(duration);
+                document.getElementById("current").innerText = format(currentTime);
+
+                const percent = (currentTime / duration) * 100;
+
+                document.getElementById("bar").style.width = percent + "%";
+                document.getElementById("dot").style.left = percent + "%";
+            }
         }, 1000);
     }
 
@@ -89,6 +82,7 @@ class YoutubeFrameControls {
         if (event.data === YT.PlayerState.ENDED) {
             console.log("acabou");
             this.destroyPlayer();
+            window.location.href = "/";
         }
     }
 
@@ -124,12 +118,3 @@ class YoutubeFrameControls {
         this.player.playVideo();
     }
 }
-
-// Adiciona um event listener ao botão de confirmação para tocar a música quando clicado
-document.getElementById('confirm-music').addEventListener('click', () => {
-
-    const musicName = document.getElementById('music-input').value;
-
-    youtubeFrameControls.playMusic(musicName);
-
-});

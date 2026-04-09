@@ -1,29 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>RitualIA</title>
-    <meta charset="UTF-8">
-    <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8" />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
-    
-    <div id="player"></div>
+    <div class="logo" id="logo">
+      <h1>Ritual<span>IA</span></h1>
+      <p>Ritmo + Cultura + Alegria</p>
+    </div>
 
-    <input id="music-input" placeholder="Enter video name">
+    <div class="main">
+      <h2>GÊNEROS MUSICAIS</h2>
 
-    <button id="confirm-music">
-      Confirmar
-    </button>
+      <div class="carousel">
+        <div class="arrow left" onclick="move(-1)">❮</div>
 
-    <ul id="catalog">
+        <div class="track-wrapper">
+          <div class="track" id="cylinder"></div>
+        </div>
 
-    </ul>
-    
+        <div class="arrow right" onclick="move(1)">❯</div>
+
+        <div class="player" id="playerText">Baião</div>
+
+        <div class="slider-container">
+          <input type="range" min="0" max="11" value="0" id="slider" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ PAINEL ORIGINAL RESTAURADO -->
+    <div class="painel" id="painel">
+      <div class="voltar" onclick="voltar()">⬅ VOLTAR</div>
+
+      <img id="painelImg" />
+
+      <div>
+        <div class="seta" onclick="mudarSentimento(-1)">▲</div>
+        <div class="drum-wrapper">
+          <div class="drum-cylinder" id="drumCylinder"></div>
+        </div>
+        <div class="seta" onclick="mudarSentimento(1)">▼</div>
+        <button id="submit_btn" onclick="submitData()">Selecionar</button>
+      </div>
+    </div>
+
+
+    <script src="js/script.js"></script>
     <script src="js/globals.js"></script>
-    <script src="js/youtube-frame-controls.js"></script>
-    <script src="js/navigation-controls.js"></script>
-    
-    <script src="https://www.youtube.com/iframe_api"></script>
   </body>
 </html>

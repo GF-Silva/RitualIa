@@ -22,7 +22,8 @@ class Database:
             host=host,
             user=user,
             password=password,
-            database=database
+            database=database,
+            connection_timeout=10
         )
 
         # Cria o cursor para executar comandos SQL
@@ -76,6 +77,18 @@ class Database:
             ORDER BY RAND()   -- Garante aleatoriedade na seleção
             LIMIT %s
         """, params)
+
+        result = self.cursor.fetchall()
+
+        return result
+
+    def get_emotion_id(self, emotion: str):
+        self.cursor.execute("SELECT id FROM emotions WHERE name = %s", (emotion,))
+
+        return self.cursor.fetchall()
+
+    def get_genre_id(self, genre: str):
+        self.cursor.execute("SELECT id FROM genres WHERE name = %s", (genre,))
 
         return self.cursor.fetchall()
     

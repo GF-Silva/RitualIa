@@ -5,6 +5,7 @@ let duration = null;
 const params = new URLSearchParams(window.location.search)
 const musicId = params.get('music-id');
 const musicAuthor = params.get('music-author');
+const musicName = params.get('music-name');
 
 // método chamado quando a API do YouTube estiver pronta
 function onYouTubeIframeAPIReady() {
@@ -32,6 +33,7 @@ class YoutubeFrameControls {
 
         this.createPlayer(musicId);
         document.getElementById("author").textContent = musicAuthor;
+        document.getElementById("music").textContent = musicName;
     }
 
     // Método para criar o player do YouTube, recebe o ID do vídeo e configura os parâmetros do player

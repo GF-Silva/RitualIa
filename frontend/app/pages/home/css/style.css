@@ -99,7 +99,6 @@ h2 {
 .card:not(.is-front) {
     filter: brightness(0.55) saturate(0.7);
 }
-
 /* ===== SETAS ===== */
 .arrow {
     font-size: 60px;
@@ -175,6 +174,19 @@ input[type=range]::-webkit-slider-thumb {
     width: 420px;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.painel h1 {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    transform: translate(-50%, -50%);
+    color: #f28c28;
+    margin-top: 40px;
+    margin-bottom: -20px;
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
 }
  
 /* ===== BLOCO DIREITO ===== */

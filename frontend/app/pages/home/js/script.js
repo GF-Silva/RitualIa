@@ -232,17 +232,18 @@ async function submitData() {
             genre: genero,
             emotion: sentimento
         });
-        response = await fetch(`${API_URL}/get-songs-by-filter-name?${params}`);
+        const response = await fetch(`${API_URL}/get-songs-by-filter-name?${params}`);
 
         if (!response.ok) {
             const erro = await response.json();
             throw new Error(erro.detail);
         }
 
-        musicData = await response.json();
-        musicArtist = await musicData[0][2];
-        musicId = musicData[0][3];
-        window.location.href = `/player?music-id=${musicId}&&music-author=${musicArtist}`;
+        const musicData = await response.json();
+        const musicArtist = await musicData[0][2];
+        const musicName = await musicData[0][1];
+        const musicId = musicData[0][3];
+        window.location.href = `/player?music-id=${musicId}&&music-author=${musicArtist}&&music-name=${musicName}`;
     } catch (e) {
         console.log(e.message);
         showError(e);

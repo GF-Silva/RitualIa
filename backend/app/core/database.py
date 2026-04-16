@@ -92,7 +92,7 @@ class Database:
 
         return self.cursor.fetchall()
     
-    def on_song_play(self, song_id: int):
+    def on_song_play(self, genre: str, emotion: str):
         """
         Atualiza estatísticas de reprodução de uma música.
 
@@ -104,8 +104,16 @@ class Database:
             - Executa commit para salvar a alteração no banco.
         """
 
+        genre_result = self.get_genre_id(genre) if genre is not None else None
+        emotion_result = self.get_emotion_id(emotion) if emotion is not None else None
+
+        genre_id = genre_result[0][0] if genre_result else None
+        emotion_id = emotion_result[0][0] if emotion_result else None
+
         # Atualiza o contador de reproduções da música
-        self.cursor.execute("UPDATE songs SET play_count = play_count + 1 WHERE id = %s", (song_id,))
+        print(1)
+        self.cursor.execute("UPDATE genres SET play_count = play_count + 1 WHERE id = %s", (genre_id,),)
+        self.cursor.execute("UPDATE emotions SET play_count = play_count + 1 WHERE id = %s", (emotion_id,),)
         self.conn.commit()
 
     def get_song_play_count(self, song_id: int):

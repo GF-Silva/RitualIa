@@ -243,7 +243,16 @@ async function submitData() {
         const musicArtist = await musicData[0][2];
         const musicName = await musicData[0][1];
         const musicId = musicData[0][3];
-        window.location.href = `/player?music-id=${musicId}&&music-author=${musicArtist}&&music-name=${musicName}`;
+        
+        const playerParams = new URLSearchParams({
+            "music-id": musicId,
+            "music-author": musicArtist,
+            "music-name": musicName,
+            "genre": genero,
+            "emotion": sentimento
+        });
+
+        window.location.href = `/player?${playerParams}`;
     } catch (e) {
         console.log(e.message);
         showError(e);

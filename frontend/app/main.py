@@ -15,5 +15,3 @@ def player():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-# TODO: adicionar a logica de on_music_play aumentar o play_count

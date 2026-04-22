@@ -1,56 +1,146 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Player Livro Final</title>
     <link rel="icon" href="favicon.ico" />
-    <link rel="stylesheet" href="/pages/player/css/style.css">
-</head>
+    <link rel="stylesheet" href="/pages/player/css/style.css" />
+  </head>
 
-<body>
+  <body>
+    <img src="/pages/assets/logo.png" class="logo-bg" />
 
     <div class="wrapper">
-
-        <div class="row-player">
-
-            <!-- ABA -->
-            <div class="panel" id="panel" onclick="togglePanel()">
-                <div class="panel-content">
-                    História detalhada do autor, com imagens antigas e recentes.
-                </div>
-            </div>
-
-            <!-- PLAYER -->
-            <div class="player-box" id="playerBox">
-
-                <div id="ytplayer"></div>
-
-                <div class="info">
-                    <div id="author">Autor</div>
-                    <div id="music">Música</div>
-                </div>
-
-                <div class="time">
-                    <div id="current">0:00</div>
-                    <div id="duration">0:00</div>
-                </div>
-
-                <div class="progress">
-                    <div class="bar" id="bar"></div>
-                    <div class="dot" id="dot"></div>
-                </div>
-
-            </div>
-
+      <div class="row-player">
+        <!-- ABA -->
+        <div class="panel" id="panel" onclick="togglePanel()">
+          <div class="panel-content">
+            História detalhada do autor, com imagens antigas e recentes.
+          </div>
         </div>
 
+        <div class="arrow">➜</div>
+
+        <!-- PLAYER -->
+        <div class="player-box" id="playerBox">
+          <div id="ytplayer"></div>
+
+          <div class="info">
+            <div id="author">Autor</div>
+            <div id="music">Música</div>
+          </div>
+
+          <div class="time">
+            <div id="current">0:00</div>
+            <div id="duration">0:00</div>
+          </div>
+
+          <div class="progress">
+            <div class="bar" id="bar"></div>
+            <div class="dot" id="dot"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILA -->
+      <div class="queue" id="queue">
+        <div class="queue-header">
+          <div>
+            <div class="queue-title">fila de espera</div>
+            <div class="queue-sub">Músicas</div>
+          </div>
+
+          <div class="queue-arrow" onclick="toggleQueue()">▼</div>
+        </div>
+
+        <div class="queue-list">
+          <div class="queue-item">
+            <span class="left">1 - Asa branca</span
+            ><span class="right">Baião</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">2 - Tempo perdido</span
+            ><span class="right">Rock</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">3 - Música 3</span
+            ><span class="right">Tema 3</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">4 - Música 4</span
+            ><span class="right">Tema 4</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">5 - Música 5</span
+            ><span class="right">Tema 5</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">6 - Música 6</span
+            ><span class="right">Tema 6</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">7 - Música 7</span
+            ><span class="right">Tema 7</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">8 - Música 8</span
+            ><span class="right">Tema 8</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">9 - Música 9</span
+            ><span class="right">Tema 9</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">10 - Música 10</span
+            ><span class="right">Tema 10</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">11 - Música 11</span
+            ><span class="right">Tema 11</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">12 - Música 12</span
+            ><span class="right">Tema 12</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">13 - Música 13</span
+            ><span class="right">Tema 13</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">14 - Música 14</span
+            ><span class="right">Tema 14</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">15 - Música 15</span
+            ><span class="right">Tema 15</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">16 - Música 16</span
+            ><span class="right">Tema 16</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">17 - Música 17</span
+            ><span class="right">Tema 17</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">18 - Música 18</span
+            ><span class="right">Tema 18</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">19 - Música 19</span
+            ><span class="right">Tema 19</span>
+          </div>
+          <div class="queue-item">
+            <span class="left">20 - Música 20</span
+            ><span class="right">Tema 20</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="pages/player/js/script.js"></script>
     <script src="pages/player/js/youtube-frame-controls.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="pages/globals.js"></script>
-</body>
-
+  </body>
 </html>

@@ -1,126 +1,241 @@
 body {
-    background: #bfbfbf;
-    font-family: Arial;
-    padding: 40px;
+  background: #bfbfbf;
+  font-family: Arial;
+  padding: 40px;
+  overflow-x: hidden;
+}
+
+.logo-bg {
+  position: fixed;
+  top: 20px;
+  right: 5px;
+  width: 220px;
+  opacity: 0.9;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* FUNDO */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 950px;
+  height: 950px;
+  background: #115138;
+  border-radius: 50%;
+  z-index: 0;
+  -webkit-mask: radial-gradient(circle, transparent 40%, #000 40%);
+  mask: radial-gradient(circle, transparent 40%, #000 40%);
+}
+
+body::before {
+  top: -660px;
+  left: -610px;
+}
+
+body::after {
+  bottom: -660px;
+  right: -610px;
 }
 
 .wrapper {
-    max-width: 1100px;
-    margin: auto;
-}
-
-/* LINHA */
-.row-player {
-    display: flex;
-    align-items: stretch;
-}
-
-/* ABA (página) */
-.panel {
-    width: 14px;
-    background: #c89b00;
-    border-radius: 30px 0 0 30px;
-
-    cursor: pointer;
-    transition: 0.6s ease;
-
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-
-    /* 🔥 COLADO */
-    margin-right: -2px;
-    z-index: 2;
-}
-
-/* CONTEÚDO */
-.panel-content {
-    opacity: 0;
-    padding: 25px;
-    font-size: 24px;
-    font-weight: bold;
-    min-width: 320px;
-    color: black;
-    transition: 0.4s;
-}
-
-/* 🔥 ABA ABERTA */
-.panel.open {
-    width: 380px;
-
-    /* 🔥 mantém grudado mesmo com animação */
-    margin-right: -42px;
-}
-
-.panel.open .panel-content {
-    opacity: 1;
+  max-width: 1100px;
+  margin: auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* PLAYER */
-.player-box {
-    background: #eeeeee;
-    border-radius: 0 40px 40px 0;
-    padding: 20px;
-    flex: 1;
-
-    transition: 0.6s ease;
+.row-player {
+  display: flex;
+  align-items: stretch;
+  position: relative;
 }
 
-/* 🔥 MOVE (não encolhe) */
+/* ABA */
+.panel {
+  width: 32px;
+  background: #d8842c;
+  border-radius: 30px 0 0 30px;
+  cursor: pointer;
+  transition: 0.6s ease;
+  margin-right: -2px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.panel-content {
+  opacity: 0;
+  padding: 25px;
+  margin: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  min-width: 100px;
+  color: black;
+  transition: 0.4s;
+}
+
+.panel.open {
+  width: 380px;
+  margin-right: -42px;
+}
+
+.panel.open .panel-content {
+  opacity: 1;
+}
+
+/* SETA */
+.arrow {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(180deg);
+  font-size: 26px;
+  z-index: 3;
+  transition: transform 0.5s ease;
+  pointer-events: none;
+}
+
+.panel.open + .arrow {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+/* PLAYER BOX */
+.player-box {
+  background: #eeeeee;
+  border-radius: 0 40px 40px 0;
+  padding: 20px;
+  flex: 1;
+  transition: 0.6s ease;
+}
+
 .player-box.shift {
-    transform: translateX(40px);
+  transform: translateX(40px);
 }
 
 /* VIDEO */
 #ytplayer {
-    width: 100%;
-    height: 260px;
-    border-radius: 25px;
-    overflow: hidden;
-    background: black;
-    pointer-events: none;
+  width: 100%;
+  height: 260px;
+  border-radius: 25px;
+  overflow: hidden;
+  background: black;
+  pointer-events: none;
 }
 
 /* INFO */
 .info {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    font-size: 28px;
-    font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 26px;
+  font-weight: bold;
 }
 
 /* TEMPO */
 .time {
-    display: flex;
-    justify-content: space-between;
-    font-size: 26px;
-    font-weight: bold;
-    margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 5px;
 }
 
 /* BARRA */
-.progress {
-    height: 10px;
-    background: black;
-    border-radius: 10px;
-    margin-top: 10px;
-    position: relative;
+.progresso {
+  height: 10px;
+  background: #ccc;
+  border-radius: 10px;
+  margin-top: 10px;
+  position: relative;
 }
 
 .bar {
-    height: 10px;
-    background: black;
-    width: 0%;
-    border-radius: 10px;
+  height: 10px;
+  background: black;
+  width: 0%;
+  border-radius: 10px;
 }
 
 .dot {
-    width: 20px;
-    height: 20px;
-    background: black;
-    border-radius: 50%;
-    position: absolute;
-    top: -5px;
-    left: 0%;
+  width: 20px;
+  height: 20px;
+  background: black;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ========================= */
+/* FILA DE ESPERA */
+/* ========================= */
+
+.queue {
+  margin-top: 30px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  padding: 15px;
+  transition: 0.6s;
+  overflow: hidden;
+}
+
+.queue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.queue-title {
+  font-size: 34px;
+  font-weight: bold;
+  color: #1f5137;
+}
+
+.queue-sub {
+  color: #d8842c;
+  font-weight: bold;
+}
+
+.queue-arrow {
+  color: #1f5137;
+  font-size: 28px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.queue.open .queue-arrow {
+  transform: rotate(180deg);
+}
+
+.queue-list {
+  margin-top: 10px;
+  max-height: 45px;
+  overflow-y: hidden;
+  transition: 0.6s ease;
+}
+
+.queue.open .queue-list {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.queue-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 5px;
+  font-size: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.left {
+  font-weight: bold;
+}
+
+.right {
+  font-weight: bold;
+  color: #1f5137;
 }

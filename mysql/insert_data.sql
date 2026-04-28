@@ -1,197 +1,353 @@
 -- Inserção de músicas
 INSERT INTO songs (title, artist, source_id) VALUES
-('Apesar de Você', 'Chico Buarque', 'bGAJlOwUgHY'),
-('A Carne', 'Elza Soares', 'HZXSo5lKk0g'),
-('Construção', 'Chico Buarque', 'wBfVsucRe1w'),
-('Cálice', 'Chico Buarque e Gilberto Gil', '9y2xB90A0CY'),
-('Pra Não Dizer Que Não Falei das Flores', 'Geraldo Vandré', 'KdvsXn8oVPY'),
-('Que País É Este', 'Legião Urbana', 'vA-3BYOW2wo'),
-('Diário de um Detento', 'Racionais MCs', 'dGFxdmuDA4A'),
-('Negro Drama', 'Racionais MCs', 'u4lcUooNNLY'),
-('Tempo Perdido', 'Legião Urbana', 'BW73u2yGGa8'),
-('O Mundo é um Moinho', 'Cartola', 'ud9PlROstDw'),
-('Tocando em Frente', 'Almir Sater', 'KxDofVDFu5k'),
-('Aquarela do Brasil', 'Ary Barroso', 'mvdKz4VPPq0'),
-('Tropicália', 'Caetano Veloso', '1Z1qNsm-NUk'),
-('Asa Branca', 'Luiz Gonzaga', 'zIy3EwyBBI0'),
-('Pais e Filhos', 'Legião Urbana', 'iApyBcSg-WA'),
-('Epitáfio', 'Titãs', 'I29JUuotXG4'),
-('Imagine', 'John Lennon', 'zHxobd1WLno'),
-('What''s Going On', 'Marvin Gaye', 'ApthDWoPMFQ'),
-('This Is America', 'Childish Gambino', 'VYOjWnS4cMY');
+('Apesar de Você'),
+('Alegria, Alegria'),
+('Aquele Abraço'),
+('O Bêbado e a Equilibrista'),
+('Coração de Estudante'),
+('Blowin’ in the Wind'),
+('We Shall Overcome'),
+('The Sound of Silence'),
+('Feeling Good'),
+('Imagine'),
+('Tempo Perdido'),
+('Epitáfio'),
+('Sociedade Alternativa'),
+('Alagados'),
+('Pro Dia Nascer Feliz'),
+('Hey Jude'),
+('We Will Rock You'),
+('Sunday Bloody Sunday'),
+('Another Brick in the Wall'),
+('Smells Like Teen Spirit'),
+('As Rosas Não Falam'),
+('Com Que Roupa?'),
+('O Mar Serenou'),
+('Canta, Canta Minha Gente'),
+('Foi um Rio que Passou em Minha Vida'),
+('Sodade'),
+('Pata Pata'),
+('Chan Chan'),
+('Clandestino'),
+('7 Seconds'),
+('Festa'),
+('Show das Poderosas'),
+('Oceano'),
+('Ainda Bem'),
+('Quando Você Passa (Turu Turu)'),
+('Heal the World'),
+('Halo'),
+('Viva La Vida'),
+('Someone Like You'),
+('Shape of You'),
+('Bachianas Brasileiras nº 5'),
+('Odeon'),
+('Garota de Ipanema'),
+('Ode to Joy'),
+('Eine Kleine Nachtmusik'),
+('What a Wonderful World'),
+('Billie Jean'),
+('Like a Prayer'),
+('Born This Way'),
+('Levitating'),
+('Bohemian Rhapsody'),
+('Satisfaction'),
+('With or Without You'),
+('Summertime'),
+('Fly Me to the Moon'),
+('So What'),
+('One Love'),
+('Three Little Birds'),
+('I Can See Clearly Now'),
+('Equal Rights'),
+('Red Red Wine'),
+('Superstition'),
+('Ain’t No Mountain High Enough'),
+('Respect'),
+('Fallin’'),
+('All of Me'),
+('Primavera'),
+('Air on the G String'),
+('Lago dos Cisnes'),
+('Sozinho'),
+('Como Nossos Pais'),
+('Maria Maria'),
+('Deixa a Vida Me Levar'),
+('Asa Branca'),
+('Eu Só Quero um Xodó'),
+('Chão de Giz'),
+('Borbulhas de Amor'),
+('Anunciação'),
+('Panis et Circenses'),
+('Evidências'),
+('É o Amor'),
+('Pode Chorar'),
+('Infiel'),
+('Balada'),
+('O Canto da Cidade'),
+('Diga Que Valeu'),
+('Eva'),
+('Extravasa'),
+('Here Comes the Sun'),
+('Don't Stop Me Now'),
+('Boulevard of Broken Dreams'),
+('It's My Life'),
+('Shake It Off'),
+('Happy'),
+('Count on Me'),
+('Roar'),
+('Firework'),
+('Wake Me Up'),
+('Titanium'),
+('Lean On'),
+('Animals'),
+('Take Five'),
+('Für Elise'),
+('The Four Seasons'),
+('Clair de Lune'),
+('Is This Love'),
+('Lose Yourself'),
+('Can't Hold Us'),
+('Dias de Luta, Dias de Glória'),
+('O Sol'),
+('Exagerado'),
+('Aquarela'),
+('Tocando em Frente'),
+('Sina'),
+('Velha Infância'),
+('Aliança'),
+('Vou Festejar'),
+('Xote dos Milagres'),
+('Trevo (Tu)'),
+('Pra Você Guardei o Amor'),
+('AmarElo'),
+('Levanta e Anda'),
+('Brasileirinho'),
+('Tico-Tico no Fubá'),
+('É Tudo Sobre Você'),
+('Filho Meu'),
+('Me Leva pra Casa'),
+('Me Ajude a Melhorar'),
+('Se Hoje Me Toca'),
+('Galileu'),
+('Yeshua'),
+('Arde Outra Vez'),
+('A Casa É Sua'),
+('Me Ama'),
+('Hallelujah'),
+('Corpus Christi Carol'),
+('Estações'),
+('Visceral'),
+('Lindo Momento'),
+('Lindo És'),
+('Quero Conhecer Jesus'),
+('A Carne'),
+('Construção'),
+('Cálice'),
+('Pra Não Dizer Que Não Falei das Flores'),
+('Que País É Este'),
+('Diário de um Detento'),
+('Negro Drama'),
+('O Mundo é um Moinho'),
+('Aquarela do Brasil'),
+('Tropicália'),
+('Pais e Filhos'),
+('What''s Going On'),
+('This Is America');
 
 INSERT INTO genres (name) VALUES
-('Baião'),
-('Folk Rock'),
-('Hip-Hop'),
-('MPB'),
-('Música de Protesto'),
-('R&B'),
-('Rap'),
-('Rock Nacional'),
-('Samba'),
-('Sertanejo Raiz'),
-('Soul'),
-('Tropicalismo');
+('Baião'),                 -- 1
+('Folk Rock'),             -- 2
+('Hip-Hop'),               -- 3
+('MPB'),                   -- 4
+('Música de Protesto'),    -- 5
+('R&B'),                   -- 6
+('Rock Nacional'),         -- 7
+('Samba'),                 -- 8
+('Sertanejo Raiz'),        -- 9
+('Soul'),                  -- 10
+('Tropicalismo'),          -- 11
+('Rock'),                  -- 12
+('Ritmos Brasileiros'),    -- 13
+('Pop'),                   -- 14
+('Música Contemporânea'),  -- 15
+('Clássica / Erudita'),    -- 16
+('World Music'),           -- 17
+('Jazz'),                  -- 18
+('Reggae'),                -- 19
+('Forró'),                 -- 20
+('Sertanejo'),             -- 21
+('Axé'),                   -- 22
+('Eletrônica'),            -- 23
+('Música Instrumental Brasileira'), -- 24
+('Gospel');                -- 25
 
 INSERT INTO emotions (name) VALUES
-('Angústia'),
-('Empoderamento'),
-('Esperança'),
-('Indignação'),
-('Ironia'),
-('Melancolia'),
-('Nostalgia'),
-('Paz'),
-('Pertencimento'),
-('Reflexão'),
-('Resistência'),
-('Revolta'),
-('Saudade'),
-('Tristeza'),
-('Urgência');
+('Angústia'),        -- 1
+('Empoderamento'),   -- 2
+('Esperança'),       -- 3
+('Indignação'),      -- 4
+('Ironia'),          -- 5
+('Melancolia'),      -- 6
+('Nostalgia'),       -- 7
+('Paz'),             -- 8
+('Pertencimento'),   -- 9
+('Reflexão'),        -- 10
+('Resistência'),     -- 11
+('Revolta'),         -- 12
+('Saudade'),         -- 13
+('Tristeza'),        -- 14
+('Urgência');        -- 15
 
--- song_genres (use os IDs da sua tabela de songs e themes)
 INSERT INTO songs_genres (song_id, genre_id) VALUES
--- Apesar de Você (1)
-(1, 4),  -- MPB
-(1, 9),  -- Samba
-(1, 5),  -- Música de Protesto
--- A Carne (2)
-(2, 4),  -- MPB
-(2, 9),  -- Samba
-(2, 5),  -- Música de Protesto
--- Construção (3)
-(3, 4),  -- MPB
-(3, 9),  -- Samba
-(3, 5),  -- Música de Protesto
--- Cálice (4)
-(4, 4),  -- MPB
-(4, 9),  -- Samba
-(4, 5),  -- Música de Protesto
--- Pra Não Dizer que Não Falei das Flores (5)
-(5, 4),  -- MPB
-(5, 5),  -- Música de Protesto
--- Que País É Este (6)
-(6, 8),  -- Rock Nacional
-(6, 5),  -- Música de Protesto
--- Diário de um Detento (7)
-(7, 7),  -- Rap
-(7, 3),  -- Hip-Hop
--- Negro Drama (8)
-(8, 7),  -- Rap
-(8, 3),  -- Hip-Hop
--- Tempo Perdido (9)
-(9, 8),  -- Rock Nacional
-(9, 2),  -- Folk Rock
--- O Mundo é um Moinho (10)
-(10, 9), -- Samba
-(10, 4), -- MPB
--- Tocando em Frente (11)
-(11, 4), -- MPB
-(11, 2), -- Sertanejo Raiz
--- Aquarela do Brasil (12)
-(12, 9), -- Samba
-(12, 4), -- MPB
--- Tropicália (13)
-(13, 12), -- Tropicalismo
-(13, 4),  -- MPB
--- Asa Branca (14)
-(14, 1), -- Baião
--- Pais e Filhos (15)
-(15, 8), -- Rock Nacional
-(15, 6), -- Folk Rock
--- Epitáfio (16)
-(16, 8), -- Rock Nacional
--- Imagine (17)
-(17, 6), -- Folk Rock
--- What's Going On (18)
-(18, 6), -- R&B
-(18, 11), -- Soul
--- This Is America (19)
-(19, 7), -- Rap
-(19, 3); -- Hip-Hop
 
--- song_emotions
+-- 1–20 (MPB / Protesto forte)
+(1,4),(1,8),(1,5),
+(2,4),(2,8),(2,5),
+(3,4),(3,8),(3,5),
+(4,4),(4,8),(4,5),
+(5,4),(5,5),(5,2),
+(6,7),(6,5),(6,2),
+(7,3),(7,3),(7,5), -- mantido hiphop/rap simplificado
+(8,3),(8,3),(8,5),
+(9,7),(9,2),(9,4),
+(10,8),(10,4),(10,10),
+(11,4),(11,9),(11,2),
+(12,8),(12,4),(12,1),
+(13,11),(13,4),(13,2),
+(14,1),(14,4),(14,9),
+(15,7),(15,2),(15,4),
+(16,7),(16,2),(16,4),
+(17,2),(17,5),(17,10),
+(18,6),(18,10),(18,5),
+(19,3),(19,3),(19,5),
+(20,4),(20,8),(20,13),
+
+-- 21–40 (Samba / World / Pop BR)
+(21,8),(21,4),(21,13),
+(22,8),(22,4),(22,13),
+(23,8),(23,4),(23,13),
+(24,8),(24,4),(24,13),
+(25,8),(25,4),(25,13),
+(26,17),(26,19),(26,15),
+(27,17),(27,19),(27,15),
+(28,17),(28,19),(28,15),
+(29,17),(29,19),(29,15),
+(30,17),(30,19),(30,15),
+(31,14),(31,22),(31,15),
+(32,14),(32,15),(32,13),
+(33,4),(33,15),(33,13),
+(34,4),(34,15),(34,13),
+(35,14),(35,15),(35,13),
+(36,15),(36,16),(36,13),
+(37,15),(37,16),(37,13),
+(38,15),(38,16),(38,13),
+(39,15),(39,16),(39,13),
+(40,15),(40,16),(40,13),
+
+-- 41–60 (Clássico / Jazz / Soul)
+(41,17),(41,25),(41,16),
+(42,25),(42,17),(42,14),
+(43,4),(43,9),(43,14),
+(44,17),(44,16),(44,25),
+(45,17),(45,16),(45,25),
+(46,11),(46,19),(46,16),
+(47,15),(47,16),(47,13),
+(48,15),(48,16),(48,13),
+(49,15),(49,16),(49,13),
+(50,15),(50,16),(50,13),
+(51,13),(51,16),(51,2),
+(52,13),(52,16),(52,2),
+(53,13),(53,16),(53,2),
+(54,19),(54,11),(54,16),
+(55,19),(55,11),(55,16),
+(56,19),(56,11),(56,16),
+(57,20),(57,18),(57,16),
+(58,20),(58,18),(58,16),
+(59,20),(59,18),(59,16),
+(60,20),(60,18),(60,16),
+
+-- 61–90 (BR raiz / sertanejo / forró)
+(61,11),(61,6),(61,16),
+(62,11),(62,6),(62,16),
+(63,11),(63,6),(63,16),
+(64,11),(64,6),(64,16),
+(65,11),(65,6),(65,16),
+(66,17),(66,25),(66,16),
+(67,17),(67,25),(67,16),
+(68,17),(68,25),(68,16),
+(69,4),(69,14),(69,16),
+(70,4),(70,14),(70,16),
+(71,4),(71,14),(71,16),
+(72,9),(72,14),(72,4),
+(73,1),(73,21),(73,14),
+(74,1),(74,21),(74,14),
+(75,1),(75,21),(75,14),
+(76,1),(76,21),(76,14),
+(77,1),(77,21),(77,14),
+(78,8),(78,13),(78,2),
+(79,8),(79,13),(79,2),
+(80,8),(80,13),(80,2),
+(81,8),(81,13),(81,2),
+(82,8),(82,13),(82,2),
+(83,22),(83,10),(83,14),
+(84,22),(84,10),(84,14),
+(85,22),(85,10),(85,14),
+(86,22),(86,10),(86,14),
+(87,22),(87,10),(87,14),
+
+-- 91–110 (pop internacional / eletrônico)
+(88,23),(88,15),(88,16),
+(89,23),(89,15),(89,16),
+(90,23),(90,15),(90,16),
+(91,23),(91,15),(91,16),
+(92,23),(92,15),(92,16),
+(93,13),(93,15),(93,16),
+(94,13),(94,15),(94,16),
+(95,13),(95,15),(95,16),
+(96,13),(96,15),(96,16),
+(97,13),(97,15),(97,16),
+(98,15),(98,16),(98,13),
+(99,15),(99,16),(99,13),
+(100,15),(100,16),(100,13),
+(101,15),(101,16),(101,13),
+(102,15),(102,16),(102,13),
+(103,24),(103,15),(103,16),
+(104,24),(104,15),(104,16),
+(105,24),(105,15),(105,16),
+(106,24),(106,15),(106,16),
+(107,19),(107,16),(107,11),
+(108,17),(108,25),(108,16),
+(109,17),(109,25),(109,16),
+(110,17),(110,25),(110,16),
+
+-- 111–136 (gospel / rap / instrumental)
+(111,20),(111,18),(111,16),
+(112,7),(112,3),(112,5),
+(113,7),(113,3),(113,5),
+(114,8),(114,13),(114,2),
+(115,8),(115,13),(115,2),
+(116,8),(116,13),(116,2),
+(117,4),(117,14),(117,16),
+(118,4),(118,14),(118,16),
+(119,4),(119,14),(119,16),
+(120,4),(120,14),(120,16),
+(121,4),(121,14),(121,16),
+(122,9),(122,14),(122,4),
+(123,21),(123,14),(123,4),
+(124,15),(124,16),(124,14),
+(125,15),(125,16),(125,14),
+(126,7),(126,3),(126,5),
+(127,7),(127,3),(127,5),
+(128,25),(128,17),(128,16),
+(129,25),(129,17),(129,16),
+(130,26),(130,11),(130,16),
+(131,26),(131,11),(131,16),
+(132,26),(132,11),(132,16),
+(133,26),(133,11),(133,16),
+(134,26),(134,11),(134,16),
+(135,26),(135,11),(135,16),
+(136,26),(136,11),(136,16);
+
+
 INSERT INTO songs_emotions (song_id, emotion_id) VALUES
--- Apesar de Você (1)
-(1, 11), -- Resistência
-(1, 7),  -- Nostalgia
-(1, 5), -- Ironia
--- A Carne (2)
-(2, 4),  -- Indignação
-(2, 12), -- Revolta
-(2, 3),  -- Esperança
--- Construção (3)
-(3, 8),  -- Angústia
-(3, 11), -- Resistência
-(3, 14), -- Tristeza
--- Cálice (4)
-(4, 8),  -- Angústia
-(4, 11), -- Resistência
-(4, 4),  -- Indignação
--- Pra Não Dizer que Não Falei das Flores (5)
-(5, 11), -- Resistência
-(5, 3),  -- Esperança
-(5, 15), -- Urgência
--- Que País É Este (6)
-(6, 4),  -- Indignação
-(6, 12), -- Revolta
-(6, 5),  -- Ironia
--- Diário de um Detento (7)
-(7, 4),  -- Indignação
-(7, 8),  -- Angústia
-(7, 14), -- Tristeza
-(7, 12), -- Revolta
--- Negro Drama (8)
-(8, 4),  -- Indignação
-(8, 12), -- Revolta
-(8, 2),  -- Empoderamento
-(8, 11), -- Resistência
--- Tempo Perdido (9)
-(9, 6),  -- Melancolia
-(9, 10), -- Reflexão
-(9, 14), -- Tristeza
--- O Mundo é um Moinho (10)
-(10, 13), -- Saudade
-(10, 6),  -- Melancolia
-(10, 14), -- Tristeza
--- Tocando em Frente (11)
-(11, 3),  -- Esperança
-(11, 10), -- Reflexão
-(11, 9),  -- Pertencimento
--- Aquarela do Brasil (12)
-(12, 9),  -- Pertencimento
-(12, 3),  -- Esperança
-(12, 7),  -- Nostalgia
--- Tropicália (13)
-(13, 7),  -- Nostalgia
-(13, 10), -- Reflexão
-(13, 5),  -- Ironia
--- Asa Branca (14)
-(14, 13), -- Saudade
-(14, 9),  -- Pertencimento
-(14, 6),  -- Melancolia
--- Pais e Filhos (15)
-(15, 8),  -- Angústia
-(15, 15), -- Urgência
-(15, 14), -- Tristeza
-(15, 6),  -- Melancolia
--- Epitáfio (16)
-(16, 10), -- Reflexão
-(16, 6),  -- Melancolia
-(16, 14), -- Tristeza
--- Imagine (17)
-(17, 3),  -- Esperança
-(17, 12), -- Paz
-(17, 10), -- Reflexão
--- What's Going On (18)
-(18, 3),  -- Esperança
-(18, 12), -- Paz
-(18, 4),  -- Indignação
-(18, 15), -- Urgência
--- This Is America (19)
-(19, 4),  -- Indignação
-(19, 12), -- Revolta
-(19, 2),  -- Empoderamento
-(19, 5);  -- Ironia

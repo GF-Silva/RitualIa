@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #eef3f0, #dce5e1);
+  overflow-x: hidden;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 950px;
+  height: 950px;
+  background: #115138;
+  border-radius: 50%;
+  z-index: 0;
+  -webkit-mask: radial-gradient(circle, transparent 40%, #000 40%);
+  mask: radial-gradient(circle, transparent 40%, #000 40%);
+}
+
+body::before {
+  top: -660px;
+  left: -610px;
+}
+
+body::after {
+  bottom: -660px;
+  right: -610px;
+}
+
+/* ===== LOGO ===== */
+.logo-bg {
+  position: fixed;
+  top: -1%;
+  right: 5px;
+  width: 15%;
+  opacity: 0.9;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#home {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+#player {
+  position: absolute;
+  display: flex;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-items: center;
+}

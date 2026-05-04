@@ -1,33 +1,3 @@
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #eef3f0, #dce5e1);
-    overflow-x: hidden;
-}
-
-/* ===== LOGO ===== */
-.logo {
-    position: absolute;
-    top: 15px;
-    left: 20px;
-    z-index: 1000;
-}
- 
-.logo h1 {
-    margin: 0;
-    font-size: 34px;
-    font-weight: bold;
-    color: #1e5b3a;
-}
- 
-.logo span { color: #f28c28; }
- 
-.logo p {
-    margin: 0;
-    font-size: 13px;
-    color: #2f7a4f;
-}
- 
 /* ===== TÍTULO ===== */
 h2 {
     margin-top: 40px;
@@ -99,20 +69,7 @@ h2 {
 .card:not(.is-front) {
     filter: brightness(0.55) saturate(0.7);
 }
-/* ===== SETAS ===== */
-.arrow {
-    font-size: 60px;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #1e5b3a;
-    z-index: 10;
-}
- 
-.left { left: 40px; }
-.right { right: 40px; }
- 
+
 /* ===== TEXTO ===== */
 .player {
     font-size: 28px;

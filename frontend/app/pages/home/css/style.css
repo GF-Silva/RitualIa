@@ -4,7 +4,7 @@ body {
     background: linear-gradient(135deg, #eef3f0, #dce5e1);
     overflow-x: hidden;
 }
- 
+
 /* ===== LOGO ===== */
 .logo {
     position: absolute;
@@ -307,51 +307,75 @@ input[type=range]::-webkit-slider-thumb {
     display: flex;
     flex-direction: column;
     width: 80%;
-    height: 20%;
-    border-radius: 30px;
+    max-width: 500px;
+    min-height: 160px;
+    border-radius: 20px;
     inset: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(199, 125, 51, 0.3);
-    border-width: 4px;
-    border-style: solid;
-    border-color: #f28c28;
-    justify-content: center;
+    transform: translate(-50%, -50%) scale(0.8);
+    
+    background: rgba(199, 125, 51, 0.15);
+    backdrop-filter: blur(12px);
+    
+    border: 2px solid rgba(242, 140, 40, 0.6);
+    
+    justify-content: flex-start;
     align-items: center;
-    overflow-wrap: break-word;
-    word-break: break-word;
-    padding: 0 20px;
+    
+    padding: 40px 20px 20px;
     z-index: 1001;
+
+    opacity: 0;
+    animation: aparecerErro 0.4s ease forwards, glowErro 2s infinite;
+}
+
+@keyframes aparecerErro {
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes glowErro {
+    0% { box-shadow: 0 0 10px rgba(242,140,40,0.3); }
+    50% { box-shadow: 0 0 25px rgba(242,140,40,0.6); }
+    100% { box-shadow: 0 0 10px rgba(242,140,40,0.3); }
 }
 
 .error-display h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: #f28c28;
-    font-style: normal;
-    margin: 0 0 8px 0;
+    margin-top: 0;
+    margin-bottom: 6px;
     text-align: center;
 }
 
 .error-display p {
-    font-size: 2rem;
-    color: #8B0000;
-    font-weight: 500;
-    font-style: oblique;
+    font-size: 1.2rem;
+    color: #ff4d4d;
     text-align: center;
     margin: 0;
+    margin-top: 20px; /* 👈 ajuste aqui */
 }
 
 .btn-fechar {
     position: absolute;
     top: 10px;
     right: 12px;
-    background: none;
+    background: rgba(255,255,255,0.05);
     border: none;
     cursor: pointer;
-    padding: 4px;
+    padding: 6px;
     color: #f28c28;
-    line-height: 0;
+    border-radius: 50%;
+    transition: all 0.3s ease;
 }
 
 .btn-fechar:hover {
-    color: #FF2222;
+    color: #ff2222;
+    background: rgba(255, 0, 0, 0.1);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.btn-fechar:active {
+    transform: scale(0.9);
 }

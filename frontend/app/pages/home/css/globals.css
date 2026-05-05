@@ -31,10 +31,9 @@ body::after {
 /* ===== LOGO ===== */
 .logo-bg {
   position: fixed;
-  top: -1%;
-  right: 5px;
-  width: 15%;
-  opacity: 0.9;
+  top: 0;
+  right: 0;
+  width: 20%;
   z-index: 0;
   pointer-events: none;
 }
@@ -56,4 +55,13 @@ body::after {
   height: 100vh;
   align-items: center;
   justify-items: center;
+}
+
+@media (orientation: portrait) {
+  .logo-bg {
+    left: 50%;
+    top: 20%;
+    width: 60%;
+    transform: translate(-50%, -50%);
+  }
 }

@@ -53,7 +53,7 @@
       <div class="wrapper">
         <div class="row-player">
           <!-- ABA -->
-          <div class="panel" id="panel" onclick="togglePanel()">
+          <div class="panel" id="panel" onclick="playerControls.togglePanel()">
             <div class="panel-content">
               História detalhada do autor, com imagens antigas e recentes.
             </div>
@@ -90,7 +90,7 @@
               <div class="queue-sub">Músicas</div>
             </div>
 
-            <div class="queue-arrow" onclick="toggleQueue()">▼</div>
+            <div class="queue-arrow" onclick="playerControls.toggleQueue()">▼</div>
           </div>
 
           <div class="queue-list">
@@ -183,12 +183,9 @@
     <script src="pages/globals.js"></script>
     <script src="pages/home/js/youtube-frame-controls.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="pages/home/js/script.js"></script>
+    <script src="pages/home/js/async-queue.js"></script>
     <script src="pages/home/js/player.js"></script>
-    
-    <script>
-      openPage("home");
-    </script>
-    
+    <script src="pages/home/js/home.js"></script>
+    <script src="pages/home/js/script.js"></script>
   </body>
 </html>

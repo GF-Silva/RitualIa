@@ -1,23 +1,26 @@
 const API_URL = "http://localhost:8000";
-var page = "player";
 var playerParams = null;
 
-class openPage {
-    constructor(page) {
-        this.page = page;
-    }
-
-    switch (page) {
-        case "home":
-            document.getElementById("home").style.visibility = "visible";
-            document.getElementById("player").style.visibility = "hidden";
-            break;
-        case "player":
-            document.getElementById("home").style.visibility = "hidden";
-            document.getElementById("player").style.visibility = "visible";
-            break;
-    
-        default:
-            break;
+class OpenPage {
+    set(page) {
+        console.log(page)
+        switch (page) {
+            case "#home":
+                document.getElementById("home").style.visibility = "visible";
+                document.getElementById("player").style.visibility = "hidden";
+                break;
+            case "#player":
+                document.getElementById("home").style.visibility = "hidden";
+                document.getElementById("player").style.visibility = "visible";
+                break;
+            default:
+                break;
+        }
     }
 }
+
+openPage.set(window.location.hash)
+window.addEventListener('hashchange', () => {
+  console.log('Mudou para:', window.location.hash);
+  openPage.set(window.location.hash);
+});

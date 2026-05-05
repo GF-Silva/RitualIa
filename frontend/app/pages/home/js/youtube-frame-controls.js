@@ -1,14 +1,3 @@
-let youtubeFrameControls = null;
-let currentTime = null;
-let duration = null;
-
-const params = new URLSearchParams(window.location.search)
-const musicId = params.get('music-id');
-const musicAuthor = params.get('music-author');
-const musicName = params.get('music-name');
-const musicGenre = params.get('genre');
-const musicEmotion = params.get('emotion');
-
 // método chamado quando a API do YouTube estiver pronta
 function onYouTubeIframeAPIReady() {
     console.log("Ready");
@@ -18,35 +7,34 @@ function onYouTubeIframeAPIReady() {
 
 // Classe para controlar o player do YouTube
 class YoutubeFrameControls {
-
     // Variáveis para armazenar o ID do vídeo e a instância do player
     constructor() {
-        this.videoId = null;
         this.player = null;
+        this.currentTime = null;
+        this.duration = null;
         console.log('YoutubeFrameControls initialized');
     }
 
     // Toca a música diretamente com o Id
-    async playMusic(musicId, musicAuthor) {
+    async playMusic(id, author, name, emotion, genre) {
         // Destroi o player se já houver e recria usando Id
         if (this.player) {
             this.destroyPlayer();
         }
 
         this.createPlayer(musicId);
-        document.getElementById("author").textContent = musicAuthor;
-        document.getElementById("music").textContent = musicName;
+        document.getElementById("author").textContent = author;
+        document.getElementById("music").textContent = name;
 
         const playerParams = new URLSearchParams({
-            "genre": musicGenre,
-            "emotion": musicEmotion
+            "genre": genre,
+            "emotion": emotion
         });
 
-        const response = await fetch(`${API_URL}/on-song-play?${playerParams}`);
-        
-        if (!response.ok) {
-            console.log('erro');
-        }
+        // const onSongPlay = await fetch(`${API_URL}/on-song-play?${playerParams}`); // TODO: Resolver isso
+        // if (!onSongPlay.ok) {
+        //     console.log('erro');
+        // }
     }
 
     // Método para criar o player do YouTube, recebe o ID do vídeo e configura os parâmetros do player

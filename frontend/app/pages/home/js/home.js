@@ -12,20 +12,16 @@ const locations = [
 
 const cylinder = document.getElementById("cylinder");
 
-function addGenres() {
+// Adiciona os generos
+locations.forEach((genres) => {
+    const div = document.createElement("div");
+    div.className = "card";
+    const imagePath = `pages/home/img/${genres}`;
+    div.dataset.image = imagePath;
+    div.style.backgroundImage = `url("${encodeURI(imagePath)}")`;
 
-    locations.forEach((genres) => {
-        const div = document.createElement("div");
-        div.className = "card";
-        const imagePath = `pages/home/img/${genres}`;
-        div.dataset.image = imagePath;
-        div.style.backgroundImage = `url("${encodeURI(imagePath)}")`;
-
-        cylinder.appendChild(div);
-    });
-}
-
-addGenres();
+    cylinder.appendChild(div);
+});
 
 const cards = document.querySelectorAll(".card");
 const slider = document.getElementById("slider");
@@ -120,10 +116,10 @@ sentimentos.forEach((nome, i) => {
     const angle = sentAngleStep * i;
     div.style.transform = `rotateX(${-angle}deg) translateZ(${sentRadius}px)`;
     drumCylinder.appendChild(div);
-});
+})
 
 const drumItems = drumCylinder.querySelectorAll(".drum-item");
-let indice = 3;
+let indice = 1;
 let sentRotation = 0;
 
 function updateDrum(animate = true) {
@@ -144,7 +140,7 @@ function updateDrum(animate = true) {
 }
 
 export function mudarSentimento(dir) {
-    indice = (indice + dir + totalSent) % totalSent;
+    indice = (indice - dir + totalSent) % totalSent;
     updateDrum();
 }
 

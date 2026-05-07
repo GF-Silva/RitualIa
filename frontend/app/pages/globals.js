@@ -19,9 +19,10 @@ class OpenPage {
 }
 
 const openPage = new OpenPage();
-
+/*
 openPage.set(window.location.hash)
 window.addEventListener('hashchange', () => {
   console.log('Mudou para:', window.location.hash);
   openPage.set(window.location.hash);
 });
+*/

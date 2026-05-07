@@ -1,24 +1,13 @@
 import { playerControls } from "./script.js";
 
 const nomes = [
-    "Baião", "Folk Rock", "Hip-Hop", "MPB", "Música de Protesto",
-    "R&B", "Rap", "Rock Nacional", "Samba", "Sertanejo Raiz",
-    "Soul", "Tropicalismo"
+    "MPB", "Sertanejo", "Rock"
 ];
 
 const locations = [
-    "baiao.png",
-    "Folk Rock.png",
-    "Hip-Hop.png",
     "MPB.png",
-    "Música de Protesto.png",
-    "R&B.png",
-    "Rap.png",
-    "Rock Nacional.png",
-    "Samba.png",
-    "Sertanejo.png",
-    "Soul.png",
-    "Tropicalismo.png"
+    "Rock.png",
+    "Sertanejo.png"
 ];
 
 const cylinder = document.getElementById("cylinder");
@@ -39,7 +28,6 @@ function addGenres() {
 addGenres();
 
 const cards = document.querySelectorAll(".card");
-
 const slider = document.getElementById("slider");
 const playerText = document.getElementById("playerText");
 const painel = document.getElementById("painel");
@@ -101,7 +89,7 @@ cards.forEach((card, index) => {
     };
 });
 
-function voltar() {
+export function voltar() {
     painel.classList.remove("active");
 }
 
@@ -114,9 +102,9 @@ slider.addEventListener("input", e => {
 const drumCylinder = document.getElementById("drumCylinder");
 
 const sentimentos = [
-    "Angústia", "Empoderamento", "Esperança", "Indignação", "Ironia",
-    "Melancolia", "Nostalgia", "Paz", "Pertencimento", "Reflexão",
-    "Resistência", "Revolta", "Saudade", "Tristeza", "Urgência"
+    "Esperança",
+    "Reflexão",
+    "Saudade"
 ];
 
 const ITEM_H = 46;
@@ -155,7 +143,7 @@ function updateDrum(animate = true) {
     });
 }
 
-function mudarSentimento(dir) {
+export function mudarSentimento(dir) {
     indice = (indice + dir + totalSent) % totalSent;
     updateDrum();
 }
@@ -212,13 +200,15 @@ export async function submitData() {
     try {
         const genero = nomes[current];
         const sentimento = sentimentos[indice];
+        const debug = false;
 
         const params = new URLSearchParams({
             genre: genero,
             emotion: sentimento,
             limit: 5
         });
-        const response = await fetch(`${API_URL}/get-songs-by-filter-name?${params}`);
+
+        const response = debug ? await fetch(`${API_URL}/get-songs-by-filter?limit=5`) : await fetch(`${API_URL}/get-songs-by-filter?${params}`);
 
         if (!response.ok) {
             const erro = await response.json();
@@ -228,9 +218,9 @@ export async function submitData() {
         const musicData = await response.json();
 
         musicData.forEach(music => {
-            const musicArtist = music[1];
-            const musicName = music[0];
-            const musicId = music[2];
+            const musicArtist = music[2];
+            const musicName = music[1];
+            const musicId = music[3];
 
             playerParams = {
                 "sourceId": musicId,
@@ -244,8 +234,6 @@ export async function submitData() {
 
         window.location.href = "#player";
     } catch (e) {
-        console.log(e.message);
-        
-        showError(e);
+        showError(e.message);
     }
 }  

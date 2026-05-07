@@ -10,6 +10,7 @@ class PlayerControls extends YoutubeFrameControls {
     this.queue = new AsyncQueue();
     this.queueList = document.getElementById("queue-list");
     this.musicFinished = new AsyncEvent();
+    console.log('PlayerControls initialized');
   }
   
   addMusic(params) {
@@ -34,6 +35,8 @@ class PlayerControls extends YoutubeFrameControls {
       const musicData = await this.queue.get();
       this.playMusic(musicData);
       await this.musicFinished.when(true);
+      this.queue.remove(musicData);
+      this.queueList.removeChild(this.queueList.firstChild);
       this.musicFinished.set(false);
     }
   }
@@ -41,6 +44,7 @@ class PlayerControls extends YoutubeFrameControls {
   onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.ENDED) {
       this.musicFinished.set(true);
+      this.destroyPlayer();
     }
   }
 

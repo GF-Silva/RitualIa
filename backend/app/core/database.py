@@ -79,7 +79,6 @@ class Database:
         """, params)
 
         result = self.cursor.fetchall()
-
         return result
 
     def get_emotion_id(self, emotion: str):
@@ -111,7 +110,6 @@ class Database:
         emotion_id = emotion_result[0][0] if emotion_result else None
 
         # Atualiza o contador de reproduções da música
-        print(1)
         self.cursor.execute("UPDATE genres SET play_count = play_count + 1 WHERE id = %s", (genre_id,),)
         self.cursor.execute("UPDATE emotions SET play_count = play_count + 1 WHERE id = %s", (emotion_id,),)
         self.conn.commit()

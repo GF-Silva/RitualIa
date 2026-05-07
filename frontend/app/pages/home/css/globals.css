@@ -56,3 +56,14 @@ body::after {
   align-items: center;
   justify-items: center;
 }
+
+.change-btn {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  background: #f28c28;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+}

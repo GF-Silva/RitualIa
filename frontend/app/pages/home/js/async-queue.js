@@ -25,6 +25,25 @@ class AsyncQueue {
   get size() {
     return this.queue.length;
   }
+
+  /**
+   * Remove um item específico da queue pelo valor.
+   * Equivalente a um splice por valor.
+   *
+   * @param {*} item - O item a ser removido.
+   * @returns {boolean} `true` se encontrou e removeu, `false` se não encontrou.
+   *
+   * @example
+   * queue.put('a');
+   * queue.put('b');
+   * queue.remove('a'); // remove 'a' da fila
+   */
+  remove(item) {
+    const index = this.queue.indexOf(item);
+    if (index === -1) return false;
+    this.queue.splice(index, 1);
+    return true;
+  }
 }
 
 export { AsyncQueue };

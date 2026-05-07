@@ -13,6 +13,7 @@
     <img src="/pages/assets/logo.png" class="logo-bg" />
     
     <div id="home" style="visibility: visible;">
+      <button class="change-btn" onclick="window.location.href ='#player'">➡️</button>
       <div class="main">
         <h2>GÊNEROS MUSICAIS</h2>
 
@@ -25,7 +26,7 @@
           <div class="player" id="playerText">Baião</div>
 
           <div class="slider-container">
-            <input type="range" min="0" max="11" value="0" id="slider" />
+            <input type="range" min="0" max="2" value="0" id="slider" />
           </div>
         </div>
       </div>
@@ -43,16 +44,17 @@
             <div class="drum-cylinder" id="drumCylinder"></div>
           </div>
           <div class="seta" onclick="mudarSentimento(1)">▼</div>
-          <button id="submit__btn">Selecionar</button>
+          <button id="submit__btn" onclick="submitData()">Selecionar</button>
         </div>
       </div>
     </div>
 
     <div id="player" style="visibility: hidden;">
+      <button class="change-btn" onclick="window.location.href ='#'">⬅️</button>
       <div class="wrapper">
         <div class="row-player">
           <!-- ABA -->
-          <div class="panel" id="panel">
+          <div class="panel" id="panel" onclick="togglePanel()">
             <div class="panel-content">
               História detalhada do autor, com imagens antigas e recentes.
             </div>
@@ -89,7 +91,7 @@
               <div class="queue-sub">Músicas</div>
             </div>
 
-            <div class="queue-arrow" id="queue-arrow">▼</div>
+            <div class="queue-arrow" onclick="toggleQueue()">▼</div>
           </div>
 
           <div class="queue-list" id="queue-list"><div class="queue-item"></div></div>
@@ -108,20 +110,25 @@
     <script type="module">
       import { submitData } from "./pages/home/js/home.js";
       import { playerControls } from "./pages/home/js/script.js";
-      const submitBtn = document.getElementById("submit__btn");
-      const queueArrow = document.getElementById("queue-arrow");
-      const panel = document.getElementById("panel");
+      import { voltar, mudarSentimento } from "./pages/home/js/home.js";
 
-      submitBtn.addEventListener("click", () => {
-        submitData()
-      });
+      window.submitData = () => {
+        submitData();
+      }
 
-      queueArrow.addEventListener("click", () => {
+      window.mudarSentimento = (dir) => {
+        mudarSentimento(dir);
+      }
+
+      window.toggleQueue = () => {
         playerControls.toggleQueue();
-      });
-      panel.addEventListener("click", () => {
+      }
+      window.togglePanel = () => {
         playerControls.togglePanel();
-      });
+      }
+      window.voltar = () => {
+        voltar();
+      };
     </script>
   </body>
 </html>

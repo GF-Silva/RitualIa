@@ -11,6 +11,7 @@ class YoutubeFrameControls {
         this.player = null;
         this.currentTime = null;
         this.duration = null;
+        this.intervalId = null;
         console.log('YoutubeFrameControls initialized');
     }
 
@@ -19,6 +20,7 @@ class YoutubeFrameControls {
         // Destroi o player se já houver e recria usando Id
         if (this.player) {
             this.destroyPlayer();
+            console.log('Player destroyed');
         }
 
         document.getElementById("author").textContent = author;
@@ -59,7 +61,7 @@ class YoutubeFrameControls {
         const duration = this.player.getDuration();
 
         // Atualiza o tempo em currentTime
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
             const currentTime = this.player.getCurrentTime();
 
             if (duration) {
@@ -92,26 +94,10 @@ class YoutubeFrameControls {
         this.player.destroy();
         this.player = null;
         this.currentTime = null;
-    }
-
-    // Método para carregar um novo vídeo no player, recebe o ID do vídeo e carrega-o no player
-    loadVideoById(musicId) {
-        this.player.loadVideoById(musicId);
-    }
-
-    // Método para parar o vídeo, chama a função stopVideo do player
-    stopVideo() {
-        this.player.stopVideo();
-    }
-
-    // Método para pausar o vídeo, chama a função pauseVideo do player
-    pauseVideo() {
-        this.player.pauseVideo();
-    }
-
-    // Método para tocar o vídeo, chama a função playVideo do player
-    playVideo() {
-        this.player.playVideo();
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+            this.intervalId = null;
+        }
     }
 
     format(t) {

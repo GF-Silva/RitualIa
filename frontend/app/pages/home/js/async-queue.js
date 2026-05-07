@@ -26,3 +26,5 @@ class AsyncQueue {
     return this.queue.length;
   }
 }
+
+export { AsyncQueue };

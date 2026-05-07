@@ -239,7 +239,7 @@ input[type=range]::-webkit-slider-thumb {
     cursor: pointer;
 }
 
-#submit_btn {
+#submit__btn {
     position: absolute;
     aspect-ratio: 3/1;
     width: 15%;

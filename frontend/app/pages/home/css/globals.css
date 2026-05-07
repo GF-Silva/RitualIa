@@ -56,12 +56,3 @@ body::after {
   align-items: center;
   justify-items: center;
 }
-
-@media (orientation: portrait) {
-  .logo-bg {
-    left: 50%;
-    top: 20%;
-    width: 60%;
-    transform: translate(-50%, -50%);
-  }
-}

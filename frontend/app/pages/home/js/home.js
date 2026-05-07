@@ -1,3 +1,5 @@
+import { playerControls } from "./script.js";
+
 const nomes = [
     "Baião", "Folk Rock", "Hip-Hop", "MPB", "Música de Protesto",
     "R&B", "Rap", "Rock Nacional", "Samba", "Sertanejo Raiz",
@@ -206,7 +208,7 @@ function showError(error) {
     document.body.appendChild(errorDisplay);
 }
 
-async function submitData() {
+export async function submitData() {
     try {
         const genero = nomes[current];
         const sentimento = sentimentos[indice];
@@ -232,8 +234,8 @@ async function submitData() {
 
             playerParams = {
                 "sourceId": musicId,
-                "musicAuthor": musicArtist,
-                "musicName": musicName,
+                "author": musicArtist,
+                "name": musicName,
                 "genre": genero,
                 "emotion": sentimento
             };

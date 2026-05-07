@@ -3,9 +3,8 @@ var playerParams = null;
 
 class OpenPage {
     set(page) {
-        console.log(page)
         switch (page) {
-            case "#home":
+            case "":
                 document.getElementById("home").style.visibility = "visible";
                 document.getElementById("player").style.visibility = "hidden";
                 break;
@@ -18,6 +17,8 @@ class OpenPage {
         }
     }
 }
+
+const openPage = new OpenPage();
 
 openPage.set(window.location.hash)
 window.addEventListener('hashchange', () => {

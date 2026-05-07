@@ -2,7 +2,6 @@
 function onYouTubeIframeAPIReady() {
     console.log("Ready");
     youtubeFrameControls = new YoutubeFrameControls();
-    youtubeFrameControls.playMusic(musicId, musicAuthor);
 }
 
 // Classe para controlar o player do YouTube
@@ -16,20 +15,15 @@ class YoutubeFrameControls {
     }
 
     // Toca a música diretamente com o Id
-    async playMusic(id, author, name, emotion, genre) {
+    playMusic({ emotion, genre, author, name, sourceId }) {
         // Destroi o player se já houver e recria usando Id
         if (this.player) {
             this.destroyPlayer();
         }
 
-        this.createPlayer(musicId);
         document.getElementById("author").textContent = author;
         document.getElementById("music").textContent = name;
-
-        const playerParams = new URLSearchParams({
-            "genre": genre,
-            "emotion": emotion
-        });
+        this.createPlayer(sourceId);
 
         // const onSongPlay = await fetch(`${API_URL}/on-song-play?${playerParams}`); // TODO: Resolver isso
         // if (!onSongPlay.ok) {
@@ -62,15 +56,15 @@ class YoutubeFrameControls {
     // Método chamado quando o player estiver pronto, inicia a reprodução do vídeo
     onPlayerReady(event) {
         event.target.playVideo();
+        const duration = this.player.getDuration();
 
         // Atualiza o tempo em currentTime
         setInterval(() => {
-            duration = this.player.getDuration();
-            currentTime = this.player.getCurrentTime();
+            const currentTime = this.player.getCurrentTime();
 
             if (duration) {
-                document.getElementById("duration").innerText = format(duration);
-                document.getElementById("current").innerText = format(currentTime);
+                document.getElementById("duration").innerText = this.format(duration);
+                document.getElementById("current").innerText = this.format(currentTime);
 
                 const percent = (currentTime / duration) * 100;
 
@@ -85,7 +79,6 @@ class YoutubeFrameControls {
         if (event.data === YT.PlayerState.ENDED) {
             console.log("acabou");
             this.destroyPlayer();
-            window.location.href = "/";
         }
     }
 
@@ -120,4 +113,12 @@ class YoutubeFrameControls {
     playVideo() {
         this.player.playVideo();
     }
+
+    format(t) {
+        const m = Math.floor(t / 60);
+        const s = Math.floor(t % 60);
+        return m + ":" + (s < 10 ? "0" : "") + s;
+    }
 }
+
+export { YoutubeFrameControls };

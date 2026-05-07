@@ -1,28 +1,47 @@
+import { AsyncEvent } from "./async-event.js";
+import { YoutubeFrameControls } from "./youtube-frame-controls.js";
+import { AsyncQueue } from "./async-queue.js";
 /* YOUTUBE */
 let youtubePlayer;
 
 class PlayerControls extends YoutubeFrameControls {
   constructor() {
+    super();
     this.queue = new AsyncQueue();
+    this.queueList = document.getElementById("queue-list");
+    this.musicFinished = new AsyncEvent();
   }
-
   
   addMusic(params) {
     this.queue.put(params);
+    const queueItem = document.createElement("div");
+    queueItem.className = "queue-item";
+
+    const itemName = document.createElement("span");
+    itemName.className = "left";
+    itemName.textContent = params["name"];
+
+    const itemGenre = document.createElement("span");
+    itemGenre.className = "right";
+    itemGenre.textContent = params["genre"];
+    
+    queueItem.append(itemName, itemGenre);
+    this.queueList.append(queueItem);
   }
   
   async start() {
     while (true) {
-      const music = await this.queue.get();
-      const sourceId = music[0];
-      const musicAuthor = music[1];
-      
-      await this.playMusic(sourceId, musicAuthor);
+      const musicData = await this.queue.get();
+      this.playMusic(musicData);
+      await this.musicFinished.when(true);
+      this.musicFinished.set(false);
     }
   }
-  
-  onPlayerReady() {
-    console.log(1);
+
+  onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+      this.musicFinished.set(true);
+    }
   }
 
   togglePanel() {
@@ -32,9 +51,6 @@ class PlayerControls extends YoutubeFrameControls {
   toggleQueue() {
     document.getElementById("queue").classList.toggle("open");
   }
-  format(t) {
-    const m = Math.floor(t / 60);
-    const s = Math.floor(t % 60);
-    return m + ":" + (s < 10 ? "0" : "") + s;
-  }
 }
+
+export { PlayerControls };

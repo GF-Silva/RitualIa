@@ -5,7 +5,7 @@
 # ============================================================
 
 # --- CONFIGURE AQUI ---
-$NOME_DISPOSITIVO = "DSPlayerTotem431d"   # parte do nome exibido no Windows
+$NOME_DISPOSITIVO = "DSPlayer Totem431d"   # parte do nome exibido no Windows
 # ----------------------
 
 Add-Type -AssemblyName System.Runtime.WindowsRuntime

@@ -1,5 +1,11 @@
 import { playerControls } from "./script.js";
 
+class HomeControls {
+    constructor() {
+        this.genres = ["MPB", "Sertanejo", "Rock"]
+        this.emotions = ["Esperança", "Reflexão", "Saudade"]
+    }
+}
 const nomes = [
     "MPB", "Sertanejo", "Rock"
 ];
@@ -201,7 +207,7 @@ export async function submitData() {
         const params = new URLSearchParams({
             genre: genero,
             emotion: sentimento,
-            limit: 5
+            limit: 1
         });
 
         const response = debug ? await fetch(`${API_URL}/get-songs-by-filter?limit=5`) : await fetch(`${API_URL}/get-songs-by-filter?${params}`);

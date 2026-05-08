@@ -12,10 +12,13 @@ h2 {
  
 /* ===== CONTAINER ===== */
 .main {
+    position: absolute;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    left: 50%;
+    transform: translateX(-50%);
 }
  
 /* ===== CAROUSEL ===== */

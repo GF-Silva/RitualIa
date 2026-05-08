@@ -12,8 +12,20 @@
   <body>
     <img src="/pages/assets/logo.png" class="logo-bg" />
     
-    <div id="home">
-      <button class="change-btn" onclick="window.location.href ='#player'">➡️</button>
+    <div id="home" class="active">
+      <div class="player-indicator" id="open-player-btn" onclick="event.stopPropagation(); openPage('player')">
+        <div class="play-icon"></div>
+
+        <div class="music-wave">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <span>PLAYER</span>
+      </div>
+      
       <div class="main">
         <h2>GÊNEROS MUSICAIS</h2>
 
@@ -49,8 +61,21 @@
       </div>
     </div>
 
-    <div id="player"
-      <button class="change-btn" onclick="window.location.href ='#'">⬅️</button>
+    <div id="player">
+      <!-- INDICADOR GÊNEROS -->
+      <div class="genre-indicator" id="open-home-btn" onclick="event.stopPropagation(); openPage('home')">
+
+        <div class="back-icon"></div>
+
+        <div class="music-wave">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <span>GÊNEROS</span>
+      </div>
       <div class="wrapper">
         <div class="row-player">
           <!-- ABA -->
@@ -94,7 +119,7 @@
             <div class="queue-arrow" onclick="toggleQueue()">▼</div>
           </div>
 
-          <div class="queue-list" id="queue-list"><div class="queue-item"></div></div>
+          <div class="queue-list" id="queue-list"></div>
         </div>
       </div>
 
@@ -111,15 +136,13 @@
       import { submitData } from "./pages/home/js/home.js";
       import { playerControls } from "./pages/home/js/script.js";
       import { voltar, mudarSentimento } from "./pages/home/js/home.js";
-
+      
       window.submitData = () => {
         submitData();
       }
-
       window.mudarSentimento = (dir) => {
         mudarSentimento(dir);
       }
-
       window.voltar = () => {
         voltar();
       }
@@ -129,6 +152,18 @@
       window.togglePanel = () => {
         playerControls.togglePanel();
       }
-    </script>
+
+      const home = document.getElementById("home");
+      const plr = document.getElementById("player");
+      window.openPage = (page) => {
+        if (page == "home") {
+          plr.classList.remove("active");
+          home.classList.add("active"); 
+        } else {
+          home.classList.remove("active");
+          plr.classList.add("active");
+        }
+      }
+      </script>
   </body>
-</html>
+  </html>

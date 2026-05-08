@@ -10,6 +10,8 @@ class PlayerControls extends YoutubeFrameControls {
     this.queue = new AsyncQueue();
     this.queueList = document.getElementById("queue-list");
     this.musicFinished = new AsyncEvent();
+    this.authorLabel = document.getElementById("author");
+    this.nameLabel = document.getElementById("music");
     console.log('PlayerControls initialized');
   }
   
@@ -33,12 +35,27 @@ class PlayerControls extends YoutubeFrameControls {
   async start() {
     while (true) {
       const musicData = await this.queue.get();
+      this.showMusicInfos(musicData['name'], musicData['author']);
+      await this.startExplication(`${CLOUDINARY_URL}/video/upload/${musicData['explicationSource']}.mp3`);
       this.playMusic(musicData);
       await this.musicFinished.when(true);
+      this.queueList.removeChild(this.queueList.children[0]);
       this.queue.remove(musicData);
-      this.queueList.removeChild(this.queueList.firstChild);
       this.musicFinished.set(false);
     }
+  }
+
+  showMusicInfos(name, author) {
+    this.authorLabel.textContent = author;
+    this.nameLabel.textContent = name;
+  }
+
+  async startExplication(src) {
+    return new Promise((resolve) => {
+      const audio = new Audio(src)
+      audio.addEventListener("ended", resolve)
+      audio.play()
+    });
   }
 
   onPlayerStateChange(event) {

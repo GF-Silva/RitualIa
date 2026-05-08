@@ -6,8 +6,8 @@ const nomes = [
 
 const locations = [
     "MPB.png",
-    "Rock.png",
-    "Sertanejo.png"
+    "Sertanejo.png",
+    "Rock.png"
 ];
 
 const cylinder = document.getElementById("cylinder");
@@ -119,7 +119,7 @@ sentimentos.forEach((nome, i) => {
 })
 
 const drumItems = drumCylinder.querySelectorAll(".drum-item");
-let indice = 1;
+let indice = 0;
 let sentRotation = 0;
 
 function updateDrum(animate = true) {
@@ -217,18 +217,20 @@ export async function submitData() {
             const musicArtist = music[2];
             const musicName = music[1];
             const musicId = music[3];
+            const explicationSource = music[5];
 
-            playerParams = {
+            const playerParams = {
                 "sourceId": musicId,
                 "author": musicArtist,
                 "name": musicName,
                 "genre": genero,
-                "emotion": sentimento
+                "emotion": sentimento,
+                "explicationSource": explicationSource
             };
             playerControls.addMusic(playerParams);
         });
 
-        window.location.href = "#player";
+        openPage("player");
     } catch (e) {
         showError(e.message);
     }

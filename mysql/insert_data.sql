@@ -1,49 +1,52 @@
 -- Inserção de músicas
 INSERT INTO songs (title, artist, source_id) VALUES
-
+-- Rock
+('Dias de Luta, Dias de Glória', 'Charlie Brown Jr.', ''),
+('Tempo Perdido', 'Legião Urbana', 'LqmRIG1plVU'),
+('Por Você', 'Barão Vermelho', ''),
+-- MPB
+('Andar com Fé', 'Gilberto Gil', ''),
+('Cálice', 'Chico Buarque & Gilberto Gil', ''),
+('Oceano', 'Djavan', ''),
+-- Sertanejo
+('Amanhã Sei Lá', 'Marcos & Belutti', ''),
+('Romaria', 'Renato Teixeira', ''),
+('Evidências', 'Chitãozinho & Xororó', '');
 
 INSERT INTO genres (name) VALUES
-('Baião'),                 -- 1
-('Folk Rock'),             -- 2
-('Hip-Hop'),               -- 3
-('MPB'),                   -- 4
-('Música de Protesto'),    -- 5
-('R&B'),                   -- 6
-('Rock Nacional'),         -- 7
-('Samba'),                 -- 8
-('Sertanejo Raiz'),        -- 9
-('Soul'),                  -- 10
-('Tropicalismo'),          -- 11
-('Rock'),                  -- 12
-('Ritmos Brasileiros'),    -- 13
-('Pop'),                   -- 14
-('Música Contemporânea'),  -- 15
-('Clássica / Erudita'),    -- 16
-('World Music'),           -- 17
-('Jazz'),                  -- 18
-('Reggae'),                -- 19
-('Forró'),                 -- 20
-('Sertanejo'),             -- 21
-('Axé'),                   -- 22
-('Eletrônica'),            -- 23
-('Música Instrumental Brasileira'), -- 24
-('Gospel');                -- 25
+('MPB'),
+('Sertanejo'),
+('Rock');
 
 INSERT INTO emotions (name) VALUES
-('Angústia'),        -- 1
-('Empoderamento'),   -- 2
-('Esperança'),       -- 3
-('Indignação'),      -- 4
-('Ironia'),          -- 5
-('Melancolia'),      -- 6
-('Nostalgia'),       -- 7
-('Paz'),             -- 8
-('Pertencimento'),   -- 9
-('Reflexão'),        -- 10
-('Resistência'),     -- 11
-('Revolta'),         -- 12
-('Saudade'),         -- 13
-('Tristeza'),        -- 14
-('Urgência');        -- 15
+('Esperança'),
+('Reflexão'),
+('Saudade');
 
 INSERT INTO songs_genres (song_id, genre_id) VALUES
+-- Rock
+(1, 3),
+(2, 3),
+(3, 3),
+-- MPB
+(4, 1),
+(5, 1),
+(6, 1),
+-- Sertanejo
+(7, 2),
+(8, 2),
+(9, 2);
+
+INSERT INTO songs_emotions (song_id, emotion_id) VALUES
+-- Rock
+(1, 1)
+(2, 2),
+(3, 3),
+-- MPB
+(4, 1),
+(5, 2),
+(6, 3),
+-- Setanejo
+(7, 1),
+(8, 2),
+(9, 3);

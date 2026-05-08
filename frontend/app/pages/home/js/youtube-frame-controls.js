@@ -22,9 +22,6 @@ class YoutubeFrameControls {
             this.destroyPlayer();
             console.log('Player destroyed');
         }
-
-        document.getElementById("author").textContent = author;
-        document.getElementById("music").textContent = name;
         this.createPlayer(sourceId);
 
         // const onSongPlay = await fetch(`${API_URL}/on-song-play?${playerParams}`); // TODO: Resolver isso

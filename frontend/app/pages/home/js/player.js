@@ -1,5 +1,5 @@
-import { AsyncEvent } from "./async-event.js";
 import { YoutubeFrameControls } from "./youtube-frame-controls.js";
+import { AsyncEvent } from "./async-event.js";
 import { AsyncQueue } from "./async-queue.js";
 /* YOUTUBE */
 let youtubePlayer;
@@ -74,4 +74,4 @@ class PlayerControls extends YoutubeFrameControls {
   }
 }
 
-export { PlayerControls };
+export const playerControls = new PlayerControls();

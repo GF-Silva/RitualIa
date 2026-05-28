@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+  <head>
+    <title>RitualIA</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/pages/favicon.ico" />
+    <link rel="stylesheet" href="/pages/home/css/globals.css" />
+    <link rel="stylesheet" href="/pages/home/css/home.css" />
+    <link rel="stylesheet" href="/pages/home/css/player.css" />
+  </head>
+
+  <body>
+    <img src="/pages/assets/logo.png" class="logo-bg" />
+    
+    <div id="home" class="active">
+      <div class="player-indicator" id="open-player-btn" onclick="event.stopPropagation(); openPage('player')">
+        <div class="play-icon"></div>
+
+        <div class="music-wave">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <span>PLAYER</span>
+      </div>
+      
+      <div class="main">
+        <h2>GÊNEROS MUSICAIS</h2>
+
+        <div class="carousel">
+
+          <div class="track-wrapper">
+            <div class="track" id="cylinder"></div>
+          </div>
+
+          <div class="player" id="playerText"></div>
+
+          <div class="slider-container">
+            <input type="range" min="0" max="2" value="0" id="slider" />
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ PAINEL ORIGINAL RESTAURADO -->
+      <div class="painel" id="painel">
+        <div class="voltar" onclick="voltar()">⬅ VOLTAR</div>
+        <h1>RITMOS MUSICAIS</h1>
+
+        <img id="painelImg" />
+
+        <div>
+          <div class="seta" onclick="mudarSentimento(1)">▲</div>
+          <div class="drum-wrapper">
+            <div class="drum-cylinder" id="drumCylinder"></div>
+          </div>
+          <div class="seta" onclick="mudarSentimento(-1)">▼</div>
+          <button id="submit__btn" onclick="submitData()">Selecionar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="player">
+      <!-- INDICADOR GÊNEROS -->
+      <div class="genre-indicator" id="open-home-btn" onclick="event.stopPropagation(); openPage('home')">
+
+        <div class="back-icon"></div>
+
+        <div class="music-wave">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <span>GÊNEROS</span>
+      </div>
+      <div class="wrapper">
+        <div class="row-player">
+          <!-- ABA -->
+          <div class="panel" id="panel" onclick="togglePanel()">
+            <div class="panel-content">
+              História detalhada do autor, com imagens antigas e recentes.
+            </div>
+          </div>
+
+          <div class="arrow">➜</div>
+
+          <!-- PLAYER -->
+          <div class="player-box" id="playerBox">
+            <div id="ytplayer"></div>
+
+            <div class="info">
+              <div id="author">Autor</div>
+              <div id="music">Música</div>
+            </div>
+
+            <div class="time">
+              <div id="current">0:00</div>
+              <div id="duration">0:00</div>
+            </div>
+
+            <div class="progress">
+              <div class="bar" id="bar"></div>
+              <div class="dot" id="dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FILA -->
+        <div class="queue" id="queue">
+          <div class="queue-header">
+            <div>
+              <div class="queue-title">fila de espera</div>
+              <div class="queue-sub">Músicas</div>
+            </div>
+
+            <div class="queue-arrow" onclick="toggleQueue()">▼</div>
+          </div>
+
+          <div class="queue-list" id="queue-list"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="pages/globals.js"></script>
+    <script type="module">      
+      import { voltar, mudarSentimento, submitData } from "./pages/home/js/home.js";
+      import { playerControls } from "./pages/home/js/player.js";
+      
+      // Home  
+      window.mudarSentimento = (dir) => {
+        mudarSentimento(dir);
+      }
+      window.voltar = () => {
+        voltar();
+      }
+      window.submitData = () => {
+        submitData();
+      }
+
+      // Player
+      window.toggleQueue = () => {
+        playerControls.toggleQueue();
+      }
+      window.togglePanel = () => {
+        playerControls.togglePanel();
+      }
+
+      const home = document.getElementById("home");
+      const plr = document.getElementById("player");
+      window.openPage = (page) => {
+        if (page == "home") {
+          plr.classList.remove("active");
+          home.classList.add("active"); 
+        } else {
+          home.classList.remove("active");
+          plr.classList.add("active");
+        }
+      }
+
+      </script>
+  </body>
+  </html>

@@ -9,5 +9,9 @@ app = Flask(__name__,
 def index():
     return render_template('index.html')
 
+@app.route('/copa')
+def copa():
+    return render_template('/copa/index.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

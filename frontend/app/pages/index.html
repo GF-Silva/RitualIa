@@ -10,7 +10,7 @@
   </head>
 
   <body>
-    <img src="/pages/assets/logo.png" class="logo-bg" />
+    <img src="/pages/assets/logo.png" class="logo-bg" id="logo"/>
     
     <div id="home" class="active">
       <div class="player-indicator" id="open-player-btn" onclick="event.stopPropagation(); openPage('player')">
@@ -127,9 +127,41 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="pages/globals.js"></script>
-    <script type="module">      
+    <script type="module">     
       import { voltar, mudarSentimento, submitData } from "./pages/home/js/home.js";
       import { playerControls } from "./pages/home/js/player.js";
+
+      function changeMode() {
+        if (window.location.href == "/copa") {
+          alert("Alterando para o modo normal");
+          window.location.href = "/";
+        } else {
+          alert("Alterando para o modo 'Copa'");
+          window.location.href = "/copa";
+        }
+      }
+
+      let clicks = 0;
+      let ultimoClique = 0;
+      document.getElementById("logo").addEventListener("click", () => {
+          const agora = Date.now(); // Pega o tempo atual em milissegundos
+
+          // Se o tempo desde o último clique for maior que 500ms, reinicia o contador
+          if (agora - ultimoClique > 500) {
+              clicks = 0;
+          }
+
+          clicks++; // Incrementa o clique atual
+          ultimoClique = agora; // Atualiza o tempo do último clique
+
+          // Se atingir 5 cliques dentro do intervalo
+          if (clicks === 5) {
+              changeMode();
+              
+              // Opcional: Reinicia o contador para poder detectar novamente
+              clicks = 0; 
+          }
+      });
       
       // Home  
       window.mudarSentimento = (dir) => {

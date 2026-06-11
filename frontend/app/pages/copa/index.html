@@ -4,64 +4,61 @@
     <title>RitualIA</title>
     <meta charset="UTF-8" />
     <link rel="icon" href="/pages/favicon.ico" />
+    <link rel="stylesheet" href="/pages/globals.css" />
     <link rel="stylesheet" href="/pages/copa/styles.css" />
   </head>
 
   <body>
     <img src="/pages/assets/logo.png" class="logo-bg" id="logo"/>
     
-    <div id="home" class="active">
-      <div class="player-indicator" id="open-player-btn" onclick="event.stopPropagation(); openPage('player')">
-        <div class="play-icon"></div>
+    <div class="main">
+      <h2>Seleções</h2>
 
-        <div class="music-wave">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+      <div class="carousel">
+
+        <div class="track-wrapper">
+          <div class="track" id="cylinder"></div>
         </div>
 
-        <span>PLAYER</span>
-      </div>
-      
-      <div class="main">
-        <h2>GÊNEROS MUSICAIS</h2>
+        <div class="player" id="playerText"></div>
 
-        <div class="carousel">
-
-          <div class="track-wrapper">
-            <div class="track" id="cylinder"></div>
-          </div>
-
-          <div class="player" id="playerText"></div>
-
-          <div class="slider-container">
-            <input type="range" min="0" max="2" value="0" id="slider" />
-          </div>
-        </div>
-      </div>
-
-      <!-- ✅ PAINEL ORIGINAL RESTAURADO -->
-      <div class="painel" id="painel">
-        <div class="voltar" onclick="voltar()">⬅ VOLTAR</div>
-        <h1>RITMOS MUSICAIS</h1>
-
-        <img id="painelImg" />
-
-        <div>
-          <div class="seta" onclick="mudarSentimento(1)">▲</div>
-          <div class="drum-wrapper">
-            <div class="drum-cylinder" id="drumCylinder"></div>
-          </div>
-          <div class="seta" onclick="mudarSentimento(-1)">▼</div>
-          <button id="submit__btn" onclick="submitData()">Selecionar</button>
+        <div class="slider-container">
+          <input type="range" min="0" max="9" value="0" id="slider" />
         </div>
       </div>
     </div>
 
+    <div id="player" style="visibility: visible; z-index: 999;">
+      <div class="wrapper">
+        <div class="row-player">
+          <!-- PLAYER -->
+          <div class="player-box" id="playerBox">
+            <div id="ytplayer"></div>
 
+            <div class="info">
+              <div id="author">Autor</div>
+              <div id="music">Música</div>
+            </div>
+
+            <div class="time">
+              <div id="current">0:00</div>
+              <div id="duration">0:00</div>
+            </div>
+
+            <div class="progress">
+              <div class="bar" id="bar"></div>
+              <div class="dot" id="dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script type="module">
-        import { voltar, mudarSentimento, submitData } from "./pages/copa/home.js";
+        import { countrySelector } from "./pages/copa/script.js";
+        import { playerControls } from "./pages/home/js/player.js";
+
     </script>
   </body>
   </html>

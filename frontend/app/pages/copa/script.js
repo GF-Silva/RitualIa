@@ -1,11 +1,11 @@
-import { playerControls } from "../home/js/player.js";
 import { YoutubeFrameControls } from "./youtube-frame-controls.js";
+import { AsyncEvent } from "./async-event.js";
 
 // ─── CountrySelector ───────────────────────────────────────────────────────────
 
-class CountrySelector {
-    #nomes = ["brasil", "canada", "colombia", "espanha", "franca", "inglaterra", "japao", "mexico", "portugal", "usa"];
-    #locations = ["brasil.png", "canada.png", "colombia.png", "espanha.png", "franca.png", "inglaterra.png", "japao.png", "mexico.png", "portugal.png", "usa.png"];
+class CountrySelector extends YoutubeFrameControls {
+    #nomes = ["brasil", "canada", "colombia", "espanha", "franca", "inglaterra", "japao", "mexico", "portugal", "usa", "argentina", "alemanha", "holanda"];
+    #locations = ["brasil.png", "canada.png", "colombia.png", "espanha.png", "franca.png", "inglaterra.png", "japao.png", "mexico.png", "portugal.png", "usa.png", "argentina.png", "alemanha.png", "holanda.png"];
 
     #cylinder;
     #slider;
@@ -15,11 +15,15 @@ class CountrySelector {
     #angleStep;
     #radius;
     #current = 0;
+    #playerDiv;
+    #musicFinished;
 
     constructor() {
+        super();
         this.#cylinder  = document.getElementById("cylinder");
         this.#slider    = document.getElementById("slider");
         this.#playerText = document.getElementById("playerText");
+        this.#playerDiv = document.getElementById('player');
 
         this.#buildCards();
 
@@ -30,6 +34,8 @@ class CountrySelector {
         this.#positionCards();
         this.#bindEvents();
         this.update(false);
+
+        this.#musicFinished = new AsyncEvent();
     }
 
     #buildCards() {
@@ -53,7 +59,7 @@ class CountrySelector {
 
     #bindEvents() {
         this.#cards.forEach((card, index) => {
-            card.addEventListener("click", () => this.#onCardClick(card, index));
+            card.addEventListener("click", (e) => this.#onCardClick(card, index));
         });
 
         this.#slider.addEventListener("input", (e) => {
@@ -62,26 +68,53 @@ class CountrySelector {
         });
     }
 
-    #onCardClick(card, index) {
+    async #onCardClick(card, index) {
         if (index === this.#current) {
             const overlay = document.createElement('div');
             overlay.className = 'overlay';
-
-            if (index == 0) {
-                const img = document.createElement('img');
-                img.src = card.getAttribute('data-image')
-                
-                overlay.append(img);
-            }
-
+            this.#playerDiv.classList.add('active');
             document.body.append(overlay);
+            
+            const videoData = await this.getVideoData(this.#nomes[index]);
+        
+            await this.#startExplication(`${CLOUDINARY_URL}/video/upload/${videoData[0][3]}`);
+            this.playVideo(videoData[0][2], 60);
 
+            await this.#musicFinished.when(true);
+
+            overlay.remove();
+            this.#playerDiv.classList.remove('active');
+            this.#musicFinished.set(false);
         } else {
             let diff = index - this.#current;
             if (diff >  this.#total / 2) diff -= this.#total;
             if (diff < -this.#total / 2) diff += this.#total;
             this.#current = (this.#current + diff + this.#total) % this.#total;
             this.update();
+        }
+    }
+
+    #startExplication(src) {
+        return new Promise((resolve) => {
+            const audio = new Audio(src)
+            audio.addEventListener("ended", resolve)
+            audio.play()
+        });
+    }
+
+    async getVideoData(name) {
+        const params = new URLSearchParams({
+            name:   name
+        });
+
+        const response = await fetch(`${API_URL}/copa/get-team-data-by-name?${params}`);
+        return await response.json();
+    }
+
+    onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.ENDED) {
+            this.#musicFinished.set(true);
+            this.destroyPlayer();
         }
     }
 
@@ -116,58 +149,8 @@ class CountrySelector {
         overlay.remove();
     }
 
-    get currentCountry() {
-        return this.#nomes[this.#current];
-    }
-}
-
-class CountrySubmitter {
-    #countryCylinder;
-
-    constructor(countryCylinder) {
-        this.#countryCylinder = countryCylinder;
-    }
-
-    async submit() {
-        try {
-            const country    = this.#countryCylinder.currentCountry;
-
-            const params = new URLSearchParams({
-                country:   country
-            });
-
-            const url = `${API_URL}/copa/get-songs-by-filter?${params}`;
-
-            const response = await fetch(url);
-
-            if (!response.ok) {
-                const erro = await response.json();
-                throw new Error(erro.detail);
-            }
-
-            const musicData = await response.json();
-
-            musicData.forEach(([, musicName, musicArtist, musicId,, explicationSource]) => {
-                playerControls.addMusic({
-                    sourceId:          musicId,
-                    author:            musicArtist,
-                    name:              musicName,
-                    genre:             genero,
-                    emotion:           sentimento,
-                    explicationSource
-                });
-            });
-
-            openPage("player");
-        } catch (e) {
-            console.log(e.message);
-        }
-    }
 }
 
 // ─── Inicialização e exports ─────────────────────────────────────────────────
 
 export const countrySelector  = new CountrySelector();
-const countrySubmitter = new CountrySubmitter();
-
-window.frameControls = new YoutubeFrameControls();

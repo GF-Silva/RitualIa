@@ -36,7 +36,7 @@ class PlayerControls extends YoutubeFrameControls {
     while (true) {
       const musicData = await this.queue.get();
       this.showMusicInfos(musicData['name'], musicData['author']);
-      await this.startExplication(`${CLOUDINARY_URL}/video/upload/${musicData['explicationSource']}.mp3`);
+      await this.startExplication(`${CLOUDINARY_URL}/video/upload/${musicData['explicationSource']}`);
       this.playMusic(musicData);
       await this.musicFinished.when(true);
       this.queueList.removeChild(this.queueList.children[0]);

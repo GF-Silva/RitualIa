@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from .routes import get_song_play_count, get_songs_by_filter, on_song_play
+from .routes.copa import get_team_data_by_name
 
 from .routes import testes
 
@@ -9,3 +10,4 @@ api_router.include_router(testes.router)
 api_router.include_router(get_songs_by_filter.router)
 api_router.include_router(on_song_play.router)
 api_router.include_router(get_song_play_count.router)
+api_router.include_router(get_team_data_by_name.router)

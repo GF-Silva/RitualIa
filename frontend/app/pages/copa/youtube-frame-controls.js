@@ -16,24 +16,19 @@ class YoutubeFrameControls {
     }
 
     // Toca a música diretamente com o Id
-    playMusic({ emotion, genre, author, name, sourceId }) {
+    playVideo(sourceId, stopTime) {
         // Destroi o player se já houver e recria usando Id
         if (this.player) {
             this.destroyPlayer();
             console.log('Player destroyed');
         }
-        this.createPlayer(sourceId);
-
-        // const onSongPlay = await fetch(`${API_URL}/on-song-play?${playerParams}`); // TODO: Resolver isso
-        // if (!onSongPlay.ok) {
-        //     console.log('erro');
-        // }
+        this.createPlayer(sourceId, stopTime);
     }
 
     // Método para criar o player do YouTube, recebe o ID do vídeo e configura os parâmetros do player
-    createPlayer(musicId) {
+    createPlayer(videoId, stopTime) {
         this.player = new YT.Player('ytplayer', {
-            videoId: musicId,
+            videoId: videoId,
             playerVars: {
                 modestbranding: 1,  // menos logo do YouTube
                 fs: 0,              // remove fullscreen button
@@ -45,7 +40,7 @@ class YoutubeFrameControls {
                 disablekb: 1        // desativa teclado
             },
             events: {
-                onReady: (event) => this.onPlayerReady(event),
+                onReady: (event) => this.onPlayerReady(event, stopTime),
                 onStateChange: (event) => this.onPlayerStateChange(event),
                 onError: (event) => this.onPlayerError(event)
             }
@@ -53,13 +48,18 @@ class YoutubeFrameControls {
     }
 
     // Método chamado quando o player estiver pronto, inicia a reprodução do vídeo
-    onPlayerReady(event) {
+    onPlayerReady(event, stopTime) {
         event.target.playVideo();
         const duration = this.player.getDuration();
 
         // Atualiza o tempo em currentTime
         this.intervalId = setInterval(() => {
             const currentTime = this.player.getCurrentTime();
+
+            if (currentTime >= stopTime && stopTime) {
+                this.player.seekTo(duration, true);
+                clearInterval(this.intervalId);
+            }
 
             if (duration) {
                 document.getElementById("duration").innerText = this.format(duration);

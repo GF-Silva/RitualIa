@@ -1,9 +1,11 @@
 from flask import Flask, render_template
+from flask_cors import CORS
 
 app = Flask(__name__,
             template_folder='pages',
             static_folder='pages',
             static_url_path='/pages')
+CORS(app)
 
 @app.route('/')
 def index():

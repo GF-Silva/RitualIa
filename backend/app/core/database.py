@@ -128,3 +128,8 @@ class Database:
         # Busca título, artista e contador de reproduções da música
         self.cursor.execute("SELECT title, artist, play_count FROM songs WHERE id = %s", (song_id,))
         return self.cursor.fetchall()
+
+    def get_team_data_by_name(self, name: str):
+        self.cursor.execute("SELECT * FROM national_teams WHERE name = %s", (name,))
+
+        return self.cursor.fetchall()

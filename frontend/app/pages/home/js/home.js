@@ -257,14 +257,14 @@ class MusicSubmitter {
 
             const musicData = await response.json();
 
-            musicData.forEach(([, musicName, musicArtist, musicId,, explicationSource]) => {
+            musicData.forEach(([, musicName, musicArtist, musicId, explicationSource,]) => {
                 playerControls.addMusic({
                     sourceId:          musicId,
                     author:            musicArtist,
                     name:              musicName,
                     genre:             genero,
                     emotion:           sentimento,
-                    explicationSource
+                    explicationSource: explicationSource
                 });
             });
 

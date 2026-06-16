@@ -99,14 +99,6 @@ h2 {
   visibility: visible;
 }
 
-/* ===== TEXTO ===== */
-.player {
-  font-size: 28px;
-  font-weight: bold;
-  color: #1e5b3a;
-  margin-top: 15px;
-}
-
 /* ===== SLIDER ===== */
 .slider-container {
   width: 60%;
@@ -138,20 +130,21 @@ input[type="range"]::-webkit-slider-thumb {
 
 .overlay {
   position: fixed;
+  display: flex;
   inset: 0;
   backdrop-filter: blur(8px);
   background: rgba(0, 0, 0, 0.3); /* opcional, escurece um pouco */
+  justify-content: center;
+  align-items: center;
   z-index: 100;
 }
 
 .overlay img {
-  position: absolute;
-  width: 420px;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  display: flex;
+  width: 45%;
+  height: max-content;
+  margin: 30px;
 }
 
 /* PLAYER */

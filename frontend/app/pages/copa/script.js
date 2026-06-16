@@ -69,29 +69,71 @@ class CountrySelector extends YoutubeFrameControls {
     }
 
     async #onCardClick(card, index) {
-        if (index === this.#current) {
-            const overlay = document.createElement('div');
-            overlay.className = 'overlay';
-            this.#playerDiv.classList.add('active');
-            document.body.append(overlay);
-            
-            const videoData = await this.getVideoData(this.#nomes[index]);
-        
-            await this.#startExplication(`${CLOUDINARY_URL}/video/upload/${videoData[0][3]}`);
-            this.playVideo(videoData[0][2], 60);
-
-            await this.#musicFinished.when(true);
-
-            overlay.remove();
-            this.#playerDiv.classList.remove('active');
-            this.#musicFinished.set(false);
-        } else {
+        if (index != this.#current) {
             let diff = index - this.#current;
             if (diff >  this.#total / 2) diff -= this.#total;
             if (diff < -this.#total / 2) diff += this.#total;
             this.#current = (this.#current + diff + this.#total) % this.#total;
             this.update();
+            return;
         }
+
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        document.body.append(overlay);
+
+        // Se for o btn do brasil -> exibe a escolha entre hino e musica
+        if (index === 0) {
+            const anthemSelector = document.createElement("img");
+            anthemSelector.src = "pages/copa/img/hino_br.png";
+            
+            anthemSelector.addEventListener("click", async () => {
+                const videoResponse = await fetch(`${API_URL}/copa/get-team-data-by-name?name=${this.#nomes[index]}`);
+                const videoData = await videoResponse.json();
+
+                anthemSelector.remove();
+                musicSelector.remove();
+    
+                await this.#playVideo({sourceId: videoData[0][2], time: null, explicationId: videoData[0][3]});
+
+                overlay.remove();
+            });
+
+            const musicSelector = document.createElement("img");
+            musicSelector.src = "pages/copa/img/musicas_br.png";
+
+            musicSelector.addEventListener("click", async () => {
+                const videoResponse = await fetch(`${API_URL}/copa/brazilian-music`);
+                const videoData = await videoResponse.json();
+
+                anthemSelector.remove();
+                musicSelector.remove();
+
+                await this.#playVideo({sourceId: videoData[0][2], time: null, explicationId: videoData[0][3]});
+
+                overlay.remove();
+            });
+
+            overlay.append(anthemSelector, musicSelector);
+            return;
+        }
+        
+        const videoResponse = await fetch(`${API_URL}/copa/get-team-data-by-name?name=${this.#nomes[index]}`);
+        const videoData = await videoResponse.json()
+
+        await this.#playVideo({sourceId: videoData[0][2], time: 60, explicationId: videoData[0][3]});
+
+        overlay.remove();
+    }
+
+    async #playVideo({sourceId, explicationId, time}) {
+        this.#playerDiv.classList.add('active');
+        this.createPlayer(sourceId, time);
+        await this.#startExplication(`${CLOUDINARY_URL}/video/upload/${explicationId}`);
+        this.player.playVideo();
+        await this.#musicFinished.when(true);
+        this.#playerDiv.classList.remove('active');
+        this.#musicFinished.set(false);
     }
 
     #startExplication(src) {
@@ -100,15 +142,6 @@ class CountrySelector extends YoutubeFrameControls {
             audio.addEventListener("ended", resolve)
             audio.play()
         });
-    }
-
-    async getVideoData(name) {
-        const params = new URLSearchParams({
-            name:   name
-        });
-
-        const response = await fetch(`${API_URL}/copa/get-team-data-by-name?${params}`);
-        return await response.json();
     }
 
     onPlayerStateChange(event) {

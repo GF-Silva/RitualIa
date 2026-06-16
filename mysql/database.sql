@@ -1,6 +1,9 @@
-DROP DATABASE IF EXISTS ritualia;
+DROP DATABASE IF EXISTS Ritualia;
 CREATE DATABASE Ritualia;
 USE Ritualia;
+
+-- Entidade forte ()
+-- Constraints
 
 -- Tabela de músicas
 CREATE TABLE songs (
@@ -8,9 +11,10 @@ CREATE TABLE songs (
     title VARCHAR(150) NOT NULL,
     artist VARCHAR(150) NOT NULL,
     source_id VARCHAR(20) NOT NULL,
+    explication_source VARCHAR(40) NOT NULL,
     play_count INT NOT NULL DEFAULT (0),
-    explication_source VARCHAR(150) not null,
     UNIQUE (title, artist)
+    -- Status (no futuro)
 ) ENGINE=InnoDB;
 
 create table genres (
@@ -43,3 +47,18 @@ CREATE TABLE songs_genres (
 	FOREIGN KEY (song_id) REFERENCES songs(id),
 	FOREIGN KEY (genre_id) REFERENCES genres(id)
 ) engine=InnoDB;
+
+
+CREATE TABLE national_teams (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(150) NOT NULL,
+	anthem_source_id VARCHAR(20) NOT NULL,
+	explication_source VARCHAR(40) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE brazilian_songs (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(150) NOT NULL,
+	source_id VARCHAR(20) NOT NULL,
+	explication_source VARCHAR(50) NOT NULL
+) ENGINE=InnoDB;

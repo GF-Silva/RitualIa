@@ -133,3 +133,8 @@ class Database:
         self.cursor.execute("SELECT * FROM national_teams WHERE name = %s", (name,))
 
         return self.cursor.fetchall()
+
+    def get_brazilian_musics(self, limit: int = 1):
+        self.cursor.execute("SELECT * FROM brazilian_songs ORDER BY RAND() LIMIT %s", (limit,))
+
+        return self.cursor.fetchall()

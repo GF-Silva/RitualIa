@@ -15,18 +15,13 @@ class YoutubeFrameControls {
         console.log('YoutubeFrameControls initialized');
     }
 
-    // Toca a música diretamente com o Id
-    playVideo(sourceId, stopTime) {
-        // Destroi o player se já houver e recria usando Id
+    // Método para criar o player do YouTube, recebe o ID do vídeo e configura os parâmetros do player
+    createPlayer(videoId, stopTime) {
         if (this.player) {
             this.destroyPlayer();
             console.log('Player destroyed');
         }
-        this.createPlayer(sourceId, stopTime);
-    }
 
-    // Método para criar o player do YouTube, recebe o ID do vídeo e configura os parâmetros do player
-    createPlayer(videoId, stopTime) {
         this.player = new YT.Player('ytplayer', {
             videoId: videoId,
             playerVars: {
@@ -34,7 +29,7 @@ class YoutubeFrameControls {
                 fs: 0,              // remove fullscreen button
                 rel: 0,             // não mostra vídeos relacionados
                 iv_load_policy: 3,  // remove anotações
-                autoplay: 1,        // inicia automático
+                autoplay: 0,        // inicia automático
                 controls: 0,        // esconde controles
                 playsinline: 1,     // não força fullscreen no mobile
                 disablekb: 1        // desativa teclado
@@ -49,7 +44,6 @@ class YoutubeFrameControls {
 
     // Método chamado quando o player estiver pronto, inicia a reprodução do vídeo
     onPlayerReady(event, stopTime) {
-        event.target.playVideo();
         const duration = this.player.getDuration();
 
         // Atualiza o tempo em currentTime

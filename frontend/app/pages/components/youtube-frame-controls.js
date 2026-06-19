@@ -1,13 +1,13 @@
 // método chamado quando a API do YouTube estiver pronta
 function onYouTubeIframeAPIReady() {
     console.log("Ready");
-    youtubeFrameControls = new YoutubeFrameControls();
 }
 
 // Classe para controlar o player do YouTube
-class YoutubeFrameControls {
+export class YoutubeFrameControls {
     // Variáveis para armazenar o ID do vídeo e a instância do player
     constructor() {
+        console.log("problema");
         this.player = null;
         this.currentTime = null;
         this.duration = null;
@@ -97,5 +97,3 @@ class YoutubeFrameControls {
         return m + ":" + (s < 10 ? "0" : "") + s;
     }
 }
-
-export { YoutubeFrameControls };

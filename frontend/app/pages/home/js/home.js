@@ -1,5 +1,5 @@
 import { playerControls } from "./player.js";
-import { CoverFlow } from "/pages/helpers/cover-flow.js";
+import { CoverFlow } from "/pages/components/cover-flow.js";
 
 // ─── EmotionDrum ─────────────────────────────────────────────────────────────
 
@@ -154,13 +154,22 @@ class HomeControls {
     }
 }
 
+
 // ─── Inicialização e exports ─────────────────────────────────────────────────
+
+function onCardClick(card, index) {
+    const painel = document.getElementById("painel");
+    const painelImg = document.getElementById("painelImg");
+
+    painelImg.src = card.dataset.image ?? "";
+    painel.classList.add("active");
+}
 
 const genreCylinder  = new CoverFlow([
     ["MPB", "MPB.png"],
     ["Sertanejo", "Sertanejo.png"],
     ["Rock", "Rock.png"]
-]);
+], onCardClick);
 
 const emotionDrum    = new EmotionDrum();
 

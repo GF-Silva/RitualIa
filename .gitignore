@@ -36,5 +36,9 @@ uv.lock
 .DS_Store
 Thumbs.db
 
-# Músicas
+# Músicas e Imagens
+*.mp3
+*.mp4
 *.wav
+*.jpeg
+*.jpg

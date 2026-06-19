@@ -1,4 +1,4 @@
-import { YoutubeFrameControls } from "/pages/helpers/youtube-frame-controls.js";
+import { YoutubeFrameControls } from "/pages/components/youtube-frame-controls.js";
 
 import { AsyncEvent } from "/pages/helpers/async-event.js";
 import { AsyncQueue } from "/pages/helpers/async-queue.js";

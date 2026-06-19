@@ -10,10 +10,17 @@
   </head>
 
   <body>
-    <img src="/pages/assets/logo.png" class="logo-bg" id="logo"/>
-    
+    <img src="/pages/assets/logo.png" class="logo-bg" id="logo" />
+
     <div id="home" class="active">
-      <div class="player-indicator" id="open-player-btn" onclick="event.stopPropagation(); openPage('player')">
+      <div
+        class="player-indicator"
+        id="open-player-btn"
+        onclick="
+          event.stopPropagation();
+          openPage('player');
+        "
+      >
         <div class="play-icon"></div>
 
         <div class="music-wave">
@@ -25,12 +32,11 @@
 
         <span>PLAYER</span>
       </div>
-      
+
       <div class="main">
         <h2>GÊNEROS MUSICAIS</h2>
 
         <div class="carousel">
-
           <div class="track-wrapper">
             <div class="track" id="cylinder"></div>
           </div>
@@ -63,8 +69,14 @@
 
     <div id="player">
       <!-- INDICADOR GÊNEROS -->
-      <div class="genre-indicator" id="open-home-btn" onclick="event.stopPropagation(); openPage('home')">
-
+      <div
+        class="genre-indicator"
+        id="open-home-btn"
+        onclick="
+          event.stopPropagation();
+          openPage('home');
+        "
+      >
         <div class="back-icon"></div>
 
         <div class="music-wave">
@@ -76,6 +88,7 @@
 
         <span>GÊNEROS</span>
       </div>
+
       <div class="wrapper">
         <div class="row-player">
           <!-- ABA -->
@@ -122,14 +135,13 @@
           <div class="queue-list" id="queue-list"></div>
         </div>
       </div>
-
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="pages/globals.js"></script>  
-    <script type="module" src="pages/home/js/script.js"></script>
-    <script type="module">     
-      import { voltar, mudarSentimento, submitData } from "./pages/home/js/home.js";
+    <script src="pages/config.js"></script>
+    <script type="module" src="pages/home/js/home.js"></script>
+
+    <script type="module">
       import { playerControls } from "./pages/home/js/player.js";
 
       function changeMode() {
@@ -145,55 +157,44 @@
       let clicks = 0;
       let ultimoClique = 0;
       document.getElementById("logo").addEventListener("click", () => {
-          const agora = Date.now(); // Pega o tempo atual em milissegundos
+        const agora = Date.now(); // Pega o tempo atual em milissegundos
 
-          // Se o tempo desde o último clique for maior que 500ms, reinicia o contador
-          if (agora - ultimoClique > 500) {
-              clicks = 0;
-          }
+        // Se o tempo desde o último clique for maior que 500ms, reinicia o contador
+        if (agora - ultimoClique > 500) {
+          clicks = 0;
+        }
 
-          clicks++; // Incrementa o clique atual
-          ultimoClique = agora; // Atualiza o tempo do último clique
+        clicks++; // Incrementa o clique atual
+        ultimoClique = agora; // Atualiza o tempo do último clique
 
-          // Se atingir 5 cliques dentro do intervalo
-          if (clicks === 5) {
-              changeMode();
-              
-              // Opcional: Reinicia o contador para poder detectar novamente
-              clicks = 0; 
-          }
+        // Se atingir 5 cliques dentro do intervalo
+        if (clicks === 5) {
+          changeMode();
+
+          // Opcional: Reinicia o contador para poder detectar novamente
+          clicks = 0;
+        }
       });
-      
-      // Home  
-      window.mudarSentimento = (dir) => {
-        mudarSentimento(dir);
-      }
-      window.voltar = () => {
-        voltar();
-      }
-      window.submitData = () => {
-        submitData();
-      }
 
       // Player
       window.toggleQueue = () => {
         playerControls.toggleQueue();
-      }
+      };
       window.togglePanel = () => {
         playerControls.togglePanel();
-      }
+      };
 
       const home = document.getElementById("home");
       const plr = document.getElementById("player");
       window.openPage = (page) => {
         if (page == "home") {
           plr.classList.remove("active");
-          home.classList.add("active"); 
+          home.classList.add("active");
         } else {
           home.classList.remove("active");
           plr.classList.add("active");
         }
-      }
+      };
     </script>
   </body>
-  </html>
+</html>

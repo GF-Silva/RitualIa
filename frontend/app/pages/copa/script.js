@@ -1,8 +1,7 @@
-import { YoutubeFrameControls } from "./youtube-frame-controls.js";
-import { AsyncEvent } from "./async-event.js";
+import { YoutubeFrameControls } from "/pages/helpers/youtube-frame-controls.js";
+import { AsyncEvent } from "/pages/helpers/async-event.js";
 
 // ─── CountrySelector ───────────────────────────────────────────────────────────
-
 class CountrySelector extends YoutubeFrameControls {
     #nomes = ["brasil", "canada", "colombia", "espanha", "franca", "inglaterra", "japao", "mexico", "portugal", "usa", "argentina", "alemanha", "holanda"];
     #locations = ["brasil.png", "canada.png", "colombia.png", "espanha.png", "franca.png", "inglaterra.png", "japao.png", "mexico.png", "portugal.png", "usa.png", "argentina.png", "alemanha.png", "holanda.png"];

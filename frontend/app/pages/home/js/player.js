@@ -1,6 +1,7 @@
-import { YoutubeFrameControls } from "./youtube-frame-controls.js";
-import { AsyncEvent } from "./async-event.js";
-import { AsyncQueue } from "./async-queue.js";
+import { YoutubeFrameControls } from "/pages/helpers/youtube-frame-controls.js";
+
+import { AsyncEvent } from "/pages/helpers/async-event.js";
+import { AsyncQueue } from "/pages/helpers/async-queue.js";
 /* YOUTUBE */
 let youtubePlayer;
 
@@ -13,6 +14,27 @@ class PlayerControls extends YoutubeFrameControls {
     this.authorLabel = document.getElementById("author");
     this.nameLabel = document.getElementById("music");
     console.log('PlayerControls initialized');
+  }
+
+  async start() {
+    while (true) { // { emotion, genre, author, name, sourceId }
+      const musicData = await this.queue.get();
+
+      console.log(musicData);
+
+      this.createPlayer(musicData['sourceId'], null);
+
+      this.showMusicInfos(musicData['name'], musicData['author']);
+
+      await this.startExplication(`${CLOUDINARY_URL}/video/upload/${musicData['explicationSource']}`);
+      
+      this.player.playVideo();
+
+      await this.musicFinished.when(true);
+      this.queueList.removeChild(this.queueList.children[0]);
+      this.queue.remove(musicData);
+      this.musicFinished.set(false);
+    }
   }
   
   addMusic(params) {
@@ -30,19 +52,6 @@ class PlayerControls extends YoutubeFrameControls {
     
     queueItem.append(itemName, itemGenre);
     this.queueList.append(queueItem);
-  }
-  
-  async start() {
-    while (true) {
-      const musicData = await this.queue.get();
-      this.showMusicInfos(musicData['name'], musicData['author']);
-      await this.startExplication(`${CLOUDINARY_URL}/video/upload/${musicData['explicationSource']}`);
-      this.playMusic(musicData);
-      await this.musicFinished.when(true);
-      this.queueList.removeChild(this.queueList.children[0]);
-      this.queue.remove(musicData);
-      this.musicFinished.set(false);
-    }
   }
 
   showMusicInfos(name, author) {
@@ -75,3 +84,4 @@ class PlayerControls extends YoutubeFrameControls {
 }
 
 export const playerControls = new PlayerControls();
+playerControls.start();

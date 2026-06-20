@@ -7,7 +7,6 @@ function onYouTubeIframeAPIReady() {
 export class YoutubeFrameControls {
     // Variáveis para armazenar o ID do vídeo e a instância do player
     constructor() {
-        console.log("problema");
         this.player = null;
         this.currentTime = null;
         this.duration = null;

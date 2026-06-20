@@ -79,9 +79,9 @@ function onCardClick(card, index) {
 
 const emotionDrum   = new EmotionDrum();
 const genreCylinder = new CoverFlow([
-    ["MPB", "MPB.png"],
-    ["Sertanejo", "Sertanejo.png"],
-    ["Rock", "Rock.png"]
+    ["MPB", "pages/home/img/MPB.png"],
+    ["Sertanejo", "pages/home/img/Sertanejo.png"],
+    ["Rock", "pages/home/img/Rock.png"]
 ], onCardClick);
 
 window.submitData = async () => {

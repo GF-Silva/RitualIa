@@ -12,19 +12,19 @@ youtubeFrameControls.onPlayerStateChange = (event) => {
 }
 
 const images = [
-    ["brasil", "pages/copa/img/brasil.png"],
-    ["canada", "pages/copa/img/canada.png"],
-    ["colombia", "pages/copa/img/colombia.png"],
-    ["espanha", "pages/copa/img/espanha.png"],
-    ["franca", "pages/copa/img/franca.png"],
-    ["inglaterra", "pages/copa/img/inglaterra.png"],
-    ["japao", "pages/copa/img/japao.png"],
-    ["mexico", "pages/copa/img/mexico.png"],
-    ["portugal", "pages/copa/img/portugal.png"],
-    ["usa", "pages/copa/img/usa.png"],
-    ["argentina", "pages/copa/img/argentina.png"],
-    ["alemanha", "pages/copa/img/alemanha.png"],
-    ["holanda", "pages/copa/img/holanda.png"]
+    ["brasil", "/pages/copa/img/brasil.png"],
+    ["canada", "/pages/copa/img/canada.png"],
+    ["colombia", "/pages/copa/img/colombia.png"],
+    ["espanha", "/pages/copa/img/espanha.png"],
+    ["franca", "/pages/copa/img/franca.png"],
+    ["inglaterra", "/pages/copa/img/inglaterra.png"],
+    ["japao", "/pages/copa/img/japao.png"],
+    ["mexico", "/pages/copa/img/mexico.png"],
+    ["portugal", "/pages/copa/img/portugal.png"],
+    ["usa", "/pages/copa/img/usa.png"],
+    ["argentina", "/pages/copa/img/argentina.png"],
+    ["alemanha", "/pages/copa/img/alemanha.png"],
+    ["holanda", "/pages/copa/img/holanda.png"]
 ];
 
 const countrySelector = new CoverFlow(
@@ -45,10 +45,10 @@ async function onCardClick(card, index) {
         // Se for o btn do brasil -> exibe a escolha entre hino e musica
         if (index === 0) {
             const anthemSelector = document.createElement("img");
-            anthemSelector.src = "pages/copa/img/hino_br.png";
+            anthemSelector.src = "/pages/copa/img/hino_br.png";
             
             anthemSelector.addEventListener("click", async () => {
-                const videoResponse = await fetch(`${API_URL}/copa/get-team-data-by-name?name=${images[index][0]}`);
+                const videoResponse = await fetch(`teams?name=${images[index][0]}`);
 
                 const videoData = await videoResponse.json();
 
@@ -61,10 +61,10 @@ async function onCardClick(card, index) {
             });
 
             const musicSelector = document.createElement("img");
-            musicSelector.src = "pages/copa/img/musicas_br.png";
+            musicSelector.src = "/pages/copa/img/musicas_br.png";
 
             musicSelector.addEventListener("click", async () => {
-                const videoResponse = await fetch(`${API_URL}/copa/brazilian-music`);
+                const videoResponse = await fetch('songs');
 
                 const videoData = await videoResponse.json();
 
@@ -80,7 +80,7 @@ async function onCardClick(card, index) {
             return;
         }
         
-        const videoResponse = await fetch(`${API_URL}/copa/get-team-data-by-name?name=${images[index][0]}`);
+        const videoResponse = await fetch(`teams?name=${images[index][0]}`);
         
         if (!videoResponse.ok) {
             const erro = await response.json();

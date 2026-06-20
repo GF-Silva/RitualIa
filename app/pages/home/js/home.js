@@ -73,15 +73,15 @@ const painel = document.getElementById("painel");
 const painelImg = document.getElementById("painelImg");
 
 function onCardClick(card, index) {
-    painelImg.src = card.dataset.image ?? "";
+    painelImg.src = card.src?? "";
     painel.classList.add("active");
 }
 
 const emotionDrum   = new EmotionDrum();
 const genreCylinder = new CoverFlow([
-    ["MPB", "pages/home/img/MPB.png"],
-    ["Sertanejo", "pages/home/img/Sertanejo.png"],
-    ["Rock", "pages/home/img/Rock.png"]
+    ["MPB", "/pages/home/img/MPB.png"],
+    ["Sertanejo", "/pages/home/img/Sertanejo.png"],
+    ["Rock", "/pages/home/img/Rock.png"]
 ], onCardClick);
 
 window.submitData = async () => {
@@ -95,7 +95,7 @@ window.submitData = async () => {
             limit:   1
         });
 
-        const response = await fetch(`${API_URL}/get-songs-by-filter?${params}`);
+        const response = await fetch(`songs?${params}`);
 
         if (!response.ok) {
             const erro = await response.json();
@@ -114,6 +114,8 @@ window.submitData = async () => {
                 explicationSource: explicationSource
             });
         });
+
+        painel.classList.remove('active');
 
         openPage("player");
     } catch (e) {

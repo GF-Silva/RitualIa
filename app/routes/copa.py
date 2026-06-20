@@ -1,17 +1,17 @@
 from flask import Blueprint, request, abort, render_template
 from core import database
 
-copa_bp = Blueprint('copa', __name__, '/copa')
+copa_bp = Blueprint('copa', __name__, url_prefix='/copa')
 
 @copa_bp.route('/')
 def copa():
     return render_template('/copa/index.html')
 
-@copa_bp.route('/musics', methods=['GET'])
-def get_musics():
+@copa_bp.route('/songs', methods=['GET'])
+def get_songs():
     limit = request.args.get('limit', default=1, type=int)
 
-    music = database.get_brazilian_musics(limit)
+    music = database.get_brazilian_songs(limit)
 
     if not music: abort(404)
 

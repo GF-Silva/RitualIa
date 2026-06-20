@@ -84,7 +84,7 @@ const genreCylinder = new CoverFlow([
     ["Rock", "/pages/home/img/Rock.png"]
 ], onCardClick);
 
-window.submitData = async () => {
+window.submitData = async (repeating) => {
     try {
         const genero    = genreCylinder.currentGenre;
         const sentimento = emotionDrum.currentEmotion;
@@ -104,9 +104,18 @@ window.submitData = async () => {
 
         const musicData = await response.json();
 
-        musicData.forEach(([, musicName, musicArtist, musicId, explicationSource,]) => {
+        if (playerControls.musicQueue.some(song => song.id === musicData[0][0])) {
+            if (repeating) {
+                throw new Error("Ocorreu um erro inesperado, tente outra combinação")
+            } else {
+                return await submitData(true);
+            }
+        }
+
+        musicData.forEach(([id, musicName, musicArtist, sourceId, explicationSource,]) => {
             playerControls.addMusic({
-                sourceId:          musicId,
+                id:                id,
+                sourceId:          sourceId,
                 author:            musicArtist,
                 name:              musicName,
                 genre:             genero,

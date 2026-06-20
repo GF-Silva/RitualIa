@@ -25,26 +25,21 @@ class PlayerControls extends YoutubeFrameControls {
   async start() {
     while (true) { // { emotion, genre, author, name, sourceId }
       const musicData = await this.#queue.get();
-
-      console.log(musicData);
-
       this.createPlayer(musicData['sourceId'], null);
-
       this.#showMusicInfos(musicData['name'], musicData['author']);
 
+      this.#queueList.removeChild(this.#queueList.children[0]);
       await this.#startExplication(`${CLOUDINARY_URL}/video/upload/${musicData['explicationSource']}`);
-      
       this.player.playVideo();
 
       await this.#musicFinished.when(true);
       this.#queueList.removeChild(this.#queueList.children[0]);
-      this.#queue.remove(musicData);
       this.#musicFinished.set(false);
     }
   }
 
   get musicQueue() {
-    return this.#queue;
+    return this.#queue.queue;
   }
   
   addMusic(params) {

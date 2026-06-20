@@ -6,6 +6,12 @@ import { AsyncQueue } from "/pages/helpers/async-queue.js";
 let youtubePlayer;
 
 class PlayerControls extends YoutubeFrameControls {
+  #queue = new AsyncQueue();
+  #queueList = document.getElementById("queue-list");
+  #musicFinished = new AsyncEvent();
+  #authorLabel = document.getElementById("author");
+  #nameLabel = document.getElementById("music");
+
   constructor() {
     super();
     this.#queue = new AsyncQueue();

@@ -69,112 +69,95 @@ class EmotionDrum {
     }
 }
 
-class HomeControls {
-    #genreCylinder;
-    #emotionDrum;
-
-    constructor (genreCylinder, emotionDrum, errorDisplay) {
-        this.#genreCylinder = genreCylinder;
-        this.#emotionDrum   = emotionDrum;
-    }
-
-    async submitMusic() {
-        try {
-            const genero    = this.#genreCylinder.currentGenre;
-            const sentimento = this.#emotionDrum.currentEmotion;
-            const debug     = false;
-
-            const params = new URLSearchParams({
-                genre:   genero,
-                emotion: sentimento,
-                limit:   1
-            });
-
-            const url = debug
-                ? `${API_URL}/get-songs-by-filter?limit=5`
-                : `${API_URL}/get-songs-by-filter?${params}`;
-
-            const response = await fetch(url);
-
-            if (!response.ok) {
-                const erro = await response.json();
-                throw new Error(erro.detail);
-            }
-
-            const musicData = await response.json();
-
-            musicData.forEach(([, musicName, musicArtist, musicId, explicationSource,]) => {
-                playerControls.addMusic({
-                    sourceId:          musicId,
-                    author:            musicArtist,
-                    name:              musicName,
-                    genre:             genero,
-                    emotion:           sentimento,
-                    explicationSource: explicationSource
-                });
-            });
-
-            openPage("player");
-        } catch (e) {
-            this.#showError(e.message);
-        }
-    }
-
-    #showError(message) {
-        const overlay = document.createElement("div");
-        overlay.className = "overlay";
-
-        const box = document.createElement("div");
-        box.className = "error-display";
-
-        const title = document.createElement("h1");
-        title.textContent  = "Erro inesperado";
-        title.style.cssText = "text-align:center;margin:0 0 12px 0";
-
-        const msg = document.createElement("p");
-        msg.textContent = message;
-
-        const exitBtn = document.createElement("button");
-        exitBtn.className = "btn-fechar";
-        exitBtn.innerHTML = `
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="18 6 6 18"></polyline>
-                <polyline points="6 6 18 18"></polyline>
-            </svg>`;
-
-        exitBtn.addEventListener("click", () => {
-            overlay.remove();
-            box.remove();
-        });
-
-        box.append(exitBtn, title, msg);
-        document.body.append(overlay, box);
-    }
-}
-
-
-// ─── Inicialização e exports ─────────────────────────────────────────────────
+const painel = document.getElementById("painel");
+const painelImg = document.getElementById("painelImg");
 
 function onCardClick(card, index) {
-    const painel = document.getElementById("painel");
-    const painelImg = document.getElementById("painelImg");
-
     painelImg.src = card.dataset.image ?? "";
     painel.classList.add("active");
 }
 
-const genreCylinder  = new CoverFlow([
+const emotionDrum   = new EmotionDrum();
+const genreCylinder = new CoverFlow([
     ["MPB", "MPB.png"],
     ["Sertanejo", "Sertanejo.png"],
     ["Rock", "Rock.png"]
 ], onCardClick);
 
-const emotionDrum    = new EmotionDrum();
+window.submitData = async () => {
+    try {
+        const genero    = genreCylinder.currentGenre;
+        const sentimento = emotionDrum.currentEmotion;
 
-const homeControls   = new HomeControls(genreCylinder, emotionDrum);
+        const params = new URLSearchParams({
+            genre:   genero,
+            emotion: sentimento,
+            limit:   1
+        });
 
-window.voltar          = ()      => genreCylinder.closePanel();
+        const response = await fetch(`${API_URL}/get-songs-by-filter?${params}`);
+
+        if (!response.ok) {
+            const erro = await response.json();
+            throw new Error(erro.detail);
+        }
+
+        const musicData = await response.json();
+
+        musicData.forEach(([, musicName, musicArtist, musicId, explicationSource,]) => {
+            playerControls.addMusic({
+                sourceId:          musicId,
+                author:            musicArtist,
+                name:              musicName,
+                genre:             genero,
+                emotion:           sentimento,
+                explicationSource: explicationSource
+            });
+        });
+
+        openPage("player");
+    } catch (e) {
+        showError(e.message);
+    }
+}
+
+function showError(message) {
+    const overlay = document.createElement("div");
+    overlay.className = "overlay";
+
+    const box = document.createElement("div");
+    box.className = "error-display";
+
+    const title = document.createElement("h1");
+    title.textContent  = "Erro inesperado";
+    title.style.cssText = "text-align:center;margin:0 0 12px 0";
+
+    const msg = document.createElement("p");
+    msg.textContent = message;
+
+    const exitBtn = document.createElement("button");
+    exitBtn.className = "btn-fechar";
+    exitBtn.innerHTML = `
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 6 6 18"></polyline>
+            <polyline points="6 6 18 18"></polyline>
+        </svg>`;
+
+    exitBtn.addEventListener("click", () => {
+        overlay.remove();
+        box.remove();
+    });
+
+    box.append(exitBtn, title, msg);
+    document.body.append(overlay, box);
+}
+
+// ─── Inicialização e exports ─────────────────────────────────────────────────
+
+window.closePanel = () => {
+    painel.classList.remove('active');
+};
+
 window.mudarSentimento = (dir)   => emotionDrum.mudarSentimento(dir);
-window.submitData      = ()      => homeControls.submitMusic();

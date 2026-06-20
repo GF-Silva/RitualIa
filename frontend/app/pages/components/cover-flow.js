@@ -31,7 +31,7 @@ export class CoverFlow {
         this.images.forEach((item) => {
             const div = document.createElement("div");
             div.className = "card";
-            const imagePath = `pages/home/img/${item[1]}`;
+            const imagePath = item[1];
             div.dataset.image = imagePath;
             div.style.backgroundImage = `url("${encodeURI(imagePath)}")`;
             this.#cylinder.appendChild(div);
@@ -48,7 +48,7 @@ export class CoverFlow {
 
     #bindEvents() {
         this.#cards.forEach((card, index) => {
-            card.addEventListener("click", () => {
+            card.addEventListener("click", async () => {
                 // Se o card clicado for diferente do atual, se move até ele
                 if (index != this.#current) {
                     let diff = index - this.#current;
@@ -59,7 +59,7 @@ export class CoverFlow {
                     return;
                 }
 
-                this.onCardClick(card, index);
+                await this.onCardClick(card, index);
             });
         });
 

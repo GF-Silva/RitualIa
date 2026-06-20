@@ -13,7 +13,7 @@ body::after {
   height: 950px;
   background: #115138;
   border-radius: 50%;
-  z-index: 0;
+  z-index: -1;
   -webkit-mask: radial-gradient(circle, transparent 40%, #000 40%);
   mask: radial-gradient(circle, transparent 40%, #000 40%);
 }

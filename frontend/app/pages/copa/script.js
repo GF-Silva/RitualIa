@@ -88,7 +88,7 @@ async function onCardClick(card, index) {
 
 async function playVideo({sourceId, explicationId, time}) {
     playerDiv.classList.add('active');
-    createPlayer(sourceId, time);
+    youtubeFrameControls.createPlayer(sourceId, time);
     await startExplication(`${CLOUDINARY_URL}/video/upload/${explicationId}`);
     youtubeFrameControls.player.playVideo();
     await musicFinished.when(true);

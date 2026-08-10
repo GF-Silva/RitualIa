@@ -29,8 +29,3 @@ def get_songs():
     if not music: abort(404, description ="Nenhuma música encontrada pra essa combinação")
     
     return music
-
-
-# @songs_bp.route("/on-song-play" methods=['POST'])
-# def on_song_play(song_id):
-#     database.on_song_play(song_id)

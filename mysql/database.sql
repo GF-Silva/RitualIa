@@ -2,17 +2,13 @@ DROP DATABASE IF EXISTS Ritualia;
 CREATE DATABASE Ritualia;
 USE Ritualia;
 
--- Entidade forte ()
--- Constraints
-
 -- Tabela de músicas
 CREATE TABLE songs (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(150) NOT NULL,
     artist VARCHAR(150) NOT NULL,
     source_id VARCHAR(20) NOT NULL,
-    explication_source VARCHAR(40) NOT NULL,
-    play_count INT NOT NULL DEFAULT (0),
+    explication_source VARCHAR(100) NOT NULL,
     UNIQUE (title, artist)
     -- Status (no futuro)
 ) ENGINE=InnoDB;

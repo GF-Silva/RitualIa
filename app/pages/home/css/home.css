@@ -9,7 +9,7 @@ h2 {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
- 
+
 /* ===== CONTAINER ===== */
 .main {
     position: absolute;
@@ -20,46 +20,46 @@ h2 {
     left: 50%;
     transform: translateX(-50%);
 }
- 
+
 /* ===== CAROUSEL ===== */
 .cover-flow {
-  position: relative;
-  flex: 1;
-  width: 90%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  perspective: 1100px;
+    position: relative;
+    flex: 1;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    perspective: clamp(1000px, 80vw, 1200px);
 }
 
 #cylinder {
-  position: relative;
-  width: 220px;
-  height: 220px;
-  transform-style: preserve-3d;
-  transition: transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1);
-  cursor: grab;
-  touch-action: pan-y; /* permite scroll vertical da pagina, mas controlamos o horizontal via JS */
+    position: relative;
+    width: 180px;
+    height: 180px;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: grab;
+    touch-action: pan-y;
 }
 
 .card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 220px;
-  border-radius: 20px;
-  transition:
-    box-shadow 0.3s ease,
-    filter 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 180px;
+    height: 180px;
+    border-radius: 10px;
+    transition:
+        box-shadow 0.3s ease,
+        filter 0.3s ease;
 }
- 
+
 .card.is-front {
-    box-shadow: 0 0 40px rgba(242,140,40,0.35), 0 8px 32px rgba(0,0,0,0.18);
+    box-shadow: 0 0 40px rgba(242, 140, 40, 0.35), 0 8px 32px rgba(0, 0, 0, 0.18);
     filter: brightness(1.08);
 }
- 
+
 .card:not(.is-front) {
     filter: brightness(0.55) saturate(0.7);
 }
@@ -71,13 +71,13 @@ h2 {
     color: #1e5b3a;
     margin-top: 15px;
 }
- 
+
 /* ===== SLIDER ===== */
 .slider-container {
     width: 60%;
     margin-top: 15px;
 }
- 
+
 input[type=range] {
     -webkit-appearance: none;
     width: 100%;
@@ -85,13 +85,13 @@ input[type=range] {
     border-radius: 20px;
     background: transparent;
 }
- 
+
 input[type=range]::-webkit-slider-runnable-track {
     height: 12px;
     border-radius: 20px;
     background: #cfdad5;
 }
- 
+
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 100px;
@@ -100,7 +100,7 @@ input[type=range]::-webkit-slider-thumb {
     background: #f28c28;
     cursor: pointer;
 }
- 
+
 /* ===== PAINEL ===== */
 .painel {
     position: fixed;
@@ -118,13 +118,15 @@ input[type=range]::-webkit-slider-thumb {
     z-index: 999;
     overflow: hidden;
 }
- 
-.painel.active { transform: translateX(0); }
- 
+
+.painel.active {
+    transform: translateX(0);
+}
+
 .painel img {
     width: 420px;
     border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 .painel h1 {
@@ -139,15 +141,15 @@ input[type=range]::-webkit-slider-thumb {
     font-weight: bold;
     text-align: center;
 }
- 
+
 /* ===== BLOCO DIREITO ===== */
-.painel > div {
+.painel>div {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
- 
+
 /* ===== TAMBOR DE EMOÇÕES ===== */
 .drum-wrapper {
     position: relative;
@@ -157,37 +159,36 @@ input[type=range]::-webkit-slider-thumb {
     perspective-origin: 50% 50%;
     overflow: hidden;
 }
- 
+
 /* fade mask top/bottom */
 .drum-wrapper::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        to bottom,
-        rgba(15,26,20,0.95) 0%,
-        transparent 30%,
-        transparent 70%,
-        rgba(15,26,20,0.95) 100%
-    );
+    background: linear-gradient(to bottom,
+            rgba(15, 26, 20, 0.95) 0%,
+            transparent 30%,
+            transparent 70%,
+            rgba(15, 26, 20, 0.95) 100%);
     z-index: 20;
     pointer-events: none;
 }
- 
+
 /* anel de destaque */
 .drum-wrapper::after {
     content: '';
     position: absolute;
-    left: 8px; right: 8px;
+    left: 8px;
+    right: 8px;
     top: 50%;
     transform: translateY(-50%);
     height: 46px;
-    border-top: 1px solid rgba(242,140,40,0.55);
-    border-bottom: 1px solid rgba(242,140,40,0.55);
+    border-top: 1px solid rgba(242, 140, 40, 0.55);
+    border-bottom: 1px solid rgba(242, 140, 40, 0.55);
     z-index: 25;
     pointer-events: none;
 }
- 
+
 .drum-cylinder {
     position: relative;
     width: 100%;
@@ -197,7 +198,7 @@ input[type=range]::-webkit-slider-thumb {
     top: 50%;
     margin-top: -23px;
 }
- 
+
 .drum-item {
     position: absolute;
     width: 100%;
@@ -211,17 +212,17 @@ input[type=range]::-webkit-slider-thumb {
     backface-visibility: hidden;
     transition: color 0.3s ease, font-size 0.3s ease;
 }
- 
+
 .drum-item.is-front {
     color: #f28c28;
     font-size: 22px;
 }
- 
+
 .seta {
     font-size: 40px;
     cursor: pointer;
 }
- 
+
 .voltar {
     position: absolute;
     top: 30px;
@@ -250,9 +251,11 @@ input[type=range]::-webkit-slider-thumb {
     position: fixed;
     inset: 0;
     backdrop-filter: blur(8px);
-    background: rgba(0, 0, 0, 0.3); /* opcional, escurece um pouco */
+    background: rgba(0, 0, 0, 0.3);
+    /* opcional, escurece um pouco */
     z-index: 1000;
 }
+
 .error-display {
     position: fixed;
     display: flex;
@@ -263,15 +266,15 @@ input[type=range]::-webkit-slider-thumb {
     border-radius: 20px;
     inset: 50%;
     transform: translate(-50%, -50%) scale(0.8);
-    
+
     background: rgba(199, 125, 51, 0.15);
     backdrop-filter: blur(12px);
-    
+
     border: 2px solid rgba(242, 140, 40, 0.6);
-    
+
     justify-content: flex-start;
     align-items: center;
-    
+
     padding: 40px 20px 20px;
     z-index: 1001;
 
@@ -287,9 +290,17 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 @keyframes glowErro {
-    0% { box-shadow: 0 0 10px rgba(242,140,40,0.3); }
-    50% { box-shadow: 0 0 25px rgba(242,140,40,0.6); }
-    100% { box-shadow: 0 0 10px rgba(242,140,40,0.3); }
+    0% {
+        box-shadow: 0 0 10px rgba(242, 140, 40, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 25px rgba(242, 140, 40, 0.6);
+    }
+
+    100% {
+        box-shadow: 0 0 10px rgba(242, 140, 40, 0.3);
+    }
 }
 
 .error-display h1 {
@@ -305,14 +316,15 @@ input[type=range]::-webkit-slider-thumb {
     color: #ff4d4d;
     text-align: center;
     margin: 0;
-    margin-top: 20px; /* 👈 ajuste aqui */
+    margin-top: 20px;
+    /* 👈 ajuste aqui */
 }
 
 .btn-fechar {
     position: absolute;
     top: 10px;
     right: 12px;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     border: none;
     cursor: pointer;
     padding: 6px;

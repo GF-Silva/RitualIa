@@ -24,7 +24,7 @@ export class CoverFlow {
 
         this.#total     = this.#cards.length;
         this.#angleStep = 360 / this.#total;
-        this.#radius    = Math.round(220 / (2 * Math.tan(Math.PI / this.#total)));
+        this.#radius    = Math.round(180 / (2 * Math.tan(Math.PI / this.#total)));
 
         this.#positionCards();
         this.#bindDragEvents();

@@ -145,7 +145,17 @@ const genreCylinder = new CoverFlow(
   onCardClick,
 );
 
-async function submitMusicFallback(genre) {
+function isMusicRepeating(music) {
+  if (playerControls.musicQueue.some((queueMusic) => queueMusic.id === music['id'])) {
+    console.log(music);
+    console.log('match');
+    return true;
+  }
+
+  return false;
+}
+
+async function getNextMusic(genre) {
   // Se n passou genero, busca qualquer uma
   if (!genre) {
     const response = await fetch(`songs`);
@@ -162,63 +172,57 @@ async function submitMusicFallback(genre) {
 
   if (!response.ok) {
     // se nao encontrar nada, pega uma musica aleatoria
-    submitMusicFallback();
+    getNextMusic();
   }
 
   return response
 }
 
-async function getSong(genero, emotion, limit = 1) {
+async function getMusics(genre, emotion, limit = 1) {
   const params = new URLSearchParams({
-    genre: genero,
+    genre: genre,
     emotion: emotion,
-    limit: 1,
+    limit: limit,
   });
 
   const response = await fetch(`songs?${params}`);
 
   if (!response.ok) {
-    return await submitMusicFallback(genero);
+    return await getNextMusic(genre);
   }
 
   return response;
 }
 
-window.submitData = async (repeating) => {
-  try {
-    const genero = genreCylinder.currentGenre;
-    const sentimento = emotionDrum.currentEmotion;
-
-    const response = await getSong(genero, sentimento);
-
-    const musicData = await response.json();
-
-    // Verifica se a combinacao ja esta na queue
-    if (playerControls.musicQueue.some((song) => song.id === musicData[0]['id'])) {
-      console.log(1);
-      // verificacao dupla
-      if (repeating) {
-        throw new Error("Ocorreu um erro inesperado, tente outra combinação");
-      }
-      return await submitData(true);
+async function addMusics(genre, emotion, musics) {
+  musics.forEach(async (music) => {
+    if (isMusicRepeating()) {
+      addMusics(genre, emotion, await getNextMusic(genre));
     }
 
-    musicData.forEach(
-      ( music ) => {
-        playerControls.addMusic({
-          id: music['id'],
-          sourceId: music['source_id'],
-          author: music['artist'],
-          name: music['title'],
-          genre: genero,
-          emotion: sentimento,
-          explicationSource: music['explication_source'],
-        });
-      },
-    );
+    playerControls.addMusic({
+      id: music['id'],
+      sourceId: music['source_id'],
+      author: music['artist'],
+      name: music['title'],
+      genre: genre,
+      emotion: emotion,
+      explicationSource: music['explication_source'],
+    });
+  });
+}
+
+window.submitData = async () => {
+  try {
+    const genre = genreCylinder.currentGenre;
+    const emotion = emotionDrum.currentEmotion;
+
+    const response = await getMusics(genre, emotion);
+    const musics = response.json();
+
+    addMusics(musics);
 
     painel.classList.remove("active");
-
     openPage("player");
   } catch (e) {
     showError(e.message);

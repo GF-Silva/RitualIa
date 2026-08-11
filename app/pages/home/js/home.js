@@ -145,6 +145,29 @@ const genreCylinder = new CoverFlow(
   onCardClick,
 );
 
+async function submitMusicFallback(genre) {
+  // Se n passou genero, busca qualquer uma
+  if (!genre) {
+    const response = await fetch(`songs`);
+
+    if (!response.ok) {
+      throw new Error("Erro no servidor, tente mais tarde");
+    }
+
+    return response;
+  }
+
+  // Busca apenas o genero como fallback
+  const response = await fetch(`songs?genre=${genre}`);
+
+  if (!response.ok) {
+    // se nao encontrar nada, pega uma musica aleatoria
+    submitMusicFallback();
+  }
+
+  return response
+}
+
 window.submitData = async (repeating) => {
   try {
     const genero = genreCylinder.currentGenre;
@@ -156,16 +179,17 @@ window.submitData = async (repeating) => {
       limit: 1,
     });
 
-    const response = await fetch(`songs?${params}`);
+    let response = await fetch(`songs?${params}`);
 
     if (!response.ok) {
-      const erro = await response.json();
-      throw new Error(erro.detail);
+      response = await submitMusicFallback(genero);
     }
 
     const musicData = await response.json();
 
+    // Verifica se a combinacao ja esta na queue
     if (playerControls.musicQueue.some((song) => song.id === musicData[0][0])) {
+      // verificacao dupla
       if (repeating) {
         throw new Error("Ocorreu um erro inesperado, tente outra combinação");
       } else {

@@ -147,8 +147,6 @@ const genreCylinder = new CoverFlow(
 
 function isMusicRepeating(music) {
   if (playerControls.musicQueue.some((queueMusic) => queueMusic.id === music['id'])) {
-    console.log(music);
-    console.log('match');
     return true;
   }
 
@@ -196,8 +194,8 @@ async function getMusics(genre, emotion, limit = 1) {
 
 async function addMusics(genre, emotion, musics) {
   musics.forEach(async (music) => {
-    if (isMusicRepeating()) {
-      addMusics(genre, emotion, await getNextMusic(genre));
+    if (isMusicRepeating(music)) {
+      return;
     }
 
     playerControls.addMusic({
@@ -218,9 +216,9 @@ window.submitData = async () => {
     const emotion = emotionDrum.currentEmotion;
 
     const response = await getMusics(genre, emotion);
-    const musics = response.json();
+    const musics = await response.json();
 
-    addMusics(musics);
+    addMusics(genre, emotion, musics);
 
     painel.classList.remove("active");
     openPage("player");

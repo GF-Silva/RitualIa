@@ -1,4 +1,6 @@
 import mysql.connector
+from mysql.connector.cursor import MySQLCursorDict
+from typing import cast, Any
 
 class Database:
     """
@@ -6,7 +8,7 @@ class Database:
     e executar operações relacionadas às músicas.
     """
 
-    def __init__(self, host: str, user: str, password: str, database: str):
+    def __init__(self, **config):
         """
         Inicializa a conexão com o banco de dados e define o cursor.
 
@@ -18,16 +20,10 @@ class Database:
         """
 
         # Conecta com o banco de dados MySQL usando os parâmetros fornecidos
-        self.conn = mysql.connector.connect(
-            host=host,
-            user=user,
-            password=password,
-            database=database,
-            connection_timeout=10
-        )
+        self.conn = mysql.connector.connect(**config)
 
         # Cria o cursor para executar comandos SQL
-        self.cursor = self.conn.cursor()
+        self.cursor = cast(MySQLCursorDict, self.conn.cursor(dictionary=True))
 
     def get_songs_by_filter(self, genres: str | None = None, emotions: str | None = None, limit: int = 1):
         """
@@ -39,7 +35,7 @@ class Database:
             limit (int): Quantidade máxima de músicas a retornar (default = 1).
 
         Returns:
-            list[tuple]: Lista de músicas encontradas, cada uma como tupla com os campos da tabela `songs`.
+            list[dict]: Lista de músicas encontradas, cada uma como tupla com os campos da tabela `songs`.
 
         Observação:
             - Se nenhum filtro for passado, retorna músicas aleatórias.
@@ -81,38 +77,36 @@ class Database:
         result = self.cursor.fetchall()
         return result
 
-    def get_emotion_id(self, emotion: str):
+    def get_emotion_id(self, emotion: str) -> list[dict[str, Any]]:
         self.cursor.execute("SELECT id FROM emotions WHERE name = %s", (emotion,))
+        return cast(list[dict[str, Any]], self.cursor.fetchall())
 
-        return self.cursor.fetchall()
-
-    def get_genre_id(self, genre: str):
+    def get_genre_id(self, genre: str) -> list[dict[str, Any]]:
         self.cursor.execute("SELECT id FROM genres WHERE name = %s", (genre,))
-
-        return self.cursor.fetchall()
+        return cast(list[dict[str, Any]], self.cursor.fetchall())
     
-    def on_song_play(self, genre: str, emotion: str):
-        """
-        Atualiza estatísticas de reprodução de uma música.
+    # def on_song_play(self, genre: str, emotion: str):
+    #     """
+    #     Atualiza estatísticas de reprodução de uma música.
 
-        Args:
-            song_id (int): ID da música que foi reproduzida.
+    #     Args:
+    #         song_id (int): ID da música que foi reproduzida.
 
-        Efeito colateral:
-            - Incrementa o campo `play_count` em +1 na tabela `songs`.
-            - Executa commit para salvar a alteração no banco.
-        """
+    #     Efeito colateral:
+    #         - Incrementa o campo `play_count` em +1 na tabela `songs`.
+    #         - Executa commit para salvar a alteração no banco.
+    #     """
 
-        genre_result = self.get_genre_id(genre) if genre is not None else None
-        emotion_result = self.get_emotion_id(emotion) if emotion is not None else None
+    #     genre_result = self.get_genre_id(genre) if genre is not None else None
+    #     emotion_result = self.get_emotion_id(emotion) if emotion is not None else None
 
-        genre_id = genre_result[0][0] if genre_result else None
-        emotion_id = emotion_result[0][0] if emotion_result else None
+    #     genre_id = genre_result[0][0] if genre_result else None
+    #     emotion_id = emotion_result[0][0] if emotion_result else None
 
-        # Atualiza o contador de reproduções da música
-        self.cursor.execute("UPDATE genres SET play_count = play_count + 1 WHERE id = %s", (genre_id,),)
-        self.cursor.execute("UPDATE emotions SET play_count = play_count + 1 WHERE id = %s", (emotion_id,),)
-        self.conn.commit()
+    #     # Atualiza o contador de reproduções da música
+    #     self.cursor.execute("UPDATE genres SET play_count = play_count + 1 WHERE id = %s", (genre_id,),)
+    #     self.cursor.execute("UPDATE emotions SET play_count = play_count + 1 WHERE id = %s", (emotion_id,),)
+    #     self.conn.commit()
 
     def get_song_play_count(self, song_id: int):
         """
@@ -131,10 +125,8 @@ class Database:
 
     def get_team_data(self, name: str):
         self.cursor.execute("SELECT * FROM national_teams WHERE name = %s", (name,))
-
         return self.cursor.fetchall()
 
     def get_brazilian_songs(self, limit: int = 1):
         self.cursor.execute("SELECT * FROM brazilian_songs ORDER BY RAND() LIMIT %s", (limit,))
-
         return self.cursor.fetchall()

@@ -42,17 +42,17 @@
       </div>
 
       <div class="painel" id="painel">
-        <div class="voltar" onclick="closePanel()">⬅ VOLTAR</div>
+        <button class="voltar" onclick="closePanel()">⬅ VOLTAR</button>
         <h1>RITMOS MUSICAIS</h1>
 
         <img id="painelImg" />
 
         <div>
-          <div class="seta" onclick="mudarSentimento(1)">▲</div>
+          <button class="seta" onclick="mudarSentimento(1)">▲</button>
           <div class="drum-wrapper">
             <div class="drum-cylinder" id="drumCylinder"></div>
           </div>
-          <div class="seta" onclick="mudarSentimento(-1)">▼</div>
+          <button class="seta" onclick="mudarSentimento(-1)">▼</button>
           <button id="submit__btn" onclick="submitData()">Selecionar</button>
         </div>
       </div>

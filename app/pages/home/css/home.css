@@ -30,7 +30,7 @@ h2 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    perspective: clamp(1000px, 80vw, 1200px);
+    perspective: clamp(1100px, 80vw, 1200px);
 }
 
 #cylinder {
@@ -137,7 +137,7 @@ input[type=range]::-webkit-slider-thumb {
     color: #f28c28;
     margin-top: 40px;
     margin-bottom: -20px;
-    font-size: 48px;
+    font-size: 3rem;
     font-weight: bold;
     text-align: center;
 }
@@ -221,6 +221,8 @@ input[type=range]::-webkit-slider-thumb {
 .seta {
     font-size: 40px;
     cursor: pointer;
+    background: transparent;
+    border-width: 0;
 }
 
 .voltar {
@@ -230,7 +232,7 @@ input[type=range]::-webkit-slider-thumb {
     background: #f28c28;
     color: black;
     padding: 10px 20px;
-    border-radius: 20px;
+    border-radius: 10px;
     cursor: pointer;
 }
 
@@ -241,8 +243,8 @@ input[type=range]::-webkit-slider-thumb {
     height: auto;
     top: 75%;
     background-color: #f28c28;
-    border-radius: 20px;
-    font-size: 1.5rem;
+    border-radius: 10px;
+    font-size: 1rem;
     color: #000;
     font-weight: 700;
 }

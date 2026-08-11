@@ -168,45 +168,51 @@ async function submitMusicFallback(genre) {
   return response
 }
 
+async function getSong(genero, emotion, limit = 1) {
+  const params = new URLSearchParams({
+    genre: genero,
+    emotion: emotion,
+    limit: 1,
+  });
+
+  const response = await fetch(`songs?${params}`);
+
+  if (!response.ok) {
+    return await submitMusicFallback(genero);
+  }
+
+  return response;
+}
+
 window.submitData = async (repeating) => {
   try {
     const genero = genreCylinder.currentGenre;
     const sentimento = emotionDrum.currentEmotion;
 
-    const params = new URLSearchParams({
-      genre: genero,
-      emotion: sentimento,
-      limit: 1,
-    });
-
-    let response = await fetch(`songs?${params}`);
-
-    if (!response.ok) {
-      response = await submitMusicFallback(genero);
-    }
+    const response = await getSong(genero, sentimento);
 
     const musicData = await response.json();
 
     // Verifica se a combinacao ja esta na queue
-    if (playerControls.musicQueue.some((song) => song.id === musicData[0][0])) {
+    if (playerControls.musicQueue.some((song) => song.id === musicData[0]['id'])) {
+      console.log(1);
       // verificacao dupla
       if (repeating) {
         throw new Error("Ocorreu um erro inesperado, tente outra combinação");
-      } else {
-        return await submitData(true);
       }
+      return await submitData(true);
     }
 
     musicData.forEach(
-      ([id, musicName, musicArtist, sourceId, explicationSource]) => {
+      ( music ) => {
         playerControls.addMusic({
-          id: id,
-          sourceId: sourceId,
-          author: musicArtist,
-          name: musicName,
+          id: music['id'],
+          sourceId: music['source_id'],
+          author: music['artist'],
+          name: music['title'],
           genre: genero,
           emotion: sentimento,
-          explicationSource: explicationSource,
+          explicationSource: music['explication_source'],
         });
       },
     );

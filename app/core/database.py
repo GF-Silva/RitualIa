@@ -108,20 +108,34 @@ class Database:
     #     self.cursor.execute("UPDATE emotions SET play_count = play_count + 1 WHERE id = %s", (emotion_id,),)
     #     self.conn.commit()
 
-    def get_song_play_count(self, song_id: int):
-        """
-        Consulta informações de reprodução de uma música.
+    # def get_song_play_count(self, song_id: int):
+    #     """
+    #     Consulta informações de reprodução de uma música.
 
-        Args:
-            song_id (int): ID da música a ser consultada.
+    #     Args:
+    #         song_id (int): ID da música a ser consultada.
 
-        Returns:
-            list[tuple]: Retorna uma lista contendo título, artista e número de reproduções.
-        """
+    #     Returns:
+    #         list[tuple]: Retorna uma lista contendo título, artista e número de reproduções.
+    #     """
 
-        # Busca título, artista e contador de reproduções da música
-        self.cursor.execute("SELECT title, artist, play_count FROM songs WHERE id = %s", (song_id,))
-        return self.cursor.fetchall()
+    #     # Busca título, artista e contador de reproduções da música
+    #     self.cursor.execute("SELECT title, artist, play_count FROM songs WHERE id = %s", (song_id,))
+    #     return self.cursor.fetchall()
+
+    def get_genres(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM genres;")
+        genres = cursor.fetchall()
+        cursor.close()
+        return genres
+
+    def get_emotions(self):
+            cursor = self.conn.cursor()
+            cursor.execute("SELECT * FROM emotions;")
+            emotions = cursor.fetchall()
+            cursor.close()
+            return emotions
 
     def get_team_data(self, name: str):
         self.cursor.execute("SELECT * FROM national_teams WHERE name = %s", (name,))

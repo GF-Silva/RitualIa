@@ -1,7 +1,7 @@
-import { YoutubeFrameControls } from "/pages/components/youtube-frame-controls.js";
+import { YoutubeFrameControls } from "/app/pages/components/youtube-frame-controls.js";
 
-import { AsyncEvent } from "/pages/helpers/async-event.js";
-import { AsyncQueue } from "/pages/helpers/async-queue.js";
+import { AsyncEvent } from "/app/pages/helpers/async-event.js";
+import { AsyncQueue } from "/app/pages/helpers/async-queue.js";
 /* YOUTUBE */
 let youtubePlayer;
 
@@ -29,7 +29,8 @@ class PlayerControls extends YoutubeFrameControls {
       this.#showMusicInfos(musicData['name'], musicData['author']);
 
       this.#queueList.removeChild(this.#queueList.children[0]);
-      await this.#startExplication(`${CLOUDINARY_URL}/video/upload/${musicData['explicationSource']}`);
+      
+      await this.#startExplication(`/storage/${musicData['explicationSource']}`);
       this.player.playVideo();
 
       await this.#musicFinished.when(true);

@@ -1,6 +1,5 @@
 from flask import Blueprint, request, abort
-
-from core import database
+from app.core import database
 
 songs_bp = Blueprint('songs', __name__, url_prefix="/songs")
 
@@ -28,4 +27,12 @@ def get_songs():
 
     if not music: abort(404, description ="Nenhuma música encontrada pra essa combinação")
     
-    return music    
+    return music
+
+@songs_bp.route('/genres', methods=['GET'])
+def get_genres():
+    return database.get_genres()
+
+@songs_bp.route('/emotions', methods=['GET'])
+def get_emotions():
+    return database.get_emotions()

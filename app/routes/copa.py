@@ -1,5 +1,5 @@
 from flask import Blueprint, request, abort, render_template
-from core import database
+from app.core import database
 
 copa_bp = Blueprint('copa', __name__, url_prefix='/copa')
 

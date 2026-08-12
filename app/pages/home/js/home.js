@@ -1,5 +1,5 @@
 import { playerControls } from "./player.js";
-import { CoverFlow } from "/pages/components/cover-flow.js";
+import { CoverFlow } from "/app/pages/components/cover-flow.js";
 
 // ─── EmotionDrum ─────────────────────────────────────────────────────────────
 
@@ -119,28 +119,28 @@ function onCardClick(card, index) {
 const emotionDrum = new EmotionDrum();
 const genreCylinder = new CoverFlow(
   [
-    ["MPB", "/pages/home/img/mpb.png"],
-    ["Sertanejo", "/pages/home/img/sertanejo.png"],
-    ["Rock", "/pages/home/img/rock.png"],
-    ["Tropicalismo", "/pages/home/img/tropicalismo.png"],
-    ["Folk", "/pages/home/img/folk.png"],
-    ["Folk Rock", "/pages/home/img/folk_rock.png"],
-    ["Jazz", "/pages/home/img/jazz.png"],
-    ["Pop Rock", "/pages/home/img/pop_rock.png"],
-    ["Rock Nacional", "/pages/home/img/rock_nacional.png"],
-    ["Rock Progressivo", "/pages/home/img/rock_progressivo.png"],
-    ["Grunge", "/pages/home/img/grunge.png"],
-    ["Samba", "/pages/home/img/samba.png"],
-    ["Morna", "/pages/home/img/morna.png"],
-    ["Afropop", "/pages/home/img/afropop.png"],
-    ["Son Cubano", "/pages/home/img/son_cubano.png"],
-    ["World Music", "/pages/home/img/world_music.png"],
-    ["Axé", "/pages/home/img/axe.png"],
-    ["Funk Pop", "/pages/home/img/funk_pop.png"],
-    ["Pop", "/pages/home/img/pop.png"],
-    ["Música Clássica", "/pages/home/img/musica_classica.png"],
-    ["Choro", "/pages/home/img/choro.png"],
-    ["Bossa Nova", "/pages/home/img/bossa_nova.png"],
+    ["MPB", "/app/pages/home/img/mpb.png"],
+    ["Sertanejo", "/app/pages/home/img/sertanejo.png"],
+    ["Rock", "/app/pages/home/img/rock.png"],
+    ["Tropicalismo", "/app/pages/home/img/tropicalismo.png"],
+    ["Folk", "/app/pages/home/img/folk.png"],
+    ["Folk Rock", "/app/pages/home/img/folk_rock.png"],
+    ["Jazz", "/app/pages/home/img/jazz.png"],
+    ["Pop Rock", "/app/pages/home/img/pop_rock.png"],
+    ["Rock Nacional", "/app/pages/home/img/rock_nacional.png"],
+    ["Rock Progressivo", "/app/pages/home/img/rock_progressivo.png"],
+    ["Grunge", "/app/pages/home/img/grunge.png"],
+    ["Samba", "/app/pages/home/img/samba.png"],
+    ["Morna", "/app/pages/home/img/morna.png"],
+    ["Afropop", "/app/pages/home/img/afropop.png"],
+    ["Son Cubano", "/app/pages/home/img/son_cubano.png"],
+    ["World Music", "/app/pages/home/img/world_music.png"],
+    ["Axé", "/app/pages/home/img/axe.png"],
+    ["Funk Pop", "/app/pages/home/img/funk_pop.png"],
+    ["Pop", "/app/pages/home/img/pop.png"],
+    ["Música Clássica", "/app/pages/home/img/musica_classica.png"],
+    ["Choro", "/app/pages/home/img/choro.png"],
+    ["Bossa Nova", "/app/pages/home/img/bossa_nova.png"],
   ],
   onCardClick,
 );

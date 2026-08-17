@@ -31,8 +31,10 @@ def get_songs():
 
 @songs_bp.route('/genres', methods=['GET'])
 def get_genres():
-    return database.get_genres()
+    limit = request.args.get('limit', type=int)
+    return database.get_genres(limit)
 
 @songs_bp.route('/emotions', methods=['GET'])
 def get_emotions():
-    return database.get_emotions()
+    limit = request.args.get('limit', type=int)
+    return database.get_emotions(limit)

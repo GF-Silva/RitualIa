@@ -93,12 +93,13 @@ class Database:
         self.cursor.execute("SELECT * FROM genres")
         return self.cursor.fetchall()
 
-    def get_emotions(self):
-            cursor = self.conn.cursor()
-            cursor.execute("SELECT * FROM emotions;")
-            emotions = cursor.fetchall()
-            cursor.close()
-            return emotions
+    def get_emotions(self, limit: int | None):
+        if limit:
+            self.cursor.execute("SELECT * FROM emotions LIMIT %s", (limit,))
+            return self.cursor.fetchall()
+
+        self.cursor.execute("SELECT * FROM emotions")
+        return self.cursor.fetchall()
 
     def get_team_data(self, name: str):
         self.cursor.execute("SELECT * FROM national_teams WHERE name = %s", (name,))

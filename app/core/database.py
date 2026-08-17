@@ -84,51 +84,14 @@ class Database:
     def get_genre_id(self, genre: str) -> list[dict[str, Any]]:
         self.cursor.execute("SELECT id FROM genres WHERE name = %s", (genre,))
         return cast(list[dict[str, Any]], self.cursor.fetchall())
-    
-    # def on_song_play(self, genre: str, emotion: str):
-    #     """
-    #     Atualiza estatísticas de reprodução de uma música.
 
-    #     Args:
-    #         song_id (int): ID da música que foi reproduzida.
-
-    #     Efeito colateral:
-    #         - Incrementa o campo `play_count` em +1 na tabela `songs`.
-    #         - Executa commit para salvar a alteração no banco.
-    #     """
-
-    #     genre_result = self.get_genre_id(genre) if genre is not None else None
-    #     emotion_result = self.get_emotion_id(emotion) if emotion is not None else None
-
-    #     genre_id = genre_result[0][0] if genre_result else None
-    #     emotion_id = emotion_result[0][0] if emotion_result else None
-
-    #     # Atualiza o contador de reproduções da música
-    #     self.cursor.execute("UPDATE genres SET play_count = play_count + 1 WHERE id = %s", (genre_id,),)
-    #     self.cursor.execute("UPDATE emotions SET play_count = play_count + 1 WHERE id = %s", (emotion_id,),)
-    #     self.conn.commit()
-
-    # def get_song_play_count(self, song_id: int):
-    #     """
-    #     Consulta informações de reprodução de uma música.
-
-    #     Args:
-    #         song_id (int): ID da música a ser consultada.
-
-    #     Returns:
-    #         list[tuple]: Retorna uma lista contendo título, artista e número de reproduções.
-    #     """
-
-    #     # Busca título, artista e contador de reproduções da música
-    #     self.cursor.execute("SELECT title, artist, play_count FROM songs WHERE id = %s", (song_id,))
-    #     return self.cursor.fetchall()
-
-    def get_genres(self):
-        cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM genres;")
-        genres = cursor.fetchall()
-        cursor.close()
-        return genres
+    def get_genres(self, limit: int | None):
+        if limit:
+            self.cursor.execute("SELECT * FROM genres LIMIT %s", (limit,))
+            return self.cursor.fetchall()
+        
+        self.cursor.execute("SELECT * FROM genres")
+        return self.cursor.fetchall()
 
     def get_emotions(self):
             cursor = self.conn.cursor()

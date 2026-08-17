@@ -63,7 +63,7 @@ class Database:
         joins_clause = " ".join(joins)
 
         # Adiciona o limite como último parâmetro
-        # params.append(limit)
+        params.append(limit)
 
         # Executa a query com filtros dinâmicos
         self.cursor.execute(f"""
@@ -71,7 +71,7 @@ class Database:
             {joins_clause}
             WHERE {where_clause}
             ORDER BY RAND()   -- Garante aleatoriedade na seleção
-            LIMIT 1
+            LIMIT %s
         """, params)
 
         result = self.cursor.fetchall()

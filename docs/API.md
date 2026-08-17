@@ -3,8 +3,10 @@
 ## Overview
 
 A API conecta o backend flask + database com o frontend.
-Url base: <http://localhost:5000/> (No futuro sera  /api/)
-Formata as respostas apenas em JSON
+
+Url base: <http://localhost:5000/> (No futuro sera /api/)
+
+As respostas são formatadas em JSON
 
 ## Quick Start
 
@@ -17,9 +19,10 @@ comando pra rota...
 
 Retorna todas as músicas que atendam os params
 
-**Parâmetros de Query**
+**Parâmetros de Query:**
+
 | Nome    | Tipo   | Obrigatório | Descrição               |
-|----------------------------------------------------------|
+|---------|--------|-------------|-------------------------|
 | genre   | str    | Não         | Gênero para buscar      |
 | emotion | str    | Não         | Emotion para buscar     |
 | limit   | int    | Não         | Tamanho limite de busca |

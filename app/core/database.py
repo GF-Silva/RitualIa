@@ -25,7 +25,7 @@ class Database:
         # Cria o cursor para executar comandos SQL
         self.cursor = cast(MySQLCursorDict, self.conn.cursor(dictionary=True))
 
-    def get_songs_by_filter(self, genres: str | None = None, emotions: str | None = None, limit: int = 1):
+    def get_songs(self, genres: str | None = None, emotions: str | None = None, limit: int = 1):
         """
         Busca músicas no banco de dados aplicando filtros opcionais.
 

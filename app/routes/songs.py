@@ -23,7 +23,7 @@ def get_songs():
     genre_id = genre_result[0]['id'] if genre_result else None
     emotion_id = emotion_result[0]['id'] if emotion_result else None
 
-    music = database.get_songs_by_filter(genre_id, emotion_id, limit)
+    music = database.get_songs(genre_id, emotion_id, limit)
 
     if not music: abort(404, description ="Nenhuma música encontrada pra essa combinação")
     

@@ -12,15 +12,20 @@ O Ritualia é um sistema Web desenvolvido para quebrar a bolha músical gerado p
 
 Execute o codigo de instalacao (Em breve...)
 
-## Como rodar
+## Como usar
+
+**Rode com:**
 
 ``` Bash
 python main.py
 ```
 
+**Acesse em:** <http://localhost:5000/>
+
 ## Stack de tecnologias
 
 **Backend:** Python + flask
+
 **Frontend:** HTML + CSS + JS
 
 ## Contatos
@@ -29,4 +34,4 @@ Coming soon...
 
 ## Links
 
-Documentação da API [docs/API.md] (docs/API.md)
+Documentação da API [docs/API.md](docs/API.md)

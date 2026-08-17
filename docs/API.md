@@ -51,12 +51,16 @@ curl http://localhost:5000/songs?genre=Rock
 
 Retorna todos os genres salvos no database
 
+**Parâmetros de Query:**
+
+| Nome    | Tipo   | Obrigatório | Descrição                |
+|---------|--------|-------------|------------------------- |
+| limit   | int    | Não         | Quantos gêneros retornar |
+
 **Request de exemplo:**
 
-ADICIONAR LIMITE AQUI
-
 ```bash
-curl http://localhost:5000/songs/genres
+curl http://localhost:5000/songs/genres?limit=2
 ```
 
 **Responde de sucesso (200):**
@@ -85,12 +89,16 @@ curl http://localhost:5000/songs/genres
 
 Retorna todas emotions salvos no database
 
+**Parâmetros de Query:**
+
+| Nome    | Tipo   | Obrigatório | Descrição                |
+|---------|--------|-------------|------------------------- |
+| limit   | int    | Não         | Quantas emotions retornar|
+
 **Request de exemplo:**
 
-ADICIONAR LIMITE AQUI
-
 ```bash
-curl http://localhost:5000/songs/emotions
+curl http://localhost:5000/songs/emotions?limit=2
 ```
 
 **Responde de sucesso (200):**

@@ -156,7 +156,7 @@ function isMusicRepeating(music) {
 async function getNextMusic(genre) {
   // Se n passou genero, busca qualquer uma
   if (!genre) {
-    const response = await fetch(`songs`);
+    const response = await fetch(`api/songs`);
 
     if (!response.ok) {
       throw new Error("Erro no servidor, tente mais tarde");
@@ -166,7 +166,7 @@ async function getNextMusic(genre) {
   }
 
   // Busca apenas o genero como fallback
-  const response = await fetch(`songs?genre=${genre}`);
+  const response = await fetch(`api/songs?genre=${genre}`);
 
   if (!response.ok) {
     // se nao encontrar nada, pega uma musica aleatoria
@@ -183,7 +183,7 @@ async function getMusics(genre, emotion, limit = 1) {
     limit: limit,
   });
 
-  const response = await fetch(`songs?${params}`);
+  const response = await fetch(`api/songs?${params}`);
 
   if (!response.ok) {
     return await getNextMusic(genre);

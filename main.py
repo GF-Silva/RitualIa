@@ -2,9 +2,6 @@ from flask import Flask, render_template, jsonify, send_from_directory
 from pathlib import Path
 from werkzeug.exceptions import HTTPException
 
-from app.routes.songs import songs_bp
-from app.routes.api.copa import copa_bp
-
 from app.routes.api import api_bp
 from app.routes.web import web_bp
 
@@ -28,9 +25,6 @@ def handle_http_error(error):
 
 app.register_blueprint(api_bp, url_prefix='/api')
 app.register_blueprint(web_bp)
-
-app.register_blueprint(songs_bp)
-app.register_blueprint(copa_bp)
 
 @app.route('/')
 def index():

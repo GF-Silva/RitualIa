@@ -6,7 +6,7 @@ import { AsyncQueue } from "/app/pages/helpers/async-queue.js";
 let youtubePlayer;
 
 class PlayerControls extends YoutubeFrameControls {
-  #queue = new AsyncQueue();
+  #musicQueue = null;
   #queueList = document.getElementById("queue-list");
   #musicFinished = new AsyncEvent();
   #authorLabel = document.getElementById("author");
@@ -14,7 +14,7 @@ class PlayerControls extends YoutubeFrameControls {
 
   constructor() {
     super();
-    this.#queue = new AsyncQueue();
+    this.#musicQueue = new AsyncQueue();
     this.#queueList = document.getElementById("queue-list");
     this.#musicFinished = new AsyncEvent();
     this.#authorLabel = document.getElementById("author");
@@ -24,7 +24,7 @@ class PlayerControls extends YoutubeFrameControls {
 
   async start() {
     while (true) { // { emotion, genre, author, name, sourceId }
-      const musicData = await this.#queue.get();
+      const musicData = await this.#musicQueue.get();
       this.createPlayer(musicData['sourceId'], null);
       this.#showMusicInfos(musicData['name'], musicData['author']);
 
@@ -34,17 +34,16 @@ class PlayerControls extends YoutubeFrameControls {
       this.player.playVideo();
 
       await this.#musicFinished.when(true);
-      this.#queueList.removeChild(this.#queueList.children[0]);
       this.#musicFinished.set(false);
     }
   }
 
   get musicQueue() {
-    return this.#queue.queue;
+    return this.#musicQueue.queue;
   }
   
   addMusic(params) {
-    this.#queue.put(params);
+    this.#musicQueue.put(params);
     const queueItem = document.createElement("div");
     queueItem.className = "queue-item";
 

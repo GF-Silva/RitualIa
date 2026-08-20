@@ -7,6 +7,7 @@ O Ritualia é um sistema Web desenvolvido para quebrar a bolha músical gerado p
 - Python V3.14 - Outras versões não foram testadas
 - Servidor MySQL
 - Package manager: uv | pip
+- Navegador Web
 
 ## Como instalar
 
@@ -28,9 +29,11 @@ python main.py
 
 **Frontend:** HTML + CSS + JS
 
-## Contatos
+##  Integrações com IA
+**Microsoft Azure (TTS):** API usada para gerar o áudio da explicação das músicas dado um texto
+**Chatbots:** Foram usados chatbots como claude para tarefas de repetição, como coletar dados de músicas
 
-Coming soon...
+No futuro terá um sistema automatizado para busca e adição de músicas com intervenção humana mínima
 
 ## Links
 

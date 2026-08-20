@@ -31,6 +31,7 @@ python main.py
 
 ##  Integrações com IA
 **Microsoft Azure (TTS):** API usada para gerar o áudio da explicação das músicas dado um texto
+
 **Chatbots:** Foram usados chatbots como claude para tarefas de repetição, como coletar dados de músicas
 
 No futuro terá um sistema automatizado para busca e adição de músicas com intervenção humana mínima

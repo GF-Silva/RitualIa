@@ -4,48 +4,7 @@ import { CoverFlow } from "/app/pages/components/cover-flow.js";
 // ─── EmotionDrum ─────────────────────────────────────────────────────────────
 
 class EmotionDrum {
-  #sentimentos = [
-    "Esperança",
-    "Reflexão",
-    "Saudade",
-    "Liberdade",
-    "Otimismo",
-    "Melancolia",
-    "Unidade",
-    "Introspecção",
-    "Empoderamento",
-    "Paz",
-    "Rebeldia",
-    "Indignação",
-    "Euforia",
-    "Acolhimento",
-    "Empolgação",
-    "Tensão",
-    "Revolta",
-    "Raiva",
-    "Ironia",
-    "Devoção",
-    "Alegria",
-    "Nostalgia",
-    "Animação",
-    "Inquietude",
-    "Empatia",
-    "Serenidade",
-    "Romantismo",
-    "Compaixão",
-    "Paixão",
-    "Triunfo",
-    "Tristeza",
-    "Sensualidade",
-    "Elegância",
-    "Leveza",
-    "Júbilo",
-    "Gratidão",
-    "Êxtase",
-    "Orgulho",
-    "Drama",
-    "Frustração",
-  ];
+  #sentimentos = [];
   static #ITEM_H = 46;
 
   #drumCylinder;
@@ -55,7 +14,8 @@ class EmotionDrum {
   #radius;
   #indice = 0;
 
-  constructor() {
+  constructor(sentimentos) {
+    this.#sentimentos = sentimentos
     this.#drumCylinder = document.getElementById("drumCylinder");
     this.#total = this.#sentimentos.length;
     this.#angleStep = 360 / this.#total;
@@ -64,21 +24,21 @@ class EmotionDrum {
     );
 
     this.#buildItems();
-    this.update(false);
+    this.update(null, false);
   }
 
   #buildItems() {
-    this.#sentimentos.forEach((nome, i) => {
+    this.#sentimentos.forEach((item, i) => {
       const div = document.createElement("div");
       div.className = "drum-item";
-      div.innerText = nome;
+      div.innerText = item["name"];
       div.style.transform = `rotateX(${-this.#angleStep * i}deg) translateZ(${this.#radius}px)`;
       this.#drumCylinder.appendChild(div);
       this.#drumItems.push(div);
     });
   }
 
-  update(animate = true) {
+  update(oldIndice, animate = true) {
     this.#drumCylinder.style.transition = animate
       ? "transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)"
       : "none";
@@ -86,9 +46,8 @@ class EmotionDrum {
     this.#drumCylinder.style.transform = `rotateX(${this.#angleStep * this.#indice}deg)`;
     this.#drumCylinder.dataset.indice = this.#indice;
 
-    this.#drumItems.forEach((item, i) =>
-      item.classList.toggle("is-front", i === this.#indice),
-    );
+    if (oldIndice != null) { this.#drumItems[oldIndice].classList.remove("is-front")}
+    this.#drumItems[this.#indice].classList.add("is-front");
 
     if (!animate) {
       requestAnimationFrame(() => {
@@ -99,8 +58,9 @@ class EmotionDrum {
   }
 
   mudarSentimento(dir) {
+    const oldIndice = this.#indice;
     this.#indice = (this.#indice - dir + this.#total) % this.#total;
-    this.update();
+    this.update(oldIndice);
   }
 
   get currentEmotion() {
@@ -117,12 +77,10 @@ function onCardClick(card, index) {
 }
 
 const genres = await fetch('/api/songs/genres');
+const emotions = await fetch('/api/songs/emotions');
 
-const emotionDrum = new EmotionDrum();
-const genreCylinder = new CoverFlow(
-  await genres.json(),
-  onCardClick,
-);
+const emotionDrum = new EmotionDrum(await emotions.json());
+const genreCylinder = new CoverFlow(await genres.json(), onCardClick);
 
 function isMusicRepeating(music) {
   if (playerControls.musicQueue.some((queueMusic) => queueMusic.id === music['id'])) {

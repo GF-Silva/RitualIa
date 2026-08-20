@@ -1,11 +1,7 @@
-from flask import Blueprint, request, abort, render_template
+from flask import Blueprint, request, abort
 from app.core import database
 
-copa_bp = Blueprint('copa', __name__, url_prefix='/copa')
-
-@copa_bp.route('/')
-def copa():
-    return render_template('/copa/index.html')
+copa_bp = Blueprint('copa', __name__)
 
 @copa_bp.route('/songs', methods=['GET'])
 def get_songs():

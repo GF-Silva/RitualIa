@@ -36,7 +36,7 @@ export class CoverFlow {
             const img = document.createElement("img");
             img.draggable = false;
             img.className = "card";
-            img.src = item["source"];
+            img.src = `/storage/${item["path"]}`;
             this.#cylinder.appendChild(img);
             this.#cards.push(img);
         });

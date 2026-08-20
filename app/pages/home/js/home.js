@@ -116,98 +116,11 @@ function onCardClick(card, index) {
   painel.classList.add("active");
 }
 
+const genres = await fetch('/api/songs/genres');
+
 const emotionDrum = new EmotionDrum();
 const genreCylinder = new CoverFlow(
-  [
-    {
-      "genreName": "MPB",
-      "source": "/app/pages/home/img/mpb.png"
-    },
-    {
-      "genreName": "Sertanejo",
-      "source": "/app/pages/home/img/sertanejo.png"
-    },
-    {
-      "genreName": "Rock",
-      "source": "/app/pages/home/img/rock.png"
-    },
-    {
-      "genreName": "Tropicalismo",
-      "source": "/app/pages/home/img/tropicalismo.png"
-    },
-    {
-      "genreName": "Folk",
-      "source": "/app/pages/home/img/folk.png"
-    },
-    {
-      "genreName": "Folk Rock",
-      "source": "/app/pages/home/img/folk_rock.png"
-    },
-    {
-      "genreName": "Jazz",
-      "source": "/app/pages/home/img/jazz.png"
-    },
-    {
-      "genreName": "Pop Rock",
-      "source": "/app/pages/home/img/pop_rock.png"
-    },
-    {
-      "genreName": "Rock Nacional",
-      "source": "/app/pages/home/img/rock_nacional.png"
-    },
-    {
-      "genreName": "Rock Progressivo",
-      "source": "/app/pages/home/img/rock_progressivo.png"
-    },
-    {
-      "genreName": "Grunge",
-      "source": "/app/pages/home/img/grunge.png"
-    },
-    {
-      "genreName": "Samba",
-      "source": "/app/pages/home/img/samba.png"
-    },
-    {
-      "genreName": "Morna",
-      "source": "/app/pages/home/img/morna.png"
-    },
-    {
-      "genreName": "Afropop",
-      "source": "/app/pages/home/img/afropop.png"
-    },
-    {
-      "genreName": "Son Cubano",
-      "source": "/app/pages/home/img/son_cubano.png"
-    },
-    {
-      "genreName": "World Music",
-      "source": "/app/pages/home/img/world_music.png"
-    },
-    {
-      "genreName": "Axé",
-      "source": "/app/pages/home/img/axe.png"
-    },
-    {
-      "genreName": "Funk Pop",
-      "source": "/app/pages/home/img/funk_pop.png"
-    },
-    {
-      "genreName": "Pop",
-      "source": "/app/pages/home/img/pop.png"
-    },
-    {
-      "genreName": "Música Clássica",
-      "source": "/app/pages/home/img/musica_classica.png"
-    },
-    {
-      "genreName": "Choro",
-      "source": "/app/pages/home/img/choro.png"
-    },
-    {
-      "genreName": "Bossa Nova",
-      "source": "/app/pages/home/img/bossa_nova.png"
-    },
-  ],
+  await genres.json(),
   onCardClick,
 );
 

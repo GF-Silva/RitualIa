@@ -4,7 +4,7 @@
 
 A API conecta o backend flask + database com o frontend.
 
-Url base: <http://localhost:5000/> (No futuro sera /api/)
+Url base: <http://localhost:5000/api>
 
 As respostas são formatadas em JSON
 

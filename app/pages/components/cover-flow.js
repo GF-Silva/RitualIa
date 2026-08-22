@@ -13,6 +13,7 @@ export class CoverFlow {
     #dragDistance = 0;
     #sensitivity = 0.6;
     #clickThreshold = 6;
+    #oldIndice = null;
 
     constructor(images, onCardClick) {
         this.images = images;
@@ -28,7 +29,7 @@ export class CoverFlow {
 
         this.#positionCards();
         this.#bindDragEvents();
-        this.update(false);
+        this.update(null, false);
     }
 
     #buildCards() {
@@ -92,7 +93,9 @@ export class CoverFlow {
 
         const deltaX = e.clientX - this.#startX;
         this.#dragDistance = Math.abs(deltaX);
-        this.#dragRotation = this.#currentRotation + deltaX * this.#sensitivity;
+        // console.log(this.#dragDistance);
+        this.#dragRotation = this.#currentRotation + deltaX * (this.#sensitivity);
+        // console.log(this.#dragRotation);
 
         this.#cylinder.style.transform = `rotateY(${this.#dragRotation}deg)`;
     };
@@ -122,7 +125,9 @@ export class CoverFlow {
 
         const steps = Math.round((this.#dragRotation - this.#currentRotation) / -this.#angleStep);
 
-        this.#current = ((this.#current + steps) % this.#total + this.#total) % this.#total;
+        const oldIndice = this.#current;
+
+        this.#updateIndice(((this.#current + steps) % this.#total + this.#total) % this.#total)
         this.#currentRotation = this.#currentRotation - steps * this.#angleStep;
 
         this.update();
@@ -135,6 +140,11 @@ export class CoverFlow {
         this.update();
     };
 
+    #updateIndice(indice) {
+        this.#oldIndice = this.#current;
+        this.#current = indice;
+    }
+
     update(animate = true) {
         this.#cylinder.style.transition = animate
             ? "transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1)"
@@ -142,9 +152,8 @@ export class CoverFlow {
 
         this.#cylinder.style.transform = `rotateY(${this.#currentRotation}deg)`;
 
-        this.#cards.forEach((card, i) =>
-            card.classList.toggle("is-front", i === this.#current)
-        );
+        if (this.#oldIndice != null) this.#cards[this.#oldIndice].classList.remove("is-front");
+        this.#cards[this.#current].classList.add("is-front");
 
         if (!animate) {
             requestAnimationFrame(() => {
@@ -155,7 +164,7 @@ export class CoverFlow {
     }
 
     move(dir) {
-        this.#current = (this.#current + dir + this.#total) % this.#total;
+        this.#updateIndice((this.#current + dir + this.#total) % this.#total)
         this.#currentRotation -= dir * this.#angleStep;
         this.update();
     }

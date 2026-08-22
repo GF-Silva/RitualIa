@@ -163,12 +163,6 @@ export class CoverFlow {
         }
     }
 
-    move(dir) {
-        this.#updateIndice((this.#current + dir + this.#total) % this.#total)
-        this.#currentRotation -= dir * this.#angleStep;
-        this.update();
-    }
-
     get currentGenre() {
         return this.images[this.#current][0];
     }

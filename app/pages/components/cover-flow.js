@@ -11,7 +11,7 @@ export class CoverFlow {
     #currentRotation = 0;
     #dragRotation = 0;
     #dragDistance = 0;
-    #sensitivity = 0.6;
+    #sensitivity = 0.15;
     #clickThreshold = 6;
     #oldIndice = null;
 

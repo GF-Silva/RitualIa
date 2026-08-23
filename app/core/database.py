@@ -29,7 +29,9 @@ class Database:
         self.cursor = cast(MySQLCursorDict, self.conn.cursor(dictionary=True))
 
     def __get_connection(self):
-        return
+        conn = self.db_pool.get_connection()
+        conn.ping(reconnect=True, attempts=3, delay=1)
+        return conn
     
     def get_songs(self, genres: str | None = None, emotions: str | None = None, limit: int = 1):
         """

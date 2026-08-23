@@ -250,7 +250,7 @@ INSERT INTO songs_emotions (song_id, emotion_id) VALUES
 (59, 40);
 
 
-INSERT INTO national_teams(name, anthem_source_id, explication_audios, flag_source) VALUES
+INSERT INTO national_teams(name, anthem_source_id, explication_source, source_id) VALUES
 ("brasil", "Z7pFwsX6UVc", "Brasil_nsuay7.wav", "copa_flags/brasil.png"),
 ("canada", "RidIw0OXs9U", "Canada_sbu0lv.wav", "copa_flags/canada.png"),
 ("colômbia", "yPSL78YDyZY", "Colombia_ysfnsi.wav", "copa_flags/colombia.png"),
@@ -265,7 +265,7 @@ INSERT INTO national_teams(name, anthem_source_id, explication_audios, flag_sour
 ("alemanha", "-k07t4WsXtU", "Alemanha_za09q8.wav", "copa_flags/alemanha.png"),
 ("holanda", "S1J1St_rU90", "Holanda_c6orvm.wav", "copa_flags/holanda.png");
 
-INSERT INTO brazilian_songs(name, source_id, explication_audios) VALUES
+INSERT INTO brazilian_songs(name, source_id, explication_source) VALUES
 ("A Taça do Mundo É Nossa", "hJAriHOh1Jg", "A_Ta%C3%A7a_do_Mundo_%C3%89_Nossa_pznbtz.wav"),
 ("Frevo do Bi", "6z1jZ0oq7mo", "Frevo_do_Bi_gnmx74.wav"),
 ("Pra Frente Brasil", "LbxtNtGlZxE", "Para_a_Frente_Brasil_mgzbhb.wav"),

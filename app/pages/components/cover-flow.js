@@ -124,7 +124,6 @@ export class CoverFlow {
             // que está visualmente sob o cursor. Por isso usamos elementFromPoint,
             // que consulta a posição real na tela e ignora a captura.
             const realTarget = document.elementFromPoint(e.clientX, e.clientY);
-            console.log(realTarget);
             // debug: desconfio desse real target
 
             if (realTarget && realTarget.classList.contains("card")) {

@@ -11,24 +11,10 @@ youtubeFrameControls.onPlayerStateChange = (event) => {
     }
 }
 
-const images = [
-    ["brasil", "/app/pages/copa/img/brasil.png"],
-    ["canada", "/app/pages/copa/img/canada.png"],
-    ["colombia", "/app/pages/copa/img/colombia.png"],
-    ["espanha", "/app/pages/copa/img/espanha.png"],
-    ["franca", "/app/pages/copa/img/franca.png"],
-    ["inglaterra", "/app/pages/copa/img/inglaterra.png"],
-    ["japao", "/app/pages/copa/img/japao.png"],
-    ["mexico", "/app/pages/copa/img/mexico.png"],
-    ["portugal", "/app/pages/copa/img/portugal.png"],
-    ["usa", "/app/pages/copa/img/usa.png"],
-    ["argentina", "/app/pages/copa/img/argentina.png"],
-    ["alemanha", "/app/pages/copa/img/alemanha.png"],
-    ["holanda", "/app/pages/copa/img/holanda.png"]
-];
+const teams = await fetch("/api/copa/teams");
 
 const countrySelector = new CoverFlow(
-    images, onCardClick
+    await teams.json(), onCardClick
 );
 
 // ─── CountrySelector ───────────────────────────────────────────────────────────
@@ -45,7 +31,7 @@ async function onCardClick(card, index) {
         // Se for o btn do brasil -> exibe a escolha entre hino e musica
         if (index === 0) {
             const anthemSelector = document.createElement("img");
-            anthemSelector.src = "/app/pages/copa/img/hino_br.png";
+            anthemSelector.src = "/storage/copa_flags/hino_br.png";
             
             anthemSelector.addEventListener("click", async () => {
                 const videoResponse = await fetch(`teams?name=${images[index][0]}`);
@@ -61,7 +47,7 @@ async function onCardClick(card, index) {
             });
 
             const musicSelector = document.createElement("img");
-            musicSelector.src = "/app/pages/copa/img/musicas_br.png";
+            musicSelector.src = "/storage/copa_flags/musicas_br.png";
 
             musicSelector.addEventListener("click", async () => {
                 const videoResponse = await fetch('songs');
@@ -80,7 +66,7 @@ async function onCardClick(card, index) {
             return;
         }
         
-        const videoResponse = await fetch(`teams?name=${images[index][0]}`);
+        const videoResponse = await fetch(`teams/name=${images[index][0]}`);
         
         if (!videoResponse.ok) {
             const erro = await response.json();

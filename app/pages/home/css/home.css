@@ -47,7 +47,7 @@ h2 {
 
 .card {
     position: absolute;
-    pointer-events: auto;
+    pointer-events: all;
     width: 180px;
     height: 180px;
     border-radius: 15px;

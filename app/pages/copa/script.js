@@ -7,14 +7,15 @@ const youtubeFrameControls = new YoutubeFrameControls();
 youtubeFrameControls.onPlayerStateChange = (event) => {
     if (event.data === YT.PlayerState.ENDED) {
         musicFinished.set(true);
-        destroyPlayer();
+        youtubeFrameControls.destroyPlayer();
     }
 }
 
 const teams = await fetch("/api/copa/teams");
+const teamsData = await teams.json();
 
 const countrySelector = new CoverFlow(
-    await teams.json(), onCardClick
+    teamsData, onCardClick
 );
 
 // ─── CountrySelector ───────────────────────────────────────────────────────────
@@ -34,14 +35,18 @@ async function onCardClick(card, index) {
             anthemSelector.src = "/storage/copa_flags/hino_br.png";
             
             anthemSelector.addEventListener("click", async () => {
-                const videoResponse = await fetch(`teams?name=${images[index][0]}`);
+                const videoResponse = await fetch(`/api/copa/teams/${teamsData[index]["name"]}`);
 
                 const videoData = await videoResponse.json();
 
                 anthemSelector.remove();
                 musicSelector.remove();
 
-                await playVideo({sourceId: videoData[0][2], time: null, explicationId: videoData[0][3]});
+                await playVideo({
+                    sourceId: videoData[0]["anthem_source_id"],
+                    time: null,
+                    explicationId: videoData[0]["explication_source"]
+                });
 
                 overlay.remove();
             });
@@ -50,14 +55,16 @@ async function onCardClick(card, index) {
             musicSelector.src = "/storage/copa_flags/musicas_br.png";
 
             musicSelector.addEventListener("click", async () => {
-                const videoResponse = await fetch('songs');
-
+                const videoResponse = await fetch('/api/copa/songs');
                 const videoData = await videoResponse.json();
-
                 anthemSelector.remove();
                 musicSelector.remove();
 
-                await playVideo({sourceId: videoData[0][2], time: null, explicationId: videoData[0][3]});
+                await playVideo({
+                    sourceId: videoData[0]["source_id"],
+                    time: null,
+                    explicationId: videoData[0]["explication_source"]
+                });
 
                 overlay.remove();
             });
@@ -66,7 +73,7 @@ async function onCardClick(card, index) {
             return;
         }
         
-        const videoResponse = await fetch(`teams/name=${images[index][0]}`);
+        const videoResponse = await fetch(`/api/copa/teams/${teamsData[index]["name"]}`);
         
         if (!videoResponse.ok) {
             const erro = await response.json();
@@ -75,7 +82,11 @@ async function onCardClick(card, index) {
 
         const videoData = await videoResponse.json()
 
-        await playVideo({sourceId: videoData[0][2], time: 60, explicationId: videoData[0][3]});
+        await playVideo({
+            sourceId: videoData[0]["anthem_source_id"],
+            time: 60,
+            explicationId: videoData[0]["explication_source"]
+        });
         overlay.remove();
     } catch (e) {
         showError(e.message, overlay);
@@ -115,7 +126,7 @@ function showError(message, overlay) {
 async function playVideo({sourceId, explicationId, time}) {
     playerDiv.classList.add('active');
     youtubeFrameControls.createPlayer(sourceId, time);
-    await startExplication(`${CLOUDINARY_URL}/video/upload/${explicationId}`);
+    await startExplication(`https://res.cloudinary.com/dugdjtmbk/video/upload/${explicationId}`);
     youtubeFrameControls.player.playVideo();
     await musicFinished.when(true);
     playerDiv.classList.remove('active');

@@ -4,6 +4,8 @@ export class CoverFlow {
     #total;
     #angleStep;
     #radius;
+    #circleCircunference;
+    #cardWidth;
     #current = 0;
 
     #isDragging = false;
@@ -13,7 +15,7 @@ export class CoverFlow {
     #dragDistance = 0;
     #sensitivity = 0.15;
     #clickThreshold = 6;
-    #oldIndice = null;
+    #oldIndice;
 
     constructor(images, onCardClick) {
         this.images = images;
@@ -24,12 +26,16 @@ export class CoverFlow {
         this.#buildCards();
 
         this.#total     = this.#cards.length;
-        this.#angleStep = 360 / this.#total;
-        this.#radius    = Math.round(180 / (2 * Math.tan(Math.PI / this.#total)));
+        //  Pega a width presente no primeiro elemento de card e transforma em inteiro
+        this.#cardWidth = parseInt(window.getComputedStyle(this.#cards[0]).getPropertyValue('width'));
+        this.#circleCircunference = this.#cardWidth * this.#total;
+        this.#radius    = this.#circleCircunference / (2 * Math.PI);
+        // Angulo de um arco com o tamanho do card
+        this.#angleStep = (this.#cardWidth * 360) / this.#circleCircunference;
 
         this.#positionCards();
         this.#bindDragEvents();
-        this.update(null, false);
+        this.update(false);
     }
 
     #buildCards() {
@@ -59,7 +65,7 @@ export class CoverFlow {
             if (diff >  this.#total / 2) diff -= this.#total;
             if (diff < -this.#total / 2) diff += this.#total;
 
-            this.#current = (this.#current + diff + this.#total) % this.#total;
+            this.#updateIndice((this.#current + diff + this.#total) % this.#total)
             this.#currentRotation += -diff * this.#angleStep;
             this.update();
             return;
@@ -93,10 +99,7 @@ export class CoverFlow {
 
         const deltaX = e.clientX - this.#startX;
         this.#dragDistance = Math.abs(deltaX);
-        // console.log(this.#dragDistance);
-        this.#dragRotation = this.#currentRotation + deltaX * (this.#sensitivity);
-        // console.log(this.#dragRotation);
-
+        this.#dragRotation = this.#currentRotation + deltaX * this.#sensitivity;
         this.#cylinder.style.transform = `rotateY(${this.#dragRotation}deg)`;
     };
 
@@ -116,6 +119,8 @@ export class CoverFlow {
             // que está visualmente sob o cursor. Por isso usamos elementFromPoint,
             // que consulta a posição real na tela e ignora a captura.
             const realTarget = document.elementFromPoint(e.clientX, e.clientY);
+            console.log(realTarget);
+            // debug: desconfio desse real target
 
             if (realTarget && realTarget.classList.contains("card")) {
                 this.#handleCardClick(realTarget);
@@ -124,8 +129,6 @@ export class CoverFlow {
         }
 
         const steps = Math.round((this.#dragRotation - this.#currentRotation) / -this.#angleStep);
-
-        const oldIndice = this.#current;
 
         this.#updateIndice(((this.#current + steps) % this.#total + this.#total) % this.#total)
         this.#currentRotation = this.#currentRotation - steps * this.#angleStep;

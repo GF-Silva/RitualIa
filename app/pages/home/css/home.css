@@ -13,7 +13,8 @@ h2 {
 /* ===== CONTAINER ===== */
 .main {
     position: absolute;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,15 +42,15 @@ h2 {
     transition: transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1);
     cursor: grab;
     touch-action: pan-y;
+    pointer-events: none;
 }
 
 .card {
     position: absolute;
-    top: 0;
-    left: 0;
+    pointer-events: auto;
     width: 180px;
     height: 180px;
-    border-radius: 10px;
+    border-radius: 15px;
     transition:
         box-shadow 0.3s ease,
         filter 0.3s ease;

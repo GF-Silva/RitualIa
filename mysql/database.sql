@@ -48,14 +48,15 @@ CREATE TABLE songs_genres (
 
 CREATE TABLE national_teams (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	name VARCHAR(150) NOT NULL,
+	name VARCHAR(60) NOT NULL,
 	anthem_source_id VARCHAR(20) NOT NULL,
-	explication_source VARCHAR(40) NOT NULL
+	explication_source VARCHAR(40) NOT NULL,
+	flag_source VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE brazilian_songs (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	name VARCHAR(150) NOT NULL,
+	name VARCHAR(100) NOT NULL,
 	source_id VARCHAR(20) NOT NULL,
 	explication_source VARCHAR(50) NOT NULL
 ) ENGINE=InnoDB;

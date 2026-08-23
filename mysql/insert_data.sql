@@ -250,20 +250,20 @@ INSERT INTO songs_emotions (song_id, emotion_id) VALUES
 (59, 40);
 
 
-INSERT INTO national_teams(name, anthem_source_id, explication_audios) VALUES
-("brasil", "Z7pFwsX6UVc", "Brasil_nsuay7.wav"),
-("canada", "RidIw0OXs9U", "Canada_sbu0lv.wav"),
-("colômbia", "yPSL78YDyZY", "Colombia_ysfnsi.wav"),
-("Espanha", "BsWFAEytD24", "Espanha_rg4xxk.wav"),
-("franca", "YLi5A7BiBVk", "Franca_cstqjd.wav"),
-("Inglaterra", "xianOAFljbs", "Inglaterra_ntug23.wav"),
-("Japão", "tkXDCs8qX8Y", "Japao_rxyuwe.wav"),
-("mexico", "oZkTymsI7eI", "M%C3%A9xico_sw1kiv.wav"),
-("portugal", "DdOEpfypWQA", "Portugal_nmuuhx.wav"),
-("usa", "LroNerBwIV4", "EUA_supfbt.wav"),
-("argentina", "2zJ8UsfLa9I", "Argentina_zyowxx.wav"),
-("alemanha", "-k07t4WsXtU", "Alemanha_za09q8.wav"),
-("holanda", "S1J1St_rU90", "Holanda_c6orvm.wav");
+INSERT INTO national_teams(name, anthem_source_id, explication_audios, flag_source) VALUES
+("brasil", "Z7pFwsX6UVc", "Brasil_nsuay7.wav", "copa_flags/brasil.png"),
+("canada", "RidIw0OXs9U", "Canada_sbu0lv.wav", "copa_flags/canada.png"),
+("colômbia", "yPSL78YDyZY", "Colombia_ysfnsi.wav", "copa_flags/colombia.png"),
+("Espanha", "BsWFAEytD24", "Espanha_rg4xxk.wav", "copa_flags/espanha.png"),
+("franca", "YLi5A7BiBVk", "Franca_cstqjd.wav", "copa_flags/franca.png"),
+("Inglaterra", "xianOAFljbs", "Inglaterra_ntug23.wav", "copa_flags/inglaterra.png"),
+("Japão", "tkXDCs8qX8Y", "Japao_rxyuwe.wav", "copa_flags/japao.png"),
+("mexico", "oZkTymsI7eI", "M%C3%A9xico_sw1kiv.wav", "copa_flags/mexico.png"),
+("portugal", "DdOEpfypWQA", "Portugal_nmuuhx.wav", "copa_flags/portugal.png"),
+("usa", "LroNerBwIV4", "EUA_supfbt.wav", "copa_flags/usa.png"),
+("argentina", "2zJ8UsfLa9I", "Argentina_zyowxx.wav", "copa_flags/argentina.png"),
+("alemanha", "-k07t4WsXtU", "Alemanha_za09q8.wav", "copa_flags/alemanha.png"),
+("holanda", "S1J1St_rU90", "Holanda_c6orvm.wav", "copa_flags/holanda.png");
 
 INSERT INTO brazilian_songs(name, source_id, explication_audios) VALUES
 ("A Taça do Mundo É Nossa", "hJAriHOh1Jg", "A_Ta%C3%A7a_do_Mundo_%C3%89_Nossa_pznbtz.wav"),

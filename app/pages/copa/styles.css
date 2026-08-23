@@ -23,7 +23,6 @@ h1 {
 }
 
 /* ===== CAROUSEL ===== */
-
 .cover-flow {
   position: relative;
   flex: 1;
@@ -32,36 +31,34 @@ h1 {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  perspective: 1100px;
+  perspective: clamp(1500px, 80vw, 1650px);
 }
 
 #cylinder {
   position: relative;
-  width: 220px;
-  height: 220px;
+  width: 180px;
+  height: 180px;
   transform-style: preserve-3d;
   transition: transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1);
   cursor: grab;
-  touch-action: pan-y; /* permite scroll vertical da pagina, mas controlamos o horizontal via JS */
+  touch-action: pan-y;
+  pointer-events: none;
 }
 
 .card {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 220px;
-  border-radius: 20px;
+  pointer-events: all;
+  width: 180px;
+  height: 180px;
+  border-radius: 15px;
   transition:
-    box-shadow 0.3s ease,
-    filter 0.3s ease;
+      box-shadow 0.3s ease,
+      filter 0.3s ease;
 }
 
 .card.is-front {
-  box-shadow:
-    0 0 40px rgba(242, 140, 40, 0.35),
-    0 8px 32px rgba(0, 0, 0, 0.18);
-  filter: brightness(1.08);
+    box-shadow: 0 0 40px rgba(242, 140, 40, 0.35), 0 8px 32px rgba(0, 0, 0, 0.18);
+    filter: brightness(1.08);
 }
 
 .card:not(.is-front) {

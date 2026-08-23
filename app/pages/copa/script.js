@@ -1,6 +1,6 @@
-import { YoutubeFrameControls } from "/pages/components/youtube-frame-controls.js";
-import { AsyncEvent } from "/pages/helpers/async-event.js";
-import { CoverFlow } from "/pages/components/cover-flow.js";
+import { YoutubeFrameControls } from "/app/pages/components/youtube-frame-controls.js";
+import { AsyncEvent } from "/app/pages/helpers/async-event.js";
+import { CoverFlow } from "/app/pages/components/cover-flow.js";
 
 const youtubeFrameControls = new YoutubeFrameControls();
 
@@ -12,19 +12,19 @@ youtubeFrameControls.onPlayerStateChange = (event) => {
 }
 
 const images = [
-    ["brasil", "/pages/copa/img/brasil.png"],
-    ["canada", "/pages/copa/img/canada.png"],
-    ["colombia", "/pages/copa/img/colombia.png"],
-    ["espanha", "/pages/copa/img/espanha.png"],
-    ["franca", "/pages/copa/img/franca.png"],
-    ["inglaterra", "/pages/copa/img/inglaterra.png"],
-    ["japao", "/pages/copa/img/japao.png"],
-    ["mexico", "/pages/copa/img/mexico.png"],
-    ["portugal", "/pages/copa/img/portugal.png"],
-    ["usa", "/pages/copa/img/usa.png"],
-    ["argentina", "/pages/copa/img/argentina.png"],
-    ["alemanha", "/pages/copa/img/alemanha.png"],
-    ["holanda", "/pages/copa/img/holanda.png"]
+    ["brasil", "/app/pages/copa/img/brasil.png"],
+    ["canada", "/app/pages/copa/img/canada.png"],
+    ["colombia", "/app/pages/copa/img/colombia.png"],
+    ["espanha", "/app/pages/copa/img/espanha.png"],
+    ["franca", "/app/pages/copa/img/franca.png"],
+    ["inglaterra", "/app/pages/copa/img/inglaterra.png"],
+    ["japao", "/app/pages/copa/img/japao.png"],
+    ["mexico", "/app/pages/copa/img/mexico.png"],
+    ["portugal", "/app/pages/copa/img/portugal.png"],
+    ["usa", "/app/pages/copa/img/usa.png"],
+    ["argentina", "/app/pages/copa/img/argentina.png"],
+    ["alemanha", "/app/pages/copa/img/alemanha.png"],
+    ["holanda", "/app/pages/copa/img/holanda.png"]
 ];
 
 const countrySelector = new CoverFlow(
@@ -45,7 +45,7 @@ async function onCardClick(card, index) {
         // Se for o btn do brasil -> exibe a escolha entre hino e musica
         if (index === 0) {
             const anthemSelector = document.createElement("img");
-            anthemSelector.src = "/pages/copa/img/hino_br.png";
+            anthemSelector.src = "/app/pages/copa/img/hino_br.png";
             
             anthemSelector.addEventListener("click", async () => {
                 const videoResponse = await fetch(`teams?name=${images[index][0]}`);
@@ -61,7 +61,7 @@ async function onCardClick(card, index) {
             });
 
             const musicSelector = document.createElement("img");
-            musicSelector.src = "/pages/copa/img/musicas_br.png";
+            musicSelector.src = "/app/pages/copa/img/musicas_br.png";
 
             musicSelector.addEventListener("click", async () => {
                 const videoResponse = await fetch('songs');

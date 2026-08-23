@@ -250,7 +250,7 @@ INSERT INTO songs_emotions (song_id, emotion_id) VALUES
 (59, 40);
 
 
-INSERT INTO national_teams(name, anthem_source_id, explication_source, source_id) VALUES
+INSERT INTO national_teams(name, anthem_source_id, explication_source, path) VALUES
 ("brasil", "Z7pFwsX6UVc", "Brasil_nsuay7.wav", "copa_flags/brasil.png"),
 ("canada", "RidIw0OXs9U", "Canada_sbu0lv.wav", "copa_flags/canada.png"),
 ("colômbia", "yPSL78YDyZY", "Colombia_ysfnsi.wav", "copa_flags/colombia.png"),

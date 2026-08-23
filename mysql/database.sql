@@ -51,7 +51,7 @@ CREATE TABLE national_teams (
 	name VARCHAR(60) NOT NULL,
 	anthem_source_id VARCHAR(20) NOT NULL,
 	explication_source VARCHAR(40) NOT NULL,
-	source_id VARCHAR(60) NOT NULL
+	path VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE brazilian_songs (

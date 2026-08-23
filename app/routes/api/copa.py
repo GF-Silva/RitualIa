@@ -13,16 +13,17 @@ def get_songs():
 
     return music
 
-@copa_bp.route('/teams', methods=['GET'])
-def get_team_data():
-    name = request.args.get('name')
-
+@copa_bp.route('/teams/<string:name>', methods=['GET'])
+def get_team_data(name):
     if not name:
-        abort(400)
-
+        abort(400, description="Informe um nome")
     team_data = database.get_team_data(name)
 
-    if not team_data:
-        abort(404)
+    if not team_data: abort(404)
 
     return team_data
+
+# @copa_bp.route('/teams', methods=['GET'])
+# def get_teams():
+#     limit = request.args.get("limit", type=int)
+#     return database.get_teams(limit)

@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector.cursor import MySQLCursorDict
+from mysql.connector import pooling
 from typing import cast, Any
 
 class Database:
@@ -19,12 +20,17 @@ class Database:
             database (str): Nome do banco de dados a ser utilizado.
         """
 
+        self.db_pool = pooling.MySQLConnectionPool(**config)
+
         # Conecta com o banco de dados MySQL usando os parâmetros fornecidos
         self.conn = mysql.connector.connect(**config)
 
         # Cria o cursor para executar comandos SQL
         self.cursor = cast(MySQLCursorDict, self.conn.cursor(dictionary=True))
 
+    def __get_connection(self):
+        return
+    
     def get_songs(self, genres: str | None = None, emotions: str | None = None, limit: int = 1):
         """
         Busca músicas no banco de dados aplicando filtros opcionais.

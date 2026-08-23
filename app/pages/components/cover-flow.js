@@ -33,6 +33,11 @@ export class CoverFlow {
         // Angulo de um arco com o tamanho do card
         this.#angleStep = (this.#cardWidth * 360) / this.#circleCircunference;
 
+        const coverFlow = document.querySelector('.cover-flow');
+        /* Corrije a perspectiva do cover-flow para ficar afastado proporcionalmente
+          ao tamanho da circunferencia calculada*/
+        coverFlow.style.perspective = `${this.#circleCircunference / 2}px`;
+
         this.#positionCards();
         this.#bindDragEvents();
         this.update(false);

@@ -23,7 +23,7 @@ def get_team_data(name):
 
     return team_data
 
-@copa_bp.route('/teams', methods=['GET'])
-def get_teams():
-    limit = request.args.get("limit", type=int)
-    return database.get_teams(limit)
+# @copa_bp.route('/teams', methods=['GET'])
+# def get_teams():
+#     limit = request.args.get("limit", type=int)
+#     return database.get_teams(limit)

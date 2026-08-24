@@ -136,7 +136,7 @@
       import { playerControls } from "/app/pages/home/js/player.js";
 
       function changeMode() {
-        if (window.location.href == "/copa") {
+        if (window.location.pathname == "/copa") {
           alert("Alterando para o modo normal");
           window.location.href = "/";
         } else {

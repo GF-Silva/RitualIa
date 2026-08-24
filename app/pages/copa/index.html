@@ -36,6 +36,40 @@
       </div>
     </div>
 
+    <script type="module">
+      function changeMode() {
+        if (window.location.pathname == "/copa/") {
+          alert("Alterando para o modo normal");
+          window.location.href = "/";
+        } else {
+          alert("Alterando para o modo 'Copa'");
+          window.location.href = "/copa";
+        }
+      }
+
+      let clicks = 0;
+      let ultimoClique = 0;
+      document.getElementById("logo").addEventListener("click", () => {
+        const agora = Date.now(); // Pega o tempo atual em milissegundos
+
+        // Se o tempo desde o último clique for maior que 500ms, reinicia o contador
+        if (agora - ultimoClique > 500) {
+          clicks = 0;
+        }
+
+        clicks++; // Incrementa o clique atual
+        ultimoClique = agora; // Atualiza o tempo do último clique
+
+        // Se atingir 5 cliques dentro do intervalo
+        if (clicks === 5) {
+          changeMode();
+
+          // Opcional: Reinicia o contador para poder detectar novamente
+          clicks = 0;
+        }
+      });
+    </script>
+
     <script src="https://www.youtube.com/iframe_api"></script>
     <script type="module" src="/app/pages/copa/script.js"></script>
     <script src="/app/pages/config.js"></script>

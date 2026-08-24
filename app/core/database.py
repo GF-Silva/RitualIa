@@ -59,7 +59,7 @@ class Database:
         finally:
             conn.close()
     
-    def get_songs(self, genres: str | None = None, emotions: str | None = None, limit: int = 1):
+    def get_songs(self, genres: int | None = None, emotions: int | None = None, limit: int = 1):
         """
         Busca músicas no banco de dados aplicando filtros opcionais.
 

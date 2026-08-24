@@ -13,11 +13,9 @@ def get_songs():
 
     return music
 
-@copa_bp.route('/teams/<string:name>', methods=['GET'])
-def get_team_data(name):
-    if not name:
-        abort(400, description="Informe um nome")
-    team_data = database.get_team_data(name)
+@copa_bp.route('/teams/<int:id>', methods=['GET'])
+def get_team_data(id):
+    team_data = database.get_team_data(id)
 
     if not team_data: abort(404)
 

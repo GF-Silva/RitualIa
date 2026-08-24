@@ -149,13 +149,14 @@ async function addMusics(genre, emotion, musics) {
 
 window.submitData = async () => {
   try {
-    const genre = genreCylinder.currentGenre;
+    const genre = genreCylinder.currentCard;
     const emotion = emotionDrum.currentEmotion;
+    console.log(emotion);
 
-    const response = await getMusics(genre, emotion);
+    const response = await getMusics(genre["id"], emotion["id"]);
     const musics = await response.json();
 
-    addMusics(genre, emotion, musics);
+    addMusics(genre["name"], emotion["name"], musics);
 
     painel.classList.remove("active");
     openPage("player");

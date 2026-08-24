@@ -5,23 +5,9 @@ songs_bp = Blueprint('songs', __name__, url_prefix="/songs")
 
 @songs_bp.route('', methods=['GET'])
 def get_songs():
-    genre = request.args.get('genre')
-    emotion = request.args.get('emotion')
+    genre_id = request.args.get("genre_id", type=int)
+    emotion_id = request.args.get("emotion_id", type=int)
     limit = request.args.get('limit', default=1, type=int)
-
-    print(f"Recebido request com gênero: {genre}, emoção: {emotion}, limite: {limit}")
-
-    genre_result = database.get_genre_id(genre) if genre is not None else None
-    emotion_result = database.get_emotion_id(emotion) if emotion is not None else None
-
-    if not genre_result and genre is not None:
-        abort(404, description=f"Gênero '{genre}' não encontrado.")
-    
-    if not emotion_result and emotion is not None:
-        abort(404, description=f"Emoção '{emotion}' não encontrada.")
-
-    genre_id = genre_result[0]['id'] if genre_result else None
-    emotion_id = emotion_result[0]['id'] if emotion_result else None
 
     music = database.get_songs(genre_id, emotion_id, limit)
 

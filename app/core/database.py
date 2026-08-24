@@ -1,6 +1,13 @@
 import mysql.connector
 from mysql.connector.cursor import MySQLCursorDict
+from mysql.connector import pooling
 from typing import cast, Any
+from enum import Enum
+
+class QueryTypes(Enum):
+    ONE="one"
+    ALL="all"
+    EXECUTE="execute"
 
 class Database:
     """
@@ -19,13 +26,40 @@ class Database:
             database (str): Nome do banco de dados a ser utilizado.
         """
 
-        # Conecta com o banco de dados MySQL usando os parâmetros fornecidos
-        self.conn = mysql.connector.connect(**config)
+        self.db_pool = pooling.MySQLConnectionPool(**config)
 
-        # Cria o cursor para executar comandos SQL
-        self.cursor = cast(MySQLCursorDict, self.conn.cursor(dictionary=True))
+    def __get_connection(self):
+        conn = self.db_pool.get_connection()
+        conn.ping(reconnect=True, attempts=3, delay=1)
+        return conn
 
-    def get_songs(self, genres: str | None = None, emotions: str | None = None, limit: int = 1):
+    def __execute_query(self, query: str, params: list | None = None, dictionary=True, query_type: QueryTypes = QueryTypes.ALL):
+        conn = self.__get_connection()
+
+        try:
+            with conn.cursor(dictionary=dictionary) as cursor:
+                cursor.execute(query, (params) or ())
+
+                match query_type:
+                    case QueryTypes.ALL:
+                        return cursor.fetchall()
+                    case QueryTypes.ONE:
+                        return cursor.fetchone()
+                    case QueryTypes.EXECUTE:
+                        cursor.commit()
+                        return cursor.lastrowid or cursor.rowcount
+                    case _:
+                        raise ValueError(f"Tipo de consulta não suportado: {query_type}")
+
+        except Exception as err:
+            conn.rollback() # Cancela alterações se algo der errado
+            print(f"Falha ao executar query: {err}")
+            raise err
+        
+        finally:
+            conn.close()
+    
+    def get_songs(self, genres: int | None = None, emotions: int | None = None, limit: int = 1):
         """
         Busca músicas no banco de dados aplicando filtros opcionais.
 
@@ -65,54 +99,70 @@ class Database:
         # Adiciona o limite como último parâmetro
         params.append(limit)
 
-        # Executa a query com filtros dinâmicos
-        self.cursor.execute(f"""
+        query = f"""
             SELECT songs.* FROM songs
             {joins_clause}
             WHERE {where_clause}
             ORDER BY RAND()   -- Garante aleatoriedade na seleção
             LIMIT %s
-        """, params)
+        """
 
-        result = self.cursor.fetchall()
-        return result
+        return self.__execute_query(
+            query=query,
+            params=params
+        )
 
     def get_emotion_id(self, emotion: str) -> list[dict[str, Any]]:
-        self.cursor.execute("SELECT id FROM emotions WHERE name = %s", (emotion,))
-        return cast(list[dict[str, Any]], self.cursor.fetchall())
+        query = "SELECT id FROM emotions WHERE name = %s"
+
+        return self.__execute_query(
+            query=query,
+            params=[emotion]
+        )
 
     def get_genre_id(self, genre: str) -> list[dict[str, Any]]:
-        self.cursor.execute("SELECT id FROM genres WHERE name = %s", (genre,))
-        return cast(list[dict[str, Any]], self.cursor.fetchall())
+        query = "SELECT id FROM genres WHERE name = %s"
 
-    def get_genres(self, limit: int | None):
+        return self.__execute_query(
+            query=query,
+            params=[genre]
+        )
+
+    def get_genres(self, limit: int | None = None):
         if limit:
-            self.cursor.execute("SELECT * FROM genres LIMIT %s", (limit,))
-            return self.cursor.fetchall()
-        
-        self.cursor.execute("SELECT * FROM genres")
-        return self.cursor.fetchall()
+            return self.__execute_query(
+                query="SELECT * FROM genres LIMIT %s",
+                params=[limit]
+            )
 
-    def get_emotions(self, limit: int | None):
+        return self.__execute_query(query="SELECT * FROM genres")
+
+    def get_emotions(self, limit: int | None = None):
         if limit:
-            self.cursor.execute("SELECT * FROM emotions LIMIT %s", (limit,))
-            return self.cursor.fetchall()
+            return self.__execute_query(
+                query="SELECT * FROM emotions LIMIT %s",
+                params=[limit]
+            )
 
-        self.cursor.execute("SELECT * FROM emotions")
-        return self.cursor.fetchall()
+        return self.__execute_query(query="SELECT * FROM emotions")
 
     def get_teams(self, limit: int | None):
         if limit:
-            self.cursor.execute("SELECT * FROM national_teams LIMIT %s", (limit,))
-            return self.cursor.fetchall()
+            return self.__execute_query(
+                query="SELECT * FROM national_teams LIMIT %s",
+                params=[limit]
+            )
 
-        self.cursor.execute("SELECT * FROM national_teams")
-        return self.cursor.fetchall()
+        return self.__execute_query(query="SELECT * FROM national_teams")
 
     def get_team_data(self, name: str):
-        self.cursor.execute("SELECT * FROM national_teams WHERE name = %s", (name,))
-        return self.cursor.fetchall()
+        return self.__execute_query(
+            query="SELECT * FROM national_teams WHERE name = %s",
+            params=[name]
+        )
 
     def get_brazilian_songs(self, limit: int = 1):
-        self.cursor.execute("SELECT * FROM brazilian_songs ORDER BY RAND() LIMIT %s", (limit,))
-        return self.cursor.fetchall()
+        return self.__execute_query(
+            query="SELECT * FROM brazilian_songs ORDER BY RAND() LIMIT %s",
+            params=[limit]
+        )

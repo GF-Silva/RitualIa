@@ -171,7 +171,7 @@ export class CoverFlow {
         }
     }
 
-    get currentGenre() {
-        return this.images[this.#current][0];
+    get currentCard() {
+        return this.images[this.#current];
     }
 }

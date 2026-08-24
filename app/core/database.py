@@ -8,7 +8,7 @@ class QueryTypes(Enum):
     ONE="one"
     ALL="all"
     EXECUTE="execute"
-    
+
 class Database:
     """
     Classe responsável por gerenciar a conexão com o banco de dados MySQL
@@ -28,23 +28,17 @@ class Database:
 
         self.db_pool = pooling.MySQLConnectionPool(**config)
 
-        # Conecta com o banco de dados MySQL usando os parâmetros fornecidos
-        self.conn = mysql.connector.connect(**config)
-
-        # Cria o cursor para executar comandos SQL
-        self.cursor = cast(MySQLCursorDict, self.conn.cursor(dictionary=True))
-
     def __get_connection(self):
         conn = self.db_pool.get_connection()
         conn.ping(reconnect=True, attempts=3, delay=1)
         return conn
 
-    def __execute_query(self, query: str, params: list, dictionary=False, query_type: QueryTypes = QueryTypes.ALL):
+    def __execute_query(self, query: str, params: list | None = None, dictionary=True, query_type: QueryTypes = QueryTypes.ALL):
         conn = self.__get_connection()
 
         try:
             with conn.cursor(dictionary=dictionary) as cursor:
-                cursor.execute(query, (params))
+                cursor.execute(query, (params) or ())
 
                 match query_type:
                     case QueryTypes.ALL:
@@ -115,46 +109,60 @@ class Database:
 
         return self.__execute_query(
             query=query,
-            params=params,
-            dictionary=True
+            params=params
         )
 
     def get_emotion_id(self, emotion: str) -> list[dict[str, Any]]:
-        self.cursor.execute("SELECT id FROM emotions WHERE name = %s", (emotion,))
-        return cast(list[dict[str, Any]], self.cursor.fetchall())
+        query = "SELECT id FROM emotions WHERE name = %s"
+
+        return self.__execute_query(
+            query=query,
+            params=[emotion]
+        )
 
     def get_genre_id(self, genre: str) -> list[dict[str, Any]]:
-        self.cursor.execute("SELECT id FROM genres WHERE name = %s", (genre,))
-        return cast(list[dict[str, Any]], self.cursor.fetchall())
+        query = "SELECT id FROM genres WHERE name = %s"
 
-    def get_genres(self, limit: int | None):
+        return self.__execute_query(
+            query=query,
+            params=[genre]
+        )
+
+    def get_genres(self, limit: int | None = None):
         if limit:
-            self.cursor.execute("SELECT * FROM genres LIMIT %s", (limit,))
-            return self.cursor.fetchall()
-        
-        self.cursor.execute("SELECT * FROM genres")
-        return self.cursor.fetchall()
+            return self.__execute_query(
+                query="SELECT * FROM genres LIMIT %s",
+                params=[limit]
+            )
 
-    def get_emotions(self, limit: int | None):
+        return self.__execute_query(query="SELECT * FROM genres")
+
+    def get_emotions(self, limit: int | None = None):
         if limit:
-            self.cursor.execute("SELECT * FROM emotions LIMIT %s", (limit,))
-            return self.cursor.fetchall()
+            return self.__execute_query(
+                query="SELECT * FROM emotions LIMIT %s",
+                params=[limit]
+            )
 
-        self.cursor.execute("SELECT * FROM emotions")
-        return self.cursor.fetchall()
+        return self.__execute_query(query="SELECT * FROM emotions")
 
     def get_teams(self, limit: int | None):
         if limit:
-            self.cursor.execute("SELECT * FROM national_teams LIMIT %s", (limit,))
-            return self.cursor.fetchall()
+            return self.__execute_query(
+                query="SELECT * FROM national_teams LIMIT %s",
+                params=[limit]
+            )
 
-        self.cursor.execute("SELECT * FROM national_teams")
-        return self.cursor.fetchall()
+        return self.__execute_query(query="SELECT * FROM national_teams")
 
     def get_team_data(self, name: str):
-        self.cursor.execute("SELECT * FROM national_teams WHERE name = %s", (name,))
-        return self.cursor.fetchall()
+        return self.__execute_query(
+            query="SELECT * FROM national_teams WHERE name = %s",
+            params=[name]
+        )
 
     def get_brazilian_songs(self, limit: int = 1):
-        self.cursor.execute("SELECT * FROM brazilian_songs ORDER BY RAND() LIMIT %s", (limit,))
-        return self.cursor.fetchall()
+        return self.__execute_query(
+            query="SELECT * FROM brazilian_songs ORDER BY RAND() LIMIT %s",
+            params=[limit]
+        )

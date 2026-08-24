@@ -46,6 +46,7 @@ export class CoverFlow {
     #buildCards() {
         this.images.forEach((item) => {
             const img = document.createElement("img");
+            img.dataset.id = item["id"];
             img.draggable = false;
             img.className = "card";
             img.src = `/storage/${item["path"]}`;

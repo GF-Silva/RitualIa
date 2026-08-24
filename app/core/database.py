@@ -2,7 +2,13 @@ import mysql.connector
 from mysql.connector.cursor import MySQLCursorDict
 from mysql.connector import pooling
 from typing import cast, Any
+from enum import Enum
 
+class QueryTypes(Enum):
+    ONE="one"
+    ALL="all"
+    EXECUTE="execute"
+    
 class Database:
     """
     Classe responsável por gerenciar a conexão com o banco de dados MySQL
@@ -32,6 +38,32 @@ class Database:
         conn = self.db_pool.get_connection()
         conn.ping(reconnect=True, attempts=3, delay=1)
         return conn
+
+    def __execute_query(self, query: str, params: list, dictionary=False, query_type: QueryTypes = QueryTypes.ALL):
+        conn = self.__get_connection()
+
+        try:
+            with conn.cursor(dictionary=dictionary) as cursor:
+                cursor.execute(query, (params))
+
+                match query_type:
+                    case QueryTypes.ALL:
+                        return cursor.fetchall()
+                    case QueryTypes.ONE:
+                        return cursor.fetchone()
+                    case QueryTypes.EXECUTE:
+                        cursor.commit()
+                        return cursor.lastrowid or cursor.rowcount
+                    case _:
+                        raise ValueError(f"Tipo de consulta não suportado: {query_type}")
+
+        except Exception as err:
+            conn.rollback() # Cancela alterações se algo der errado
+            print(f"Falha ao executar query: {err}")
+            raise err
+        
+        finally:
+            conn.close()
     
     def get_songs(self, genres: str | None = None, emotions: str | None = None, limit: int = 1):
         """
@@ -73,17 +105,19 @@ class Database:
         # Adiciona o limite como último parâmetro
         params.append(limit)
 
-        # Executa a query com filtros dinâmicos
-        self.cursor.execute(f"""
+        query = f"""
             SELECT songs.* FROM songs
             {joins_clause}
             WHERE {where_clause}
             ORDER BY RAND()   -- Garante aleatoriedade na seleção
             LIMIT %s
-        """, params)
+        """
 
-        result = self.cursor.fetchall()
-        return result
+        return self.__execute_query(
+            query=query,
+            params=params,
+            dictionary=True
+        )
 
     def get_emotion_id(self, emotion: str) -> list[dict[str, Any]]:
         self.cursor.execute("SELECT id FROM emotions WHERE name = %s", (emotion,))

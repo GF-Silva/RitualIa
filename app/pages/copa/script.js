@@ -35,7 +35,7 @@ async function onCardClick(card, index) {
             anthemSelector.src = "/storage/copa_flags/hino_br.png";
             
             anthemSelector.addEventListener("click", async () => {
-                const videoResponse = await fetch(`/api/copa/teams/${teamsData[index]["name"]}`);
+                const videoResponse = await fetch(`/api/copa/teams/${teamsData[index]["id"]}`);
 
                 const videoData = await videoResponse.json();
 
@@ -73,7 +73,7 @@ async function onCardClick(card, index) {
             return;
         }
         
-        const videoResponse = await fetch(`/api/copa/teams/${teamsData[index]["name"]}`);
+        const videoResponse = await fetch(`/api/copa/teams/${teamsData[index]["id"]}`);
         
         if (!videoResponse.ok) {
             const erro = await response.json();

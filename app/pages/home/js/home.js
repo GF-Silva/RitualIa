@@ -151,7 +151,6 @@ window.submitData = async () => {
   try {
     const genre = genreCylinder.currentCard;
     const emotion = emotionDrum.currentEmotion;
-    console.log(emotion);
 
     const response = await getMusics(genre["id"], emotion["id"]);
     const musics = await response.json();

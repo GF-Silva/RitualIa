@@ -155,10 +155,10 @@ class Database:
 
         return self.__execute_query(query="SELECT * FROM national_teams")
 
-    def get_team_data(self, name: str):
+    def get_team_data(self, id: int):
         return self.__execute_query(
-            query="SELECT * FROM national_teams WHERE name = %s",
-            params=[name]
+            query="SELECT * FROM national_teams WHERE id = %s",
+            params=[id]
         )
 
     def get_brazilian_songs(self, limit: int = 1):

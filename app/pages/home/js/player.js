@@ -1,7 +1,5 @@
 import { YoutubeFrameControls } from "/app/pages/components/youtube-frame-controls.js";
-
-/* YOUTUBE */
-let youtubePlayer;
+import { AsyncEvent } from "/app/pages/helpers/async-event.js";
 
 class PlayerControls extends YoutubeFrameControls {
   #queueList;
@@ -13,6 +11,7 @@ class PlayerControls extends YoutubeFrameControls {
 
   #musics = [];
   #isPlaying = false;
+  #isPlayerReady = new AsyncEvent();
 
   constructor(queueList, authorLabel, nameLabel, durationLabel, currentTimeLabel) {
     super();
@@ -21,6 +20,7 @@ class PlayerControls extends YoutubeFrameControls {
     this.#nameLabel =  nameLabel
     this.#durationLabel = durationLabel;
     this.#currentTimeLabel = currentTimeLabel;
+    this.createPlayer();
     console.log('PlayerControls initialized');
   }
 
@@ -66,14 +66,18 @@ class PlayerControls extends YoutubeFrameControls {
   async playMusic() {
     // TODO: Ele tem q tratar se tudo deu certo, se n ele pula pro proximo e manda o popup
     if (!this.#isPlaying) this.#isPlaying = true;
+
+    // Checa se o player esta pronto antes de continuar
+    if (!this.#isPlayerReady.peek()) {
+      console.log("Player: Esperando o player ficar pronto");
+      await this.#isPlayerReady.whenActive();
+    }
     
     // Trata se tem algum video na queue, se n marca q n ta reproduzindo mais
     if (this.#musics.length <= 0) {
       this.#isPlaying = false
       return;
     }
-
-    // TODO: Aq tem q checar se o player esta pronto
 
     // Remove da queue original
     const music = this.#musics.shift();
@@ -93,7 +97,12 @@ class PlayerControls extends YoutubeFrameControls {
     this.player.playVideo();
   }
 
-  async onPlayerStateChange(event) {
+  onPlayerReady () {
+    console.log("Player ready");
+    this.#isPlayerReady.activate();
+  }
+
+  onPlayerStateChange(event) {
 
     switch (event.data) {
       case YT.PlayerState.ENDED:
@@ -103,7 +112,7 @@ class PlayerControls extends YoutubeFrameControls {
         //  Reseta o tempo
         this.#durationLabel.innerHTML = "0:00"
         this.#currentTimeLabel.innerHTML = "0:00"
-        await this.playMusic();
+        this.playMusic();
         break;
 
       case YT.PlayerState.PLAYING:
@@ -142,8 +151,6 @@ export const playerControls = new PlayerControls(
   document.getElementById("musicDuration"),
   document.getElementById("currentMusicTime")
 );
-
-playerControls.createPlayer("");
 
 window.plr = playerControls;
 

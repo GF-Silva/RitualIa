@@ -103,7 +103,7 @@ async function getNextMusic(genre) {
   }
 
   // Busca apenas o genero como fallback
-  const response = await fetch(`api/songs?genre=${genre}`);
+  const response = await fetch(`api/songs?genre_id=${genre}`);
 
   if (!response.ok) {
     // se nao encontrar nada, pega uma musica aleatoria
@@ -115,8 +115,8 @@ async function getNextMusic(genre) {
 
 async function getMusic(genre, emotion, limit = 1) {
   const params = new URLSearchParams({
-    genre: genre,
-    emotion: emotion,
+    genre_id: genre,
+    emotion_id: emotion,
     limit: limit,
   });
 
@@ -135,6 +135,8 @@ async function addMusic(music) {
     return;
   }
 
+  console.log(music);
+
   playerControls.addMusic({
     id: music['id'],
     name: music['title'],
@@ -143,6 +145,8 @@ async function addMusic(music) {
     emotion: music['emotion'],
     sourceId: music['source_id'],
     explicationSource: music['explication_source'],
+    emotionName: music['emotion_name'],
+    genreName: music['genre_name']
   });
 }
 

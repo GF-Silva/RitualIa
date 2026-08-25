@@ -135,19 +135,7 @@ async function addMusic(music) {
     return;
   }
 
-  console.log(music);
-
-  playerControls.addMusic({
-    id: music['id'],
-    name: music['title'],
-    genre: music['genre'],
-    author: music['artist'],
-    emotion: music['emotion'],
-    sourceId: music['source_id'],
-    explicationSource: music['explication_source'],
-    emotionName: music['emotion_name'],
-    genreName: music['genre_name']
-  });
+  playerControls.addMusic(music);
 }
 
 window.submitData = async () => {

@@ -36,11 +36,11 @@ class PlayerControls extends YoutubeFrameControls {
 
     const itemName = document.createElement("span");
     itemName.className = "left";
-    itemName.textContent = params["name"];
+    itemName.textContent = params["title"];
 
     const itemGenre = document.createElement("span");
     itemGenre.className = "right";
-    itemGenre.textContent = params["genre"];
+    itemGenre.textContent = params["genre_name"];
     
     queueItem.append(itemName, itemGenre);
     this.#queueList.append(queueItem);
@@ -85,13 +85,13 @@ class PlayerControls extends YoutubeFrameControls {
     console.log("Video played: ", music);
 
     // Prepara o video
-    this.player.cueVideoById(music["sourceId"]);
+    this.player.cueVideoById(music["source_id"]);
 
     // Exibe as infos
-    this.#showMusicInfos(music["name"], music["author"]);
+    this.#showMusicInfos(music["title"], music["artist"]);
     
     // Comeca a explicacao
-    await this.#startExplication(`/storage/${music['explicationSource']}`);
+    await this.#startExplication(`/storage/${music['explication_source']}`);
 
     // Comeca o video
     this.player.playVideo();

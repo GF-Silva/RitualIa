@@ -42,27 +42,7 @@ export class YoutubeFrameControls {
 
     // Método chamado quando o player estiver pronto, inicia a reprodução do vídeo
     onPlayerReady(event, stopTime) {
-        const duration = this.player.getDuration();
-
-        // Atualiza o tempo em currentTime
-        this.intervalId = setInterval(() => {
-            const currentTime = this.player.getCurrentTime();
-
-            if (currentTime >= stopTime && stopTime) {
-                this.player.seekTo(duration, true);
-                clearInterval(this.intervalId);
-            }
-
-            if (duration) {
-                document.getElementById("duration").innerText = this.format(duration);
-                document.getElementById("current").innerText = this.format(currentTime);
-
-                const percent = (currentTime / duration) * 100;
-
-                document.getElementById("bar").style.width = percent + "%";
-                document.getElementById("dot").style.left = percent + "%";
-            }
-        }, 1000);
+        console.log("Player ready");
     }
 
     // Método chamado quando o estado do player muda, verifica se o vídeo terminou e loga uma mensagem

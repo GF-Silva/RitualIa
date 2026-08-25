@@ -113,7 +113,7 @@ async function getNextMusic(genre) {
   return response
 }
 
-async function getMusics(genre, emotion, limit = 1) {
+async function getMusic(genre, emotion, limit = 1) {
   const params = new URLSearchParams({
     genre: genre,
     emotion: emotion,
@@ -129,21 +129,20 @@ async function getMusics(genre, emotion, limit = 1) {
   return response;
 }
 
-async function addMusics(genre, emotion, musics) {
-  musics.forEach(async (music) => {
-    if (isMusicRepeating(music)) {
-      return;
-    }
+async function addMusic(music) {
+  if (isMusicRepeating(music)) {
+    console.warn("Erro ao adicionar a musica, a musica ja esta na queue");
+    return;
+  }
 
-    playerControls.addMusic({
-      id: music['id'],
-      sourceId: music['source_id'],
-      author: music['artist'],
-      name: music['title'],
-      genre: genre,
-      emotion: emotion,
-      explicationSource: music['explication_source'],
-    });
+  playerControls.addMusic({
+    id: music['id'],
+    sourceId: music['source_id'],
+    author: music['artist'],
+    name: music['title'],
+    genre: music['genre'],
+    emotion: music['emotion'],
+    explicationSource: music['explication_source'],
   });
 }
 
@@ -152,13 +151,13 @@ window.submitData = async () => {
     const genre = genreCylinder.currentCard;
     const emotion = emotionDrum.currentEmotion;
 
-    const response = await getMusics(genre["id"], emotion["id"]);
-    const musics = await response.json();
+    const response = await getMusic(genre["id"], emotion["id"]);
+    const music = await response.json();
 
-    addMusics(genre["name"], emotion["name"], musics);
-
+    addMusic(music);
     painel.classList.remove("active");
     openPage("player");
+    
   } catch (e) {
     showError(e.message);
   }

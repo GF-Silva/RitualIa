@@ -15,7 +15,7 @@ export class YoutubeFrameControls {
     }
 
     // Método para criar o player do YouTube, recebe o ID do vídeo e configura os parâmetros do player
-    createPlayer(videoId, stopTime) {
+    createPlayer(videoId = "", stopTime = null) {
         if (this.player) {
             return;
         }

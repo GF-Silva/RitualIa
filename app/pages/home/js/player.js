@@ -11,11 +11,11 @@ class PlayerControls extends YoutubeFrameControls {
   #musics = [];
   #isPlaying = false;
 
-  constructor() {
+  constructor(queueList, authorLabel, nameLabel) {
     super();
-    this.#queueList = document.getElementById("queue-list"); // TODO: Colocar isso no constructor
-    this.#authorLabel = document.getElementById("author"); // TODO: Mesmo
-    this.#nameLabel = document.getElementById("music"); // TODO: Mesmo
+    this.#queueList = queueList
+    this.#authorLabel = authorLabel
+    this.#nameLabel =  nameLabel
     console.log('PlayerControls initialized');
   }
 
@@ -96,7 +96,11 @@ class PlayerControls extends YoutubeFrameControls {
   }
 }
 
-export const playerControls = new PlayerControls();
+export const playerControls = new PlayerControls(
+  document.getElementById("queue-list"),
+  document.getElementById("author"),
+  document.getElementById("music")
+);
 
 playerControls.createPlayer("");
 

@@ -137,11 +137,11 @@ async function addMusic(music) {
 
   playerControls.addMusic({
     id: music['id'],
-    sourceId: music['source_id'],
-    author: music['artist'],
     name: music['title'],
     genre: music['genre'],
+    author: music['artist'],
     emotion: music['emotion'],
+    sourceId: music['source_id'],
     explicationSource: music['explication_source'],
   });
 }
@@ -154,7 +154,7 @@ window.submitData = async () => {
     const response = await getMusic(genre["id"], emotion["id"]);
     const music = await response.json();
 
-    addMusic(music);
+    addMusic(music[0]);
     painel.classList.remove("active");
     openPage("player");
     

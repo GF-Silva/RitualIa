@@ -83,7 +83,7 @@ const emotionDrum = new EmotionDrum(await emotions.json());
 const genreCylinder = new CoverFlow(await genres.json(), onCardClick);
 
 function isMusicRepeating(music) {
-  if (playerControls.musicQueue.some((queueMusic) => queueMusic.id === music['id'])) {
+  if (playerControls.musics.some((queueMusic) => queueMusic.id === music['id'])) {
     return true;
   }
 

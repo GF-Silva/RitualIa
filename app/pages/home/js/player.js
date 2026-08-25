@@ -5,17 +5,22 @@ let youtubePlayer;
 
 class PlayerControls extends YoutubeFrameControls {
   #queueList;
-  #authorLabel;
   #nameLabel;
+  #authorLabel;
+  #durationLabel;
+  #currentTimeLabel;
+  #currentTimeInterval;
 
   #musics = [];
   #isPlaying = false;
 
-  constructor(queueList, authorLabel, nameLabel) {
+  constructor(queueList, authorLabel, nameLabel, durationLabel, currentTimeLabel) {
     super();
     this.#queueList = queueList
     this.#authorLabel = authorLabel
     this.#nameLabel =  nameLabel
+    this.#durationLabel = durationLabel;
+    this.#currentTimeLabel = currentTimeLabel;
     console.log('PlayerControls initialized');
   }
 
@@ -60,8 +65,6 @@ class PlayerControls extends YoutubeFrameControls {
 
   async playMusic() {
     // TODO: Ele tem q tratar se tudo deu certo, se n ele pula pro proximo e manda o popup
-
-    console.log("Play");
     if (!this.#isPlaying) this.#isPlaying = true;
     
     // Trata se tem algum video na queue, se n marca q n ta reproduzindo mais
@@ -69,6 +72,8 @@ class PlayerControls extends YoutubeFrameControls {
       this.#isPlaying = false
       return;
     }
+
+    // TODO: Aq tem q checar se o player esta pronto
 
     // Remove da queue original
     const music = this.#musics.shift();
@@ -89,9 +94,43 @@ class PlayerControls extends YoutubeFrameControls {
   }
 
   async onPlayerStateChange(event) {
-    console.log("E:", event);
-    if (event.data === YT.PlayerState.ENDED) {
-      await this.playMusic();
+
+    switch (event.data) {
+      case YT.PlayerState.ENDED:
+        // Limpa o intervalo que marca o tempo
+        clearInterval(this.#currentTimeInterval);
+
+        //  Reseta o tempo
+        this.#durationLabel.innerHTML = "0:00"
+        this.#currentTimeLabel.innerHTML = "0:00"
+        await this.playMusic();
+        break;
+
+      case YT.PlayerState.PLAYING:
+        const duration = this.player.getDuration();
+
+        this.#currentTimeInterval = setInterval(() => {
+          const currentTime = this.player.getCurrentTime();
+          this.#currentTimeLabel.innerHTML = this.format(currentTime);
+          
+          const percent = (currentTime / duration) * 100;
+
+          document.getElementById("bar").style.width = percent + "%";
+          document.getElementById("dot").style.left = percent + "%";
+          
+        }, 1000)
+        break;
+      
+      case YT.PlayerState.CUED:
+        // Prepara as infos do video
+        this.#durationLabel.innerHTML = this.format(this.player.getDuration());
+        document.getElementById("bar").style.width = 0;
+        document.getElementById("dot").style.left = 0;
+        break;
+      
+      default:
+        clearInterval(this.#currentTimeInterval);
+        break;
     }
   }
 }
@@ -99,7 +138,9 @@ class PlayerControls extends YoutubeFrameControls {
 export const playerControls = new PlayerControls(
   document.getElementById("queue-list"),
   document.getElementById("author"),
-  document.getElementById("music")
+  document.getElementById("music"),
+  document.getElementById("musicDuration"),
+  document.getElementById("currentMusicTime")
 );
 
 playerControls.createPlayer("");

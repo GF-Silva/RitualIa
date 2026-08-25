@@ -7,7 +7,7 @@ function onYouTubeIframeAPIReady() {
 export class YoutubeFrameControls {
     // Variáveis para armazenar o ID do vídeo e a instância do player
     constructor() {
-        this.player = null;
+        this.player = null; // TODO: Arrumar isso aq
         this.currentTime = null;
         this.duration = null;
         this.intervalId = null;
@@ -17,8 +17,7 @@ export class YoutubeFrameControls {
     // Método para criar o player do YouTube, recebe o ID do vídeo e configura os parâmetros do player
     createPlayer(videoId, stopTime) {
         if (this.player) {
-            this.destroyPlayer();
-            console.log('Player destroyed');
+            return;
         }
 
         this.player = new YT.Player('ytplayer', {
@@ -70,7 +69,6 @@ export class YoutubeFrameControls {
     onPlayerStateChange(event) {
         if (event.data === YT.PlayerState.ENDED) {
             console.log("acabou");
-            this.destroyPlayer();
         }
     }
 

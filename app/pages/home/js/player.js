@@ -12,6 +12,7 @@ class PlayerControls extends YoutubeFrameControls {
   #musics = [];
   #isPlaying = false;
   #isPlayerReady = new AsyncEvent();
+  #explicationAudio;
 
   constructor(queueList, authorLabel, nameLabel, durationLabel, currentTimeLabel) {
     super();
@@ -57,14 +58,13 @@ class PlayerControls extends YoutubeFrameControls {
 
   async #startExplication(src) {
     return new Promise((resolve) => {
-      const audio = new Audio(src)
-      audio.addEventListener("ended", resolve)
-      audio.play()
+      this.#explicationAudio = new Audio(src)
+      this.#explicationAudio.addEventListener("ended", resolve)
+      this.#explicationAudio.play()
     });
   }
 
   async playMusic() {
-    // TODO: Ele tem q tratar se tudo deu certo, se n ele pula pro proximo e manda o popup
     if (!this.#isPlaying) this.#isPlaying = true;
 
     // Checa se o player esta pronto antes de continuar
@@ -95,6 +95,20 @@ class PlayerControls extends YoutubeFrameControls {
 
     // Comeca o video
     this.player.playVideo();
+  }
+
+  cleanStates() {
+    console.log("Limpando estados...")
+    clearInterval(this.#currentTimeInterval);
+    this.#explicationAudio.currentTime = this.#explicationAudio.duration;
+  }
+
+  onPlayerError(event) {
+    console.log("Error: ", event.data);
+
+    // Se der erro limpa os estados, marca erro e playNext
+    this.cleanStates();
+    this.playMusic();
   }
 
   onPlayerReady () {

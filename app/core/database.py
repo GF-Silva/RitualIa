@@ -75,7 +75,7 @@ class Database:
             - Se nenhum filtro for passado, retorna músicas aleatórias.
             - Usa ORDER BY RAND() para garantir aleatoriedade.
         """
-
+        selects = ["songs.*"]   # Parametos q vai buscar com select
         filters = []   # Lista de condições WHERE
         joins = []     # Lista de JOINs necessários
         params = []    # Parâmetros para substituição segura (%s)
@@ -83,29 +83,34 @@ class Database:
         if genres:
             # Se houver filtro de gênero, adiciona a condição e o JOIN correspondente
             filters.append("songs_genres.genre_id = %s")
-            joins.append("JOIN songs_genres ON songs.id = songs_genres.song_id")
+            joins.append("JOIN songs_genres ON songs.id = songs_genres.song_id INNER JOIN genres ON genres.id = songs_genres.genre_id")
+            selects.append("genres.name AS genre_name")
             params.append(genres)
 
         if emotions:
             # Se houver filtro de emoção, adiciona a condição e o JOIN correspondente
             filters.append("songs_emotions.emotion_id = %s")
-            joins.append("JOIN songs_emotions ON songs.id = songs_emotions.song_id")
+            joins.append("JOIN songs_emotions ON songs.id = songs_emotions.song_id INNER JOIN emotions ON emotions.id = songs_emotions.emotion_id")
+            selects.append("emotions.name AS emotion_name")
             params.append(emotions)
         
         # Se não houver filtros, usa "1=1" para não quebrar a query
         where_clause = " AND ".join(filters) if filters else "1=1"
         joins_clause = " ".join(joins)
+        select_clause = ", ".join(selects)
 
         # Adiciona o limite como último parâmetro
         params.append(limit)
 
         query = f"""
-            SELECT songs.* FROM songs
+            SELECT {select_clause} FROM songs
             {joins_clause}
             WHERE {where_clause}
             ORDER BY RAND()   -- Garante aleatoriedade na seleção
             LIMIT %s
         """
+
+        print(query)
 
         return self.__execute_query(
             query=query,

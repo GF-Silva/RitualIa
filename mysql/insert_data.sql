@@ -42,7 +42,7 @@ INSERT INTO songs (title, artist, source_id, explication_source) VALUES
 ("Festa", "Ivete Sangalo", "h2xU3E6kePw", "explication_audios/festa.wav"),
 ("Show das Poderosas", "Anitta", "FGViL3CYRwg", "explication_audios/show_das_poderosas.wav"),
 ("Ainda Bem", "Marisa Monte", "Pmt01TGsGGA", "explication_audios/ainda_bem.wav"),
-("Quando Você Passa (Turu Turu)", "Sandy & Junior", "tCvLOhusfwM", "explication_audios/quando_voce_passa_turu_turu.wav"),
+("Quando Você Passa (Turu Turu)", "Sandy & Junior", "1Ornig3pdMU", "explication_audios/quando_voce_passa_turu_turu.wav"),
 ("Heal the World", "Michael Jackson", "BWf-eARnf6U", "explication_audios/heal_the_world.wav"),
 ("Halo", "Beyoncé", "bnVUHWCynig", "explication_audios/halo.wav"),
 ("Viva La Vida", "Coldplay", "dvgZkm1xWPE", "explication_audios/viva_la_vida.wav"),

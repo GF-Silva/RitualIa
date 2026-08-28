@@ -65,8 +65,8 @@ class PlayerControls extends YoutubeFrameControls {
   }
 
   async playMusic() {
-    if (!this.#isPlaying) this.#isPlaying = true;
-
+    this.#isPlaying ||= true;
+    
     // Checa se o player esta pronto antes de continuar
     if (!this.#isPlayerReady.peek()) {
       console.log("Player: Esperando o player ficar pronto");

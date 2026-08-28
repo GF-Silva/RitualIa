@@ -56,21 +56,21 @@ function infoIcon() {
   return icon;
 }
 
-const icons = Object.freeze({
-  INFO: infoIcon(),
-  WARNING: warningIcon()
+export const toastIcons = Object.freeze({
+  INFO: () => infoIcon(),
+  WARNING: () => warningIcon()
 });
 
-function createToast({ message, time = 5, styles, icon = icons.INFO }) {
+export function createToast({ message, time = 5, styles, icon = toastIcons.INFO }) {
   const toast = buildToast(message, time, icon);
   Object.assign(toast.style, styles);
   document.body.append(toast);
 
-  const countdown = document.getElementById("countdown-timer");
+  const countdown = toast.querySelector("progress");
 
   toast.show();
 
-  intervalId = setInterval(() => {
+  const intervalId = setInterval(() => {
     countdown.value -= 0.01;
 
     if (countdown.value <= 0) {
@@ -85,7 +85,7 @@ function buildToast(message, time, icon) {
   toast.className = "toast";
 
   const messageSpan = document.createElement("span");
-  messageSpan.innerHTML = message;
+  messageSpan.textContent = message;
 
   const countdown = document.createElement("progress");
   countdown.id = "countdown-timer";
@@ -93,7 +93,7 @@ function buildToast(message, time, icon) {
   countdown.min = 0;
   countdown.value = time;
 
-  toast.append(icon, messageSpan, countdown);
+  toast.append(icon(), messageSpan, countdown);
 
   return toast;
 }

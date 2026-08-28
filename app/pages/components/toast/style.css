@@ -6,11 +6,12 @@
     height: 5%;
     left: auto;
     right: 0;
-    background: #d5dde8e7;
+    background: #d5dde8;
     border: rgb(30, 126, 34) solid 1px;
     border-radius: 5px;
     align-items: center;
     gap: 30px;
+    z-index: 200;
 }
 
 .toast span {

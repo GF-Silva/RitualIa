@@ -1,5 +1,6 @@
 import { YoutubeFrameControls } from "/app/pages/components/youtube-frame-controls.js";
 import { AsyncEvent } from "/app/pages/helpers/async-event.js";
+import { createToast, toastIcons } from "/app/pages/components/toast/script.js";
 
 class PlayerControls extends YoutubeFrameControls {
   #queueList;
@@ -73,7 +74,7 @@ class PlayerControls extends YoutubeFrameControls {
       await this.#isPlayerReady.whenActive();
     }
     
-    // Trata se tem algum video na queue, se n marca q n ta reproduzindo mais
+    // Checa se tem algum video na queue, se n marca q n ta reproduzindo mais
     if (this.#musics.length <= 0) {
       this.#isPlaying = false
       return;
@@ -108,6 +109,14 @@ class PlayerControls extends YoutubeFrameControls {
 
     // Se der erro limpa os estados, marca erro e playNext
     this.cleanStates();
+
+    createToast({
+      message: "Erro na reprodução da música, reproduzindo a proxima",
+      styles: {
+        bottom: "6%",
+        right: "2%"
+      }
+    });
     this.playMusic();
   }
 

@@ -90,30 +90,9 @@ function isMusicRepeating(music) {
   return false;
 }
 
-async function getNextMusic(genre) {
-  // Se n passou genero, busca qualquer uma
-  if (!genre) {
-    const response = await fetch(`api/songs`);
-
-    if (!response.ok) {
-      throw new Error("Erro no servidor, tente mais tarde");
-    }
-
-    return response;
-  }
-
-  // Busca apenas o genero como fallback
-  const response = await fetch(`api/songs?genre_id=${genre}`);
-
-  if (!response.ok) {
-    // se nao encontrar nada, pega uma musica aleatoria
-    getNextMusic();
-  }
-
-  return response
-}
-
-async function getMusic(genre, emotion, limit = 1) {
+// Alteracao temporaria, dps corrijir para function
+async function getMusic (genre, emotion, limit = 1) {
+  // Busca com os params passados
   const params = new URLSearchParams({
     genre_id: genre,
     emotion_id: emotion,
@@ -123,7 +102,13 @@ async function getMusic(genre, emotion, limit = 1) {
   const response = await fetch(`api/songs?${params}`);
 
   if (!response.ok) {
-    return await getNextMusic(genre);
+    // Se falhou usando somente o genre como param, busca sem param (pega qualquer um)
+    if (genre && !emotion) {
+      return await getMusic();
+    }
+    
+    // Se falhou a busca normal, busca apenas com o genre
+    return await getMusic(genre);
   }
 
   return response;

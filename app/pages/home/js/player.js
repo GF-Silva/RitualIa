@@ -60,11 +60,25 @@ class PlayerControls extends YoutubeFrameControls {
     this.#musicDescriptionLabel.textContent = description;
   }
 
-  async #startExplication(src) {
-    return new Promise((resolve) => {
-      this.#explicationAudio = new Audio(src)
-      this.#explicationAudio.addEventListener("ended", resolve)
-      this.#explicationAudio.play()
+  async isValidAudioUrl(url) {
+    try {
+      const res = await fetch(url, {method: 'HEAD'});
+      return res.ok && res.headers.get('content-type').startsWith('audio');
+    } catch {
+      return false
+    }
+  }
+
+  async startExplication(src) {
+    return new Promise(async (resolve, reject) => {
+      if (!await this.isValidAudioUrl(src)) {
+        reject("Invalid audio URL");
+        return;
+      };
+
+      this.#explicationAudio = new Audio(src);
+      this.#explicationAudio.addEventListener("ended", resolve);
+      this.#explicationAudio.play();
     });
   }
 
@@ -95,7 +109,7 @@ class PlayerControls extends YoutubeFrameControls {
     this.#showMusicInfos(music["title"], music["artist"], music["description"]);
     
     // Comeca a explicacao
-    await this.#startExplication(`/storage/${music['explication_source']}`);
+    await this.startExplication(`/storage/teste${music['explication_source']}`);
 
     // Comeca o video
     this.player.playVideo();

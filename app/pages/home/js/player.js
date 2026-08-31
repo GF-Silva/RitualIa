@@ -185,7 +185,3 @@ window.togglePanel = () => {
   document.getElementById("panel").classList.toggle("open");
   document.getElementById("playerBox").classList.toggle("shift");
 };
-
-window.toggleQueue = () => {
-  document.getElementById("queue").classList.toggle("open");
-};

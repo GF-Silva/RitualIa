@@ -81,51 +81,48 @@
         <span>GÊNEROS</span>
       </div>
 
-      <div class="wrapper">
-        <div class="row-player">
-          <!-- ABA -->
-          <div class="panel" id="panel" onclick="togglePanel()">
-            <div class="panel-content">
-              História detalhada do autor, com imagens antigas e recentes.
-            </div>
+      <div class="row-player">
+        <!-- ABA -->
+        <button class="panel" id="panel" onclick="togglePanel()">
+          <p id="music-description-label" class="panel-content">
+            História detalhada do autor, com imagens antigas e recentes.
+          </p>
+        </button>
+
+        <div class="arrow">➜</div>
+
+        <!-- PLAYER -->
+        <div class="player-box" id="playerBox">
+          <div id="ytplayer"></div>
+
+          <div class="info">
+            <div id="author">Autor</div>
+            <div id="music">Música</div>
           </div>
 
-          <div class="arrow">➜</div>
+          <div class="time">
+            <div id="currentMusicTime">0:00</div>
+            <div id="musicDuration">0:00</div>
+          </div>
 
-          <!-- PLAYER -->
-          <div class="player-box" id="playerBox">
-            <div id="ytplayer"></div>
+          <div class="progress" role="progressbar">
+            <div class="bar" id="bar"></div>
+            <div class="dot" id="dot"></div>
+          </div>
+        </div>
+      </div>
 
-            <div class="info">
-              <div id="author">Autor</div>
-              <div id="music">Música</div>
-            </div>
-
-            <div class="time">
-              <div id="currentMusicTime">0:00</div>
-              <div id="musicDuration">0:00</div>
-            </div>
-
-            <div class="progress" role="progressbar">
-              <div class="bar" id="bar"></div>
-              <div class="dot" id="dot"></div>
-            </div>
+      <!-- FILA -->
+      <div class="queue" id="queue">
+        <div class="queue-header">
+          <div>
+            <div class="queue-title">fila de espera</div>
+            <div class="queue-sub">Músicas</div>
           </div>
         </div>
 
-        <!-- FILA -->
-        <div class="queue" id="queue">
-          <div class="queue-header">
-            <div>
-              <div class="queue-title">fila de espera</div>
-              <div class="queue-sub">Músicas</div>
-            </div>
-
-            <div class="queue-arrow" onclick="toggleQueue()">▼</div>
-          </div>
-
-          <div class="queue-list" id="queue-list"></div>
-        </div>
+        <div class="queue-list" id="queue-list"></div>
+      </div>
       </div>
     </div>
 

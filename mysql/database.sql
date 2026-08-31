@@ -9,6 +9,7 @@ CREATE TABLE songs (
     artist VARCHAR(150) NOT NULL,
     source_id VARCHAR(20) NOT NULL,
     explication_source VARCHAR(100) NOT NULL,
+	description TEXT NOT NULL,
     UNIQUE (title, artist)
     -- Status (no futuro)
 ) ENGINE=InnoDB;

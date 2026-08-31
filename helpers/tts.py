@@ -1,6 +1,8 @@
 import os
 import azure.cognitiveservices.speech as speechsdk
 from dotenv import load_dotenv
+from slugify import slugify
+from pathvalidate import sanitize_filename
 import json
 
 # 1. Carrega as variáveis de ambiente e configura o Azure
@@ -40,7 +42,7 @@ def generate_audios(lista_itens: list):
         conteudo = item[1]
         
         # Define o caminho completo dentro da pasta 'audios'
-        caminho_arquivo = os.path.join(pasta_saida, f"{nome}.wav")
+        caminho_arquivo = os.path.join(pasta_saida, f"{sanitize_filename(slugify(nome, separator="_"))}.wav")
         print(f"🎙️ Gerando áudio para: {nome}...")
         
         # Configura o arquivo de saída
@@ -66,7 +68,6 @@ if __name__ == "__main__":
 
     musics = []
 
-    a = 0
     with open('musics.json', 'r', encoding='utf-8') as f:
         for music in json.load(f):
             musics += [[f"{music['name']} - {music['author']}", music['content']]]

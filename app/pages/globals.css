@@ -61,13 +61,12 @@ body::after {
 #player {
   position: fixed;
   display: flex;
-  right: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  align-items: center;
-  justify-items: center;
+  width: 100%;
+  height: 100%;
   transition: 0.6s;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   clip-path: inset(0 0 0 100%); /* Esconde tudo da direita para esquerda */
   transition: clip-path 0.4s ease;

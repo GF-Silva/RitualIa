@@ -9,19 +9,21 @@ class PlayerControls extends YoutubeFrameControls {
   #durationLabel;
   #currentTimeLabel;
   #currentTimeInterval;
+  #musicDescriptionLabel;
 
   #musics = [];
   #isPlaying = false;
   #isPlayerReady = new AsyncEvent();
   #explicationAudio;
 
-  constructor(queueList, authorLabel, nameLabel, durationLabel, currentTimeLabel) {
+  constructor(queueList, authorLabel, nameLabel, durationLabel, currentTimeLabel, musicDescriptionLabel) {
     super();
     this.#queueList = queueList
     this.#authorLabel = authorLabel
     this.#nameLabel =  nameLabel
     this.#durationLabel = durationLabel;
     this.#currentTimeLabel = currentTimeLabel;
+    this.#musicDescriptionLabel = musicDescriptionLabel;
     this.createPlayer();
     console.log('PlayerControls initialized');
   }
@@ -52,9 +54,10 @@ class PlayerControls extends YoutubeFrameControls {
     }
   }
 
-  #showMusicInfos(name, author) {
+  #showMusicInfos(name, author, description) {
     this.#authorLabel.textContent = author;
     this.#nameLabel.textContent = name;
+    this.#musicDescriptionLabel.textContent = description;
   }
 
   async #startExplication(src) {
@@ -89,7 +92,7 @@ class PlayerControls extends YoutubeFrameControls {
     this.player.cueVideoById(music["source_id"]);
 
     // Exibe as infos
-    this.#showMusicInfos(music["title"], music["artist"]);
+    this.#showMusicInfos(music["title"], music["artist"], music["description"]);
     
     // Comeca a explicacao
     await this.#startExplication(`/storage/${music['explication_source']}`);
@@ -172,7 +175,8 @@ export const playerControls = new PlayerControls(
   document.getElementById("author"),
   document.getElementById("music"),
   document.getElementById("musicDuration"),
-  document.getElementById("currentMusicTime")
+  document.getElementById("currentMusicTime"),
+  document.getElementById("music-description-label")
 );
 
 window.plr = playerControls;
@@ -180,8 +184,4 @@ window.plr = playerControls;
 window.togglePanel = () => {
   document.getElementById("panel").classList.toggle("open");
   document.getElementById("playerBox").classList.toggle("shift");
-};
-
-window.toggleQueue = () => {
-  document.getElementById("queue").classList.toggle("open");
 };

@@ -1,6 +1,6 @@
 import { YoutubeFrameControls } from "/app/pages/components/youtube-frame-controls.js";
 import { AsyncEvent } from "/app/pages/helpers/async-event.js";
-import { createToast, toastIcons } from "/app/pages/components/toast/script.js";
+import { createToast } from "/app/pages/components/toast/script.js";
 
 class PlayerControls extends YoutubeFrameControls {
   #queueList;
@@ -14,6 +14,7 @@ class PlayerControls extends YoutubeFrameControls {
   #musics = [];
   #isPlaying = false;
   #isPlayerReady = new AsyncEvent();
+  #isVideoReady = new AsyncEvent();
   #explicationAudio;
 
   constructor(queueList, authorLabel, nameLabel, durationLabel, currentTimeLabel, musicDescriptionLabel) {
@@ -60,11 +61,28 @@ class PlayerControls extends YoutubeFrameControls {
     this.#musicDescriptionLabel.textContent = description;
   }
 
-  async #startExplication(src) {
-    return new Promise((resolve) => {
-      this.#explicationAudio = new Audio(src)
-      this.#explicationAudio.addEventListener("ended", resolve)
-      this.#explicationAudio.play()
+  async isValidAudioUrl(url) {
+    try {
+      const res = await fetch(url, {method: 'HEAD'});
+      return res.ok && res.headers.get('content-type').startsWith('audio');
+    } catch {
+      return false
+    }
+  }
+
+  async startExplication(src) {
+    return new Promise(async (resolve, reject) => {
+      if (!await this.isValidAudioUrl(src)) {
+        reject("Invalid audio URL");
+        return;
+      };
+
+      this.#explicationAudio = new Audio(src);
+      this.#explicationAudio.addEventListener("ended", resolve);
+      this.#explicationAudio.addEventListener("error", err => reject(err));
+      this.#explicationAudio.addEventListener("canplaythrough", _ => {
+        this.#explicationAudio.play();
+      })
     });
   }
 
@@ -95,7 +113,11 @@ class PlayerControls extends YoutubeFrameControls {
     this.#showMusicInfos(music["title"], music["artist"], music["description"]);
     
     // Comeca a explicacao
-    await this.#startExplication(`/storage/${music['explication_source']}`);
+    await this.startExplication(`/storage/${music['explication_source']}`).catch(e => console.error("Explication audio error: ", e));
+
+    // Espera o video ficar pronto
+    await this.#isVideoReady.whenActive();
+    this.#isVideoReady.deactivate();
 
     // Comeca o video
     this.player.playVideo();
@@ -104,7 +126,8 @@ class PlayerControls extends YoutubeFrameControls {
   cleanStates() {
     console.log("Limpando estados...")
     clearInterval(this.#currentTimeInterval);
-    this.#explicationAudio.currentTime = this.#explicationAudio.duration;
+    if (this.#explicationAudio) this.#explicationAudio.currentTime = this.#explicationAudio.duration;
+    this.#isVideoReady.deactivate();
   }
 
   onPlayerError(event) {
@@ -129,7 +152,6 @@ class PlayerControls extends YoutubeFrameControls {
   }
 
   onPlayerStateChange(event) {
-
     switch (event.data) {
       case YT.PlayerState.ENDED:
         // Limpa o intervalo que marca o tempo
@@ -158,6 +180,7 @@ class PlayerControls extends YoutubeFrameControls {
       
       case YT.PlayerState.CUED:
         // Prepara as infos do video
+        this.#isVideoReady.activate();
         this.#durationLabel.innerHTML = this.format(this.player.getDuration());
         document.getElementById("bar").style.width = 0;
         document.getElementById("dot").style.left = 0;

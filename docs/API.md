@@ -23,8 +23,8 @@ Retorna todas as músicas que atendam os params
 
 | Nome    | Tipo   | Obrigatório | Descrição               |
 |---------|--------|-------------|-------------------------|
-| genre   | str    | Não         | Gênero para buscar      |
-| emotion | str    | Não         | Emotion para buscar     |
+| genre_id   | str    | Não         | Gênero para buscar      |
+| emotion_id | str    | Não         | Emotion para buscar     |
 | limit   | int    | Não         | Tamanho limite de busca |
 
 **Request de exemplo:**
@@ -33,7 +33,7 @@ Retorna todas as músicas que atendam os params
 curl http://localhost:5000/songs?genre=Rock
 ```
 
-**Responde de sucesso (200):**
+**Response de sucesso (200):**
 
 ``` json
 [
@@ -42,7 +42,8 @@ curl http://localhost:5000/songs?genre=Rock
     "explication_source": "explication_source/we_will_rock_you.wav",
     "id": 25,
     "source_id": "-tJYN-eG1zk",
-    "title": "We Will Rock You"
+    "title": "We Will Rock You",
+    "description": "A música .... do artista .... tem foi marcada e feita por ..."
   }
 ]
 ```

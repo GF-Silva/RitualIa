@@ -1,6 +1,6 @@
 import { YoutubeFrameControls } from "/app/pages/components/youtube-frame-controls.js";
 import { AsyncEvent } from "/app/pages/helpers/async-event.js";
-import { createToast, toastIcons } from "/app/pages/components/toast/script.js";
+import { createToast } from "/app/pages/components/toast/script.js";
 
 class PlayerControls extends YoutubeFrameControls {
   #queueList;
@@ -14,6 +14,7 @@ class PlayerControls extends YoutubeFrameControls {
   #musics = [];
   #isPlaying = false;
   #isPlayerReady = new AsyncEvent();
+  #isVideoReady = new AsyncEvent();
   #explicationAudio;
 
   constructor(queueList, authorLabel, nameLabel, durationLabel, currentTimeLabel, musicDescriptionLabel) {
@@ -103,13 +104,20 @@ class PlayerControls extends YoutubeFrameControls {
     console.log("Video played: ", music);
 
     // Prepara o video
+    console.log("Preparando o video", music["source_id"]);
     this.player.cueVideoById(music["source_id"]);
 
     // Exibe as infos
     this.#showMusicInfos(music["title"], music["artist"], music["description"]);
     
     // Comeca a explicacao
-    await this.startExplication(`/storage/teste${music['explication_source']}`);
+    this.startExplication(`/storage/${music['explication_source']}`).catch(error => {
+      console.log("Teste: ", error);
+    });
+    
+    // Espera o video ficar pronto
+    await this.#isVideoReady.whenActive();
+    this.#isVideoReady.deactivate();
 
     // Comeca o video
     this.player.playVideo();
@@ -118,7 +126,8 @@ class PlayerControls extends YoutubeFrameControls {
   cleanStates() {
     console.log("Limpando estados...")
     clearInterval(this.#currentTimeInterval);
-    this.#explicationAudio.currentTime = this.#explicationAudio.duration;
+    if (this.#explicationAudio) this.#explicationAudio.currentTime = this.#explicationAudio.duration;
+    this.#isVideoReady.deactivate();
   }
 
   onPlayerError(event) {
@@ -143,7 +152,6 @@ class PlayerControls extends YoutubeFrameControls {
   }
 
   onPlayerStateChange(event) {
-
     switch (event.data) {
       case YT.PlayerState.ENDED:
         // Limpa o intervalo que marca o tempo
@@ -172,6 +180,7 @@ class PlayerControls extends YoutubeFrameControls {
       
       case YT.PlayerState.CUED:
         // Prepara as infos do video
+        this.#isVideoReady.activate();
         this.#durationLabel.innerHTML = this.format(this.player.getDuration());
         document.getElementById("bar").style.width = 0;
         document.getElementById("dot").style.left = 0;

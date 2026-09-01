@@ -79,7 +79,10 @@ class PlayerControls extends YoutubeFrameControls {
 
       this.#explicationAudio = new Audio(src);
       this.#explicationAudio.addEventListener("ended", resolve);
-      this.#explicationAudio.play();
+      this.#explicationAudio.addEventListener("error", err => reject(err));
+      this.#explicationAudio.addEventListener("canplaythrough", _ => {
+        this.#explicationAudio.play();
+      })
     });
   }
 
@@ -104,17 +107,14 @@ class PlayerControls extends YoutubeFrameControls {
     console.log("Video played: ", music);
 
     // Prepara o video
-    console.log("Preparando o video", music["source_id"]);
     this.player.cueVideoById(music["source_id"]);
 
     // Exibe as infos
     this.#showMusicInfos(music["title"], music["artist"], music["description"]);
     
     // Comeca a explicacao
-    this.startExplication(`/storage/${music['explication_source']}`).catch(error => {
-      console.log("Teste: ", error);
-    });
-    
+    await this.startExplication(`/storage/${music['explication_source']}`).catch(e => console.error("Explication audio error: ", e));
+
     // Espera o video ficar pronto
     await this.#isVideoReady.whenActive();
     this.#isVideoReady.deactivate();

@@ -1,7 +1,7 @@
 
 export function createPlayer({ playerId, sourceId, playerVars, events }) {
     return new YT.Player(playerId, {
-        videoId: sourceId,
+        videoId: sourceId ? sourceId : "",
         playerVars: playerVars ? playerVars : {
             modestbranding: 1,  // menos logo do YouTube
             fs: 0,              // remove fullscreen button

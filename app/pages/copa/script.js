@@ -1,13 +1,13 @@
 import { YoutubeFrameControls } from "/app/pages/components/youtube-frame-controls.js";
 import { AsyncEvent } from "/app/pages/helpers/async-event.js";
 import { CoverFlow } from "/app/pages/components/cover-flow.js";
+import { createPlayer, formatVideoTime } from "../helpers/youtubeHelpers.js";
 
-class CopaPlayer extends YoutubeFrameControls {
+class CopaPlayer {
     #timeIntervalId;
     #musicFinished = new AsyncEvent();
 
     constructor (currentTImeLabel, durationLabel, currentTimeBar, currentTimeDot, playerDiv) {
-        super();
         this.currentTimeLabel = currentTImeLabel;
         this.durationLabel = durationLabel;
         this.currentTimeBar = currentTimeBar;
@@ -16,14 +16,24 @@ class CopaPlayer extends YoutubeFrameControls {
         console.log("Copa iniciada");
     }
 
-    onPlayerStateChange (event) {
+    destroyPlayer() {
+        this.player.destroy();
+        this.player = null;
+        this.currentTime = null;
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+            this.intervalId = null;
+        }
+    }
+
+    onPlayerStateChange(event) {
         switch (event.data) {
             case (YT.PlayerState.ENDED):
                 console.log("Ended")
                 this.#musicFinished.set(true);
                 clearInterval(this.#timeIntervalId);
-                this.destroyPlayer();
                 this.playerDiv.classList.remove('active');
+                this.destroyPlayer();
                 break;
 
             case (YT.PlayerState.PLAYING):
@@ -31,7 +41,7 @@ class CopaPlayer extends YoutubeFrameControls {
 
                 this.#timeIntervalId = setInterval(() => {
                     const currentTime = this.player.getCurrentTime();
-                    this.currentTimeLabel.textContent = this.format(currentTime);
+                    this.currentTimeLabel.textContent = formatVideoTime(currentTime);
 
                     const percent = (currentTime / duration) * 100;
 
@@ -47,7 +57,7 @@ class CopaPlayer extends YoutubeFrameControls {
     }
 
     onPlayerReady() {
-        this.durationLabel.textContent = this.format(this.player.getDuration());
+        this.durationLabel.textContent = formatVideoTime(this.player.getDuration());
     }
 
     #startExplication(src) {
@@ -60,7 +70,15 @@ class CopaPlayer extends YoutubeFrameControls {
 
     async playVideo({ sourceId, explicationId, time }) {
         this.playerDiv.classList.add('active');
-        this.createPlayer(sourceId, time);
+        this.player = createPlayer({
+            playerId: "ytplayer",
+            sourceId: sourceId,
+            events: {
+                onReady: _ => this.onPlayerReady(),
+                onStateChange: (event) => this.onPlayerStateChange(event)
+            }
+        });
+        
         await this.#startExplication(`https://res.cloudinary.com/dugdjtmbk/video/upload/${explicationId}`);
         this.player.playVideo();
         await this.#musicFinished.when(true);
@@ -106,7 +124,6 @@ async function onCardClick(card, index) {
 
                 await copaPlayer.playVideo({
                     sourceId: videoData[0]["anthem_source_id"],
-                    time: null,
                     explicationId: videoData[0]["explication_source"]
                 });
 
@@ -124,7 +141,6 @@ async function onCardClick(card, index) {
 
                 await copaPlayer.playVideo({
                     sourceId: videoData[0]["source_id"],
-                    time: null,
                     explicationId: videoData[0]["explication_source"]
                 });
 
@@ -146,7 +162,6 @@ async function onCardClick(card, index) {
 
         await copaPlayer.playVideo({
             sourceId: videoData[0]["anthem_source_id"],
-            time: 60,
             explicationId: videoData[0]["explication_source"]
         });
         overlay.remove();

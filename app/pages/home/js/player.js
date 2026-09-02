@@ -1,10 +1,11 @@
 import { YoutubeFrameControls } from "/app/pages/components/youtube-frame-controls.js";
 import { AsyncEvent } from "/app/pages/helpers/async-event.js";
 import { createToast } from "/app/pages/components/toast/script.js";
+import { createPlayer, formatVideoTime } from "../../helpers/youtubeHelpers.js";
 
-class PlayerControls extends YoutubeFrameControls {
-  #queueList;
+class PlayerControls {
   #nameLabel;
+  #queueList;
   #authorLabel;
   #durationLabel;
   #currentTimeLabel;
@@ -18,14 +19,20 @@ class PlayerControls extends YoutubeFrameControls {
   #explicationAudio;
 
   constructor(queueList, authorLabel, nameLabel, durationLabel, currentTimeLabel, musicDescriptionLabel) {
-    super();
     this.#queueList = queueList
     this.#authorLabel = authorLabel
     this.#nameLabel =  nameLabel
     this.#durationLabel = durationLabel;
     this.#currentTimeLabel = currentTimeLabel;
     this.#musicDescriptionLabel = musicDescriptionLabel;
-    this.createPlayer();
+    this.player = createPlayer({
+      playerId: "ytplayer",
+      events: {
+        onReady: _ => this.onPlayerReady(),
+        onStateChange: (event) => this.onPlayerStateChange(event),
+        onError: (event) => this.onPlayerError(event)
+      }
+    })
     console.log('PlayerControls initialized');
   }
 
@@ -168,7 +175,7 @@ class PlayerControls extends YoutubeFrameControls {
 
         this.#currentTimeInterval = setInterval(() => {
           const currentTime = this.player.getCurrentTime();
-          this.#currentTimeLabel.innerHTML = this.format(currentTime);
+          this.#currentTimeLabel.innerHTML = formatVideoTime(currentTime);
           
           const percent = (currentTime / duration) * 100;
 
@@ -181,7 +188,7 @@ class PlayerControls extends YoutubeFrameControls {
       case YT.PlayerState.CUED:
         // Prepara as infos do video
         this.#isVideoReady.activate();
-        this.#durationLabel.innerHTML = this.format(this.player.getDuration());
+        this.#durationLabel.innerHTML = formatVideoTime(this.player.getDuration());
         document.getElementById("bar").style.width = 0;
         document.getElementById("dot").style.left = 0;
         break;

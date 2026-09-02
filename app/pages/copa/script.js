@@ -15,9 +15,11 @@ youtubeFrameControls.onPlayerStateChange = (event) => {
 
     switch (event.data) {
         case (YT.PlayerState.ENDED):
-            musicFinished.set(true);
+            console.log("Ended")
+            // musicFinished.set(true);
             clearInterval(timeIntervalId);
             youtubeFrameControls.destroyPlayer();
+            playerDiv.classList.remove('active');
             break;
 
         case (YT.PlayerState.PLAYING):
@@ -125,6 +127,7 @@ async function onCardClick(card, index) {
             explicationId: videoData[0]["explication_source"]
         });
         overlay.remove();
+
     } catch (e) {
         showError(e.message, overlay);
     }
@@ -176,8 +179,4 @@ function startExplication(src) {
         audio.addEventListener("ended", resolve);
         audio.addEventListener("canplaythrough", audio.play);
     });
-}
-
-function closePanel(overlay) {
-    overlay.remove();
 }

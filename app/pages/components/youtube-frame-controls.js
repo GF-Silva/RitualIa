@@ -41,7 +41,7 @@ export class YoutubeFrameControls {
     }
 
     // Método chamado quando o player estiver pronto, inicia a reprodução do vídeo
-    onPlayerReady(event, stopTime) {
+    onPlayerReady(event) {
         console.log("Player ready");
     }
 

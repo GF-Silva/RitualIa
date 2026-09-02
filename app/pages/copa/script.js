@@ -2,65 +2,88 @@ import { YoutubeFrameControls } from "/app/pages/components/youtube-frame-contro
 import { AsyncEvent } from "/app/pages/helpers/async-event.js";
 import { CoverFlow } from "/app/pages/components/cover-flow.js";
 
-const youtubeFrameControls = new YoutubeFrameControls();
+class CopaPlayer extends YoutubeFrameControls {
+    #timeIntervalId;
+    #musicFinished = new AsyncEvent();
 
-let timeIntervalId;
-const currentTimeLabel = document.getElementById("current");
-const durationLabel = document.getElementById("duration");
+    constructor (currentTImeLabel, durationLabel, currentTimeBar, currentTimeDot, playerDiv) {
+        super();
+        this.currentTimeLabel = currentTImeLabel;
+        this.durationLabel = durationLabel;
+        this.currentTimeBar = currentTimeBar;
+        this.currentTimeDot = currentTimeDot;
+        this.playerDiv = playerDiv;
+        console.log("Copa iniciada");
+    }
 
-const currentTimeBar = document.getElementById("bar");
-const currentTimeDot = document.getElementById("dot");
+    onPlayerStateChange (event) {
+        switch (event.data) {
+            case (YT.PlayerState.ENDED):
+                console.log("Ended")
+                this.#musicFinished.set(true);
+                clearInterval(this.#timeIntervalId);
+                this.destroyPlayer();
+                this.playerDiv.classList.remove('active');
+                break;
 
-youtubeFrameControls.onPlayerStateChange = (event) => {
+            case (YT.PlayerState.PLAYING):
+                const duration = this.player.getDuration();
 
-    switch (event.data) {
-        case (YT.PlayerState.ENDED):
-            console.log("Ended")
-            // musicFinished.set(true);
-            clearInterval(timeIntervalId);
-            youtubeFrameControls.destroyPlayer();
-            playerDiv.classList.remove('active');
-            break;
+                this.#timeIntervalId = setInterval(() => {
+                    const currentTime = this.player.getCurrentTime();
+                    this.currentTimeLabel.textContent = this.format(currentTime);
 
-        case (YT.PlayerState.PLAYING):
-            const duration = youtubeFrameControls.player.getDuration();
+                    const percent = (currentTime / duration) * 100;
 
-            timeIntervalId = setInterval(() => {
-                const currentTime = youtubeFrameControls.player.getCurrentTime();
-                currentTimeLabel.textContent = youtubeFrameControls.format(currentTime);
+                    this.currentTimeBar.style.width = percent + "%";
+                    this.currentTimeDot.style.left = percent + "%";
+                }, 1000);
+                break;
 
-                const percent = (currentTime / duration) * 100;
+            default:
+                clearInterval(this.#timeIntervalId);
+                break;
+        }
+    }
 
-                currentTimeBar.style.width = percent + "%";
-                currentTimeDot.style.left = percent + "%";
-            }, 1000);
-            break;
+    onPlayerReady() {
+        this.durationLabel.textContent = this.format(this.player.getDuration());
+    }
 
-        default:
-            clearInterval(timeIntervalId);
-            break;
+    #startExplication(src) {
+        return new Promise((resolve) => {
+            const audio = new Audio(src);
+            audio.addEventListener("ended", resolve);
+            audio.addEventListener("canplaythrough", audio.play);
+        });
+    }
+
+    async playVideo({ sourceId, explicationId, time }) {
+        this.playerDiv.classList.add('active');
+        this.createPlayer(sourceId, time);
+        await this.#startExplication(`https://res.cloudinary.com/dugdjtmbk/video/upload/${explicationId}`);
+        this.player.playVideo();
+        await this.#musicFinished.when(true);
+        this.playerDiv.classList.remove('active');
+        this.#musicFinished.set(false);
     }
 }
 
-youtubeFrameControls.onPlayerReady = event => {
-    console.log("Player ready");
-    durationLabel.textContent = youtubeFrameControls.format(youtubeFrameControls.player.getDuration());
-}
+const copaPlayer = new CopaPlayer(
+    document.getElementById("current"),
+    document.getElementById("duration"),
+    document.getElementById("bar"),
+    document.getElementById("dot"),
+    document.getElementById("player")
+)
 
-
-window.youtubeFrameControls = youtubeFrameControls;
-
+// ─── CountrySelector ───────────────────────────────────────────────────────────
 const teams = await fetch("/api/copa/teams");
 const teamsData = await teams.json();
 
 const countrySelector = new CoverFlow(
     await teamsData, onCardClick
 );
-
-// ─── CountrySelector ───────────────────────────────────────────────────────────
-
-const playerDiv = document.getElementById('player');;
-const musicFinished = new AsyncEvent();
 
 async function onCardClick(card, index) {
     const overlay = document.createElement('div');
@@ -81,7 +104,7 @@ async function onCardClick(card, index) {
                 anthemSelector.remove();
                 musicSelector.remove();
 
-                await playVideo({
+                await copaPlayer.playVideo({
                     sourceId: videoData[0]["anthem_source_id"],
                     time: null,
                     explicationId: videoData[0]["explication_source"]
@@ -99,7 +122,7 @@ async function onCardClick(card, index) {
                 anthemSelector.remove();
                 musicSelector.remove();
 
-                await playVideo({
+                await copaPlayer.playVideo({
                     sourceId: videoData[0]["source_id"],
                     time: null,
                     explicationId: videoData[0]["explication_source"]
@@ -119,9 +142,9 @@ async function onCardClick(card, index) {
             throw new Error(erro.detail);
         }
 
-        const videoData = await videoResponse.json()
+        const videoData = await videoResponse.json();
 
-        await playVideo({
+        await copaPlayer.playVideo({
             sourceId: videoData[0]["anthem_source_id"],
             time: 60,
             explicationId: videoData[0]["explication_source"]
@@ -132,6 +155,7 @@ async function onCardClick(card, index) {
         showError(e.message, overlay);
     }
 }
+
 
 function showError(message, overlay) {
     const box = document.createElement("div");
@@ -161,22 +185,4 @@ function showError(message, overlay) {
 
     box.append(exitBtn, title, msg);
     document.body.append(overlay, box);
-}
-
-async function playVideo({ sourceId, explicationId, time }) {
-    playerDiv.classList.add('active');
-    youtubeFrameControls.createPlayer(sourceId, time);
-    await startExplication(`https://res.cloudinary.com/dugdjtmbk/video/upload/${explicationId}`);
-    youtubeFrameControls.player.playVideo();
-    await musicFinished.when(true);
-    playerDiv.classList.remove('active');
-    musicFinished.set(false);
-}
-
-function startExplication(src) {
-    return new Promise((resolve) => {
-        const audio = new Audio(src);
-        audio.addEventListener("ended", resolve);
-        audio.addEventListener("canplaythrough", audio.play);
-    });
 }

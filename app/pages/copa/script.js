@@ -172,9 +172,9 @@ async function playVideo({ sourceId, explicationId, time }) {
 
 function startExplication(src) {
     return new Promise((resolve) => {
-        const audio = new Audio(src)
-        audio.addEventListener("ended", resolve)
-        audio.play()
+        const audio = new Audio(src);
+        audio.addEventListener("ended", resolve);
+        audio.addEventListener("canplaythrough", audio.play);
     });
 }
 

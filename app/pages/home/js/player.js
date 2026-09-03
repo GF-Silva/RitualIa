@@ -1,4 +1,3 @@
-import { YoutubeFrameControls } from "/app/pages/components/youtube-frame-controls.js";
 import { AsyncEvent } from "/app/pages/helpers/async-event.js";
 import { createToast } from "/app/pages/components/toast/script.js";
 import { createPlayer, formatVideoTime } from "../../helpers/youtubeHelpers.js";

@@ -32,6 +32,7 @@ h2 {
     align-items: center;
     flex-direction: column;
     perspective: clamp(1500px, 80vw, 1650px);
+    overflow: hidden;
 }
 
 #cylinder {

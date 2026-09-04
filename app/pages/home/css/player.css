@@ -3,9 +3,11 @@
   display: flex;
   align-items: stretch;
   position: relative;
-  width: 65%;
+  min-width: 60%;
+  width: auto;
   height: auto;
-  max-height: 65vh;
+  max-height: 60%;
+  max-width: 80%;
   aspect-ratio: 16/9;
 }
 
@@ -62,8 +64,8 @@
 .player-box {
   background: #eeeeee;
   border-radius: 0 40px 40px 0;
-  padding: 3%;
   flex: 1;
+  padding: 3%;
   transition: 0.6s ease;
 }
 
@@ -75,6 +77,7 @@
 #ytplayer {
   width: 100%;
   height: auto;
+  max-height: 80%;
   aspect-ratio: 16/9;
   border-radius: 20px;
   background: black;

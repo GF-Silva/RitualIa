@@ -36,8 +36,8 @@ h1 {
 
 #cylinder {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 15%;
+    height: auto;
     transform-style: preserve-3d;
     transition: transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1);
     cursor: grab;
@@ -48,8 +48,8 @@ h1 {
 .card {
     position: absolute;
     pointer-events: all;
-    width: 180px;
-    height: 180px;
+    width: 100%;
+    height: auto;
     border-radius: 15px;
     transition:
         box-shadow 0.3s ease,

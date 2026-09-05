@@ -58,7 +58,7 @@ export class CoverFlow {
     #positionCards() {
         this.#cards.forEach((card, i) => {
             const angle = this.#angleStep * i;
-            card.style.transform = `rotateY(${angle}deg) translateZ(${this.#radius}px)`;
+            card.style.transform = `rotateY(${angle}deg) translateZ(${this.#radius}px) translateY(-50%)`;
         });
     }
 

@@ -5,7 +5,7 @@ import { CoverFlow } from "/app/pages/components/cover-flow.js";
 
 class EmotionDrum {
   #sentimentos = [];
-  static #ITEM_H = 46;
+  static #ITEM_H;
 
   #drumCylinder;
   #drumItems = [];
@@ -17,14 +17,15 @@ class EmotionDrum {
   constructor(sentimentos) {
     this.#sentimentos = sentimentos
     this.#drumCylinder = document.getElementById("drumCylinder");
+    EmotionDrum.#ITEM_H = parseInt(window.getComputedStyle(this.#drumCylinder).getPropertyValue('height'));
     this.#total = this.#sentimentos.length;
     this.#angleStep = 360 / this.#total;
     this.#radius = Math.round(
       EmotionDrum.#ITEM_H / (2 * Math.tan(Math.PI / this.#total)),
     );
-
+    
     this.#buildItems();
-    this.update(null, false);
+    this.update();
   }
 
   #buildItems() {
@@ -32,6 +33,7 @@ class EmotionDrum {
       const div = document.createElement("div");
       div.className = "drum-item";
       div.innerText = item["name"];
+      
       div.style.transform = `rotateX(${-this.#angleStep * i}deg) translateZ(${this.#radius}px)`;
       this.#drumCylinder.appendChild(div);
       this.#drumItems.push(div);

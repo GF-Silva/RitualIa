@@ -60,10 +60,6 @@ body::after {
   z-index: 100;
 }
 
-#home.active {
-  clip-path: inset(0 0 0 0); /* Revela o elemento todo */
-}
-
 #player {
   position: fixed;
   display: flex;
@@ -79,7 +75,7 @@ body::after {
   z-index: 100;
 }
 
-#player.active {
+#player.active, #home.active {
   clip-path: inset(0 0 0 0); /* Revela o elemento todo */
 }
 
@@ -88,28 +84,33 @@ body::after {
   top: 50%;
   right: 0;
   transform: translateY(-50%);
-
-  width: 110px;
-  height: 220px;
+  
+  max-height: 20%;
+  min-height: 10%;
+  width: 4%;
+  height: auto;
+  aspect-ratio: 1/2;
 
   background: linear-gradient(180deg,
       rgba(17, 81, 56, 0.98),
       rgba(11, 44, 31, 0.98));
 
-  border-radius: 30px 0 0 30px;
+  border-radius: 12% 0 0 12%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-
+  gap: 8%;
+  overflow: hidden;
   z-index: 300;
   pointer-events: auto;
+  padding: 2.5%;
+  container-type: size;
 
-  border-left: 3px solid rgba(255, 255, 255, 0.15);
-  border-top: 3px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 3px solid rgba(255, 255, 255, 0.08);
+  border-left: 1% solid rgba(255, 255, 255, 0.15);
+  border-top: 1% solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1% solid rgba(255, 255, 255, 0.08);
 
   box-shadow:
     0 0 35px rgba(17, 81, 56, 0.65),
@@ -122,20 +123,20 @@ body::after {
   width: 0;
   height: 0;
 
-  border-top: 22px solid transparent;
-  border-bottom: 22px solid transparent;
-  border-left: 36px solid white;
+  border-top: 20cqh solid transparent;
+  border-bottom: 20cqh solid transparent;
+  border-left: 80cqw solid white;
 
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.7));
+  filter: drop-shadow(0 0 48px rgba(255, 255, 255, 0.7));
 
   animation: playMove 1.5s infinite ease-in-out;
 }
 
 .player-indicator span {
   color: white;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-size: 0.6rem;
+  font-weight: bold;
+  letter-spacing: 1%;
   text-transform: uppercase;
   opacity: 0.92;
 }
@@ -147,28 +148,33 @@ body::after {
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-
-  width: 110px;
-  height: 220px;
+  
+  max-height: 20%;
+  min-height: 10%;
+  width: 4%;
+  height: auto;
+  aspect-ratio: 1/2;
 
   background: linear-gradient(180deg,
       rgba(17, 81, 56, 0.98),
       rgba(11, 44, 31, 0.98));
 
-  border-radius: 0 30px 30px 0;
+  border-radius: 0 12% 12% 0;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-
+  gap: 8%;
+  overflow: hidden;
   z-index: 300;
   pointer-events: auto;
+  padding: 2.5%;
+  container-type: size;
 
-  border-right: 3px solid rgba(255, 255, 255, 0.15);
-  border-top: 3px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 3px solid rgba(255, 255, 255, 0.08);
+  border-right: 1% solid rgba(255, 255, 255, 0.15);
+  border-top: 1% solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1% solid rgba(255, 255, 255, 0.08);
 
   box-shadow:
     0 0 35px rgba(17, 81, 56, 0.65),
@@ -181,20 +187,20 @@ body::after {
   width: 0;
   height: 0;
 
-  border-top: 22px solid transparent;
-  border-bottom: 22px solid transparent;
-  border-right: 36px solid white;
-
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.7));
-
+  border-top: 20cqh solid transparent;
+  border-bottom: 20cqh solid transparent;
+  border-left: 80cqw solid white;
+  
+  filter: drop-shadow(0 0 48px rgba(255, 255, 255, 0.7));
+  
   animation: backMove 1.5s infinite ease-in-out;
 }
 
 .genre-indicator span {
   color: white;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-size: 0.6rem;
+  font-weight: bold;
+  letter-spacing: 1%;
   text-transform: uppercase;
   opacity: 0.92;
 }
@@ -204,34 +210,36 @@ body::after {
 .music-wave {
   display: flex;
   align-items: flex-end;
-  gap: 4px;
-  height: 26px;
+  gap: 10%;
+  width: 50%;
+  height: 15%;
 }
 
 .music-wave div {
-  width: 5px;
+  width: 20%;
   background: white;
   border-radius: 20px;
   animation: wave 1s infinite ease-in-out;
 }
 
 .music-wave div:nth-child(1) {
-  height: 10px;
+  height: 50%;
   animation-delay: 0s;
 }
 
 .music-wave div:nth-child(2) {
-  height: 22px;
+  height: 100%;
   animation-delay: 0.15s;
 }
 
+
 .music-wave div:nth-child(3) {
-  height: 14px;
+  height: 60%;
   animation-delay: 0.3s;
 }
 
 .music-wave div:nth-child(4) {
-  height: 24px;
+  height: 100%;
   animation-delay: 0.45s;
 }
 
@@ -258,7 +266,7 @@ body::after {
   }
 
   50% {
-    transform: translateX(8px);
+    transform: translateX(10%);
     opacity: 1;
   }
 
@@ -275,7 +283,7 @@ body::after {
   }
 
   50% {
-    transform: translateX(-8px);
+    transform: translateX(-10%);
     opacity: 1;
   }
 

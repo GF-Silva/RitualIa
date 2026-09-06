@@ -121,8 +121,11 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .painel img {
-    width: 30%;
+    width: auto;
     height: auto;
+    max-height: 50%;
+    max-width: 30%;
+    aspect-ratio: 1;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
@@ -133,15 +136,15 @@ input[type=range]::-webkit-slider-thumb {
     color: #f28c28;
     font-size: 1.5rem;
     font-weight: bold;
-    text-align: center;
     top: 0;
+    margin-top: 1%;
 }
 
 /* ===== BLOCO DIREITO ===== */
 .emotion-selector {
     width: 40%;
     height: auto;
-    max-height: 70%;
+    max-height: 60%;
     aspect-ratio: 9/16;
     display: flex;
     flex-direction: column;
@@ -161,6 +164,7 @@ input[type=range]::-webkit-slider-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 20px;
 }
 
 /* fade mask top/bottom */
@@ -241,9 +245,8 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 #submit__btn {
-    aspect-ratio: 3/1;
     width: fit-content;
-    height: auto;
+    height: fit-content;
     background-color: #f28c28;
     border-radius: 10px;
     font-size: 1rem;

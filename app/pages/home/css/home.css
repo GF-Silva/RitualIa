@@ -49,56 +49,18 @@ h1 {
     position: absolute;
     width: 100%;
     height: auto;
-    border-radius: 15px;
+    border-radius: 10%;
     transition:
         box-shadow 0.3s ease,
         filter 0.3s ease;
 }
 
 .card.is-front {
-    box-shadow: 0 0 40px rgba(242, 140, 40, 0.35), 0 8px 32px rgba(0, 0, 0, 0.18);
     filter: brightness(1.08);
 }
 
 .card:not(.is-front) {
     filter: brightness(0.55) saturate(0.7);
-}
-
-/* ===== TEXTO ===== */
-.player {
-    font-size: 28px;
-    font-weight: bold;
-    color: #1e5b3a;
-    margin-top: 15px;
-}
-
-/* ===== SLIDER ===== */
-.slider-container {
-    width: 60%;
-    margin-top: 15px;
-}
-
-input[type=range] {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 12px;
-    border-radius: 20px;
-    background: transparent;
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-    height: 12px;
-    border-radius: 20px;
-    background: #cfdad5;
-}
-
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 100px;
-    height: 12px;
-    border-radius: 30px;
-    background: #f28c28;
-    cursor: pointer;
 }
 
 /* ===== PAINEL ===== */
@@ -126,8 +88,7 @@ input[type=range]::-webkit-slider-thumb {
     max-height: 50%;
     max-width: 30%;
     aspect-ratio: 1;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    border-radius: 10%;
 }
 
 .painel h2 {
@@ -142,7 +103,7 @@ input[type=range]::-webkit-slider-thumb {
 
 /* ===== BLOCO DIREITO ===== */
 .emotion-selector {
-    width: 40%;
+    width: 50%;
     height: auto;
     max-height: 60%;
     aspect-ratio: 9/16;
@@ -164,7 +125,7 @@ input[type=range]::-webkit-slider-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 20px;
+    border-radius: 5%;
 }
 
 /* fade mask top/bottom */
@@ -211,7 +172,7 @@ input[type=range]::-webkit-slider-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 80%;
     color: white;
     font-weight: bold;
     backface-visibility: hidden;
@@ -220,7 +181,7 @@ input[type=range]::-webkit-slider-thumb {
 
 .drum-item.is-front {
     color: #f28c28;
-    font-size: 0.9rem;
+    font-size: 90%;
 }
 
 .seta {
@@ -233,13 +194,13 @@ input[type=range]::-webkit-slider-thumb {
 
 .voltar {
     position: absolute;
-    top: 30px;
-    left: 30px;
+    top: 6%;
+    left: 3%;
     background: #f28c28;
     color: black;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 1rem;
+    padding: 1% 2%;
+    border-radius: 8%;
+    font-size: 0.7rem;
     font-weight: bold;
     cursor: pointer;
 }
@@ -248,7 +209,7 @@ input[type=range]::-webkit-slider-thumb {
     width: fit-content;
     height: fit-content;
     background-color: #f28c28;
-    border-radius: 10px;
+    border-radius: 10%;
     font-size: 1rem;
     color: #000;
     font-weight: 700;

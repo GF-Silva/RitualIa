@@ -73,7 +73,7 @@ class EmotionDrum {
 const painel = document.getElementById("painel");
 const painelImg = document.getElementById("painelImg");
 
-function onCardClick(card, index) {
+function onCardClick(card) {
   painelImg.src = card.src ?? "";
   painel.classList.add("active");
 }

@@ -15,8 +15,8 @@ body::before,
 body::after {
   content: "";
   position: fixed;
-  width: 950px;
-  height: 950px;
+  width: 60%;
+  height: 60%;
   background: #115138;
   border-radius: 50%;
   z-index: -1;
@@ -25,13 +25,13 @@ body::after {
 }
 
 body::before {
-  top: -660px;
-  left: -610px;
+  top: -35%;
+  left: -35%;
 }
 
 body::after {
-  bottom: -660px;
-  right: -610px;
+  bottom: -35%;
+  right: -35%;
 }
 
 /* ===== LOGO ===== */

@@ -107,17 +107,18 @@
 
 /* BARRA */
 .progress {
-  height: 2.5%;
+  height: 4%;
   background: #ccc;
-  border-radius: 10px;
+  border-radius: 0.5vw;
   position: relative;
   display: flex;
   align-items: center;
   margin-top: 1%;
+  container-type: size;
 }
 
 .bar {
-  height: 100%;
+  height: 100cqh;
   background: black;
   width: 0%;
   border-top-left-radius: 10px;
@@ -125,8 +126,8 @@
 }
 
 .dot {
-  width: 3%;
-  height: auto;
+  width: auto;
+  height: 150cqh;
   aspect-ratio: 1;
   background: black;
   border-radius: 50%;
@@ -146,9 +147,10 @@
   aspect-ratio: 16/9;
   background: rgba(220, 220, 220, 0.7);
   border-radius: 2dvh;
-  padding: 1.5dvh 2dvw 1.5dvh 2dvw;
+  padding: 1.5dvh 2dvw 3dvh 2dvw;
   transition: 0.6s;
   container-type: size;
+  overflow: hidden;
 }
 
 .queue-header {

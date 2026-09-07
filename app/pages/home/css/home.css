@@ -1,12 +1,11 @@
 /* ===== TÍTULO ===== */
 h1 {
-    margin-top: 4vh;
     font-size: 2rem;
-    font-weight: bold;
     text-align: center;
     background: linear-gradient(90deg, #1e5b3a, #f28c28);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    margin: 0;
 }
 
 /* ===== CONTAINER ===== */
@@ -17,7 +16,6 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -30,15 +28,17 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     perspective: 150vw;
-    overflow: hidden;
 }
 
 #cylinder {
     position: relative;
-    width: 17%;
+    width: auto;
     height: auto;
+    min-width: 12vw;
+    min-height: 30vh;
+    max-height: 40vh;
+    aspect-ratio: 1;
     transform-style: preserve-3d;
     transition: transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1);
     cursor: grab;
@@ -48,11 +48,12 @@ h1 {
 .card {
     position: absolute;
     width: 100%;
-    height: auto;
-    border-radius: 10%;
+    height: 100%;
+    border-radius: 1vw;
     transition:
         box-shadow 0.3s ease,
         filter 0.3s ease;
+    top: 50%;
 }
 
 .card.is-front {
@@ -103,29 +104,72 @@ h1 {
 
 /* ===== BLOCO DIREITO ===== */
 .emotion-selector {
+    position: relative;
     width: 50%;
     height: auto;
     max-height: 60%;
     aspect-ratio: 9/16;
     display: flex;
     flex-direction: column;
+    border: 0.2vw solid #f28c28;
+    border-right: 0;
+    border-radius: 1vw 0 0 1vw;
+}
+
+.buttons {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10%;
+    height: 100%;
+    max-height: 100%;
+    background: #000;
+    border: 0.2vw solid #f28c28;
+    border-left: 0;
+    border-radius: 0 1vw 1vw 0;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 2%;
+    justify-content: space-between;
+    container-type: size;
+}
+
+.seta {
+    width: 0;
+    height: 0;
+    cursor: pointer;
+    margin-top: 2cqh;
+    margin-bottom: 2cqh;
+    background: transparent;
+    border-right: 30cqw solid transparent;
+    border-left: 30cqw solid transparent;
+    border-bottom: 10cqh solid white;
+}
+
+#submit__btn {
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    border: unset;
+    text-align: center;
+    border-bottom-left-radius: 1vw;
+    background-color: #f28c28;
+    font-size: 1.2rem;
+    color: #000;
+    font-weight: bold;
 }
 
 /* ===== TAMBOR DE EMOÇÕES ===== */
 .drum-wrapper {
     position: relative;
-    width: 100%;
-    height: 100%;
+    flex: 1;
     perspective: 150vh;
     perspective-origin: 50% 50%;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5%;
 }
 
 /* fade mask top/bottom */
@@ -167,12 +211,15 @@ h1 {
 
 .drum-item {
     position: absolute;
+    left: 0;
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    font-size: 80%;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    font-size: 1rem;
     color: white;
     font-weight: bold;
     backface-visibility: hidden;
@@ -184,35 +231,17 @@ h1 {
     font-size: 90%;
 }
 
-.seta {
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: #fff;
-    background: #000;
-    border-color: #f28c28;
-}
-
 .voltar {
     position: absolute;
-    top: 6%;
+    top: 6vh;
     left: 3%;
     background: #f28c28;
     color: black;
-    padding: 1% 2%;
+    padding: 1;
     border-radius: 8%;
     font-size: 0.7rem;
     font-weight: bold;
     cursor: pointer;
-}
-
-#submit__btn {
-    width: fit-content;
-    height: fit-content;
-    background-color: #f28c28;
-    border-radius: 10%;
-    font-size: 1rem;
-    color: #000;
-    font-weight: 700;
 }
 
 .overlay {

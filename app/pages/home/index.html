@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="pt-br">
   <head>
     <title>RitualIA</title>
     <meta charset="UTF-8" />
@@ -14,7 +14,7 @@
   <body>
     <img src="/app/pages/assets/logo.png" class="logo-bg" id="logo" />
 
-    <div id="home" >
+    <div id="home" class="active">
       <div
         class="player-indicator"
         id="open-player-btn"
@@ -44,23 +44,28 @@
       </div>
 
       <div class="painel" id="painel">
-        <button class="voltar" onclick="closePanel()">⬅ VOLTAR</button>
+        <button class="voltar" onclick="closePanel()">VOLTAR</button>
         <h2>RITMOS MUSICAIS</h2>
 
         <img id="painelImg" />
 
         <div class="emotion-selector">
-          <button class="seta" onclick="mudarSentimento(1)">▲</button>
           <div class="drum-wrapper">
             <div class="drum-cylinder" id="drumCylinder"></div>
           </div>
-          <button class="seta" onclick="mudarSentimento(-1)">▼</button>
           <button id="submit__btn" onclick="submitData()">Selecionar</button>
+
+          <div class="buttons">
+            <button class="seta" onclick="mudarSentimento(1)"></button>
+            <button class="seta" onclick="mudarSentimento(-1)" style="transform: rotate(180deg)"></button>
+          </div>
+
         </div>
+        
       </div>
     </div>
 
-    <div id="player" class="active">
+    <div id="player">
       <!-- INDICADOR GÊNEROS -->
       <div
         class="genre-indicator"

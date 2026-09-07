@@ -3,11 +3,11 @@
   display: flex;
   align-items: stretch;
   position: relative;
-  min-width: 60%;
+  min-width: 60dvw;
   width: auto;
   height: auto;
-  max-height: 60%;
-  max-width: 80%;
+  max-height: 50dvh;
+  max-width: 50dvw;
   aspect-ratio: 16/9;
 }
 
@@ -16,13 +16,13 @@
   width: 5%;
   height: 100%;
   background: #d8842c;
-  border-radius: 25px 0 0 30px;
-  cursor: pointer;
+  border-radius: 1vw 0 0 1vw;
   transition: 0.6s ease;
-  z-index: 2;
+  cursor: pointer;
   display: flex;
   align-items: center;
   overflow: hidden;
+  z-index: 2;
 }
 
 .panel-content {
@@ -63,10 +63,11 @@
 /* PLAYER BOX */
 .player-box {
   background: #eeeeee;
-  border-radius: 0 40px 40px 0;
+  border-radius: 0 1vw 1vw 0;
   flex: 1;
   padding: 3%;
   transition: 0.6s ease;
+  container-type: size;
 }
 
 .player-box.shift {
@@ -75,11 +76,11 @@
 
 /* VIDEO */
 #ytplayer {
-  width: 100%;
+  width: 100cqw;
   height: auto;
-  max-height: 80%;
+  max-height: 75cqh;
   aspect-ratio: 16/9;
-  border-radius: 20px;
+  border-radius: 1vw;
   background: black;
   pointer-events: none;
 }
@@ -88,7 +89,7 @@
 .info {
   display: flex;
   justify-content: space-between;
-  font-size: 1rem;
+  font-size: 7cqh;
   font-weight: bold;
 }
 
@@ -96,8 +97,12 @@
 .time {
   display: flex;
   justify-content: space-between;
-  font-size: 0.7rem;
+  font-size: 6cqh;
   font-weight: bold;
+}
+
+.info p, .time p {
+  margin: 0;
 }
 
 /* BARRA */
@@ -135,11 +140,15 @@
 .queue {
   margin-top: 2vh;
   position: relative;
-  width: 65%;
+  width: 60dvw;
+  height: auto;
+  max-height: 30dvh;
+  aspect-ratio: 16/9;
   background: rgba(220, 220, 220, 0.7);
-  border-radius: 20px;
-  padding: 15px;
+  border-radius: 2dvh;
+  padding: 1.5dvh 2dvw 1.5dvh 2dvw;
   transition: 0.6s;
+  container-type: size;
 }
 
 .queue-header {
@@ -157,12 +166,18 @@
 .queue-sub {
   color: #d8842c;
   font-weight: bold;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
+}
+
+.queue-genre {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1f5137;
 }
 
 .queue-list {
-  margin-top: 10px;
-  height: 100px;
+  margin-top: 1cqh;
+  height: 70cqh;
   max-height: auto;
   overflow-y: auto;
   transition: 0.6s ease;
@@ -171,9 +186,10 @@
 .queue-item {
   display: flex;
   justify-content: space-between;
-  padding: 8px 5px;
-  font-size: 24px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2cqh;
+  font-size: 1rem;
+  border-bottom: 1cqh solid rgba(0, 0, 0, 0.2);
+  border-top: 1cqh solid rgba(0, 0, 0, 0.2);
 }
 
 .left {
@@ -182,5 +198,5 @@
 
 .right {
   font-weight: bold;
-  color: #1f5137;
+  color: #2b9b38;
 }

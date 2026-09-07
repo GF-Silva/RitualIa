@@ -14,7 +14,7 @@
   <body>
     <img src="/app/pages/assets/logo.png" class="logo-bg" id="logo" />
 
-    <div id="home" class="active">
+    <div id="home" >
       <div
         class="player-indicator"
         id="open-player-btn"
@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <div id="player">
+    <div id="player" class="active">
       <!-- INDICADOR GÊNEROS -->
       <div
         class="genre-indicator"
@@ -97,13 +97,13 @@
           <div id="ytplayer"></div>
 
           <div class="info">
-            <div id="author">Autor</div>
-            <div id="music">Música</div>
+            <p id="author">Autor</p>
+            <p id="music">Música</p>
           </div>
 
           <div class="time">
-            <div id="currentMusicTime">0:00</div>
-            <div id="musicDuration">0:00</div>
+            <p id="currentMusicTime">0:00</p>
+            <p id="musicDuration">0:00</p>
           </div>
 
           <div class="progress" role="progressbar">
@@ -116,10 +116,11 @@
       <!-- FILA -->
       <div class="queue" id="queue">
         <div class="queue-header">
-          <div>
-            <div class="queue-title">fila de espera</div>
-            <div class="queue-sub">Músicas</div>
-          </div>
+            <div>
+              <div class="queue-title">Fila de espera</div>
+              <div class="queue-sub">Músicas</div>
+            </div>
+            <div class="queue-genre">Gênero</div>
         </div>
 
         <div class="queue-list" id="queue-list"></div>

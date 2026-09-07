@@ -1,11 +1,10 @@
 export class CoverFlow {
     #cylinder;
+    #coverFlow;
     #cards = [];
     #total;
     #angleStep;
     #radius;
-    #circleCircunference;
-    #cardWidth;
     #current = 0;
 
     #isDragging = false;
@@ -27,17 +26,13 @@ export class CoverFlow {
 
         this.#total     = this.#cards.length;
         //  Pega a width presente no primeiro elemento de card e transforma em inteiro
-        this.#cardWidth = parseInt(window.getComputedStyle(this.#cards[0]).getPropertyValue('width'));
-        this.#circleCircunference = this.#cardWidth * this.#total;
-        this.#radius    = this.#circleCircunference / (2 * Math.PI);
+        const cardWidth = parseInt(window.getComputedStyle(this.#cards[0]).getPropertyValue('width'));
+        const circleCircunference = cardWidth * this.#total;
+        this.#radius    = circleCircunference / (2 * Math.PI);
         // Angulo de um arco com o tamanho do card
-        this.#angleStep = (this.#cardWidth * 360) / this.#circleCircunference;
+        this.#angleStep = (cardWidth * 360) / circleCircunference;
 
-        const coverFlow = document.querySelector('.cover-flow');
-        /* Corrije a perspectiva do cover-flow para ficar afastado proporcionalmente
-          ao tamanho da circunferencia calculada*/
-        coverFlow.style.perspective = `${this.#circleCircunference / 2}px`;
-
+        this.#coverFlow = document.querySelector('.cover-flow');
         this.#positionCards();
         this.#bindDragEvents();
         this.update(false);
@@ -49,7 +44,7 @@ export class CoverFlow {
             img.dataset.id = item["id"];
             img.draggable = false;
             img.className = "card";
-            img.src = `/storage/${item["path"]}`;
+            img.src = `/storage/${item["path"]}`
             this.#cylinder.appendChild(img);
             this.#cards.push(img);
         });
@@ -58,35 +53,32 @@ export class CoverFlow {
     #positionCards() {
         this.#cards.forEach((card, i) => {
             const angle = this.#angleStep * i;
-            card.style.transform = `rotateY(${angle}deg) translateZ(${this.#radius}px)`;
+            card.style.transform = `rotateY(${angle}deg) translateZ(${(this.#radius / window.innerWidth) * 100}vw) translateY(-50%)`;
         });
     }
 
-    async #handleCardClick(card) {
+    async #handleCardClick(card, diff, newIndex) {
         const index = this.#cards.indexOf(card);
         if (index === -1) return;
 
         if (index != this.#current) {
-            let diff = index - this.#current;
-            if (diff >  this.#total / 2) diff -= this.#total;
-            if (diff < -this.#total / 2) diff += this.#total;
-
-            this.#updateIndice((this.#current + diff + this.#total) % this.#total)
+            // Movimenta ate o card
+            this.#updateIndice(newIndex);
             this.#currentRotation += -diff * this.#angleStep;
             this.update();
             return;
         }
 
-        await this.onCardClick(card, index);
+        await this.onCardClick(card);
     }
 
     #bindDragEvents() {
-        this.#cylinder.addEventListener("pointerdown", this.#onPointerDown);
-        this.#cylinder.addEventListener("pointermove", this.#onPointerMove);
-        this.#cylinder.addEventListener("pointerup", this.#onPointerUp);
-        this.#cylinder.addEventListener("pointercancel", this.#onPointerCancel);
+        this.#coverFlow.addEventListener("pointerdown", this.#onPointerDown);
+        this.#coverFlow.addEventListener("pointermove", this.#onPointerMove);
+        this.#coverFlow.addEventListener("pointerup", this.#onPointerUp);
+        this.#coverFlow.addEventListener("pointercancel", this.#onPointerCancel);
 
-        this.#cylinder.addEventListener("dragstart", (e) => e.preventDefault());
+        this.#coverFlow.addEventListener("dragstart", (e) => e.preventDefault());
     }
 
     #onPointerDown = (e) => {
@@ -120,16 +112,15 @@ export class CoverFlow {
                 "transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1)";
             this.#cylinder.style.transform = `rotateY(${this.#currentRotation}deg)`;
 
-            // IMPORTANTE: com pointer capture ativo, e.target sempre aponta para o
-            // elemento que chamou setPointerCapture (o #cylinder), nunca para o card
-            // que está visualmente sob o cursor. Por isso usamos elementFromPoint,
-            // que consulta a posição real na tela e ignora a captura.
-            const realTarget = document.elementFromPoint(e.clientX, e.clientY);
-            // debug: desconfio desse real target
+            const cardWidth = parseInt(window.getComputedStyle(this.#cards[0]).getPropertyValue('width'));
+            const windowCenter = window.innerWidth / 2;
+            const clickDistance = e.clientX - windowCenter;
+            const cardRelationFromDistance = clickDistance / cardWidth;
 
-            if (realTarget && realTarget.classList.contains("card")) {
-                this.#handleCardClick(realTarget);
-            }
+            const diff = cardRelationFromDistance >= 0 ? Math.floor(cardRelationFromDistance) : Math.ceil(cardRelationFromDistance);
+            const newIndex = (this.#current + diff + this.#total) % this.#total;
+            this.#handleCardClick(this.#cards[newIndex], diff, newIndex);
+            
             return;
         }
 

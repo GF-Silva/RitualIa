@@ -1,8 +1,9 @@
 <!doctype html>
-<html>
+<html lang="pt-br">
   <head>
     <title>RitualIA</title>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="app/pages/assets/favicon.ico" />
     <link rel="stylesheet" href="app/pages/globals.css" />
     <link rel="stylesheet" href="/app/pages/home/css/home.css" />
@@ -35,7 +36,7 @@
       </div>
 
       <div class="main">
-        <h2>GÊNEROS MUSICAIS</h2>
+        <h1>GÊNEROS MUSICAIS</h1>
 
         <div class="cover-flow">
           <div id="cylinder"></div>
@@ -43,19 +44,24 @@
       </div>
 
       <div class="painel" id="painel">
-        <button class="voltar" onclick="closePanel()">⬅ VOLTAR</button>
-        <h1>RITMOS MUSICAIS</h1>
+        <button class="voltar" onclick="closePanel()">VOLTAR</button>
+        <h2>RITMOS MUSICAIS</h2>
 
         <img id="painelImg" />
 
-        <div>
-          <button class="seta" onclick="mudarSentimento(1)">▲</button>
+        <div class="emotion-selector">
           <div class="drum-wrapper">
             <div class="drum-cylinder" id="drumCylinder"></div>
           </div>
-          <button class="seta" onclick="mudarSentimento(-1)">▼</button>
           <button id="submit__btn" onclick="submitData()">Selecionar</button>
+
+          <div class="buttons">
+            <button class="seta" onclick="mudarSentimento(1)"></button>
+            <button class="seta" onclick="mudarSentimento(-1)" style="transform: rotate(180deg)"></button>
+          </div>
+
         </div>
+        
       </div>
     </div>
 
@@ -87,22 +93,22 @@
           <p id="music-description-label" class="panel-content">
             História detalhada do autor, com imagens antigas e recentes.
           </p>
+          <div class="arrow">➜</div>
         </button>
 
-        <div class="arrow">➜</div>
 
         <!-- PLAYER -->
         <div class="player-box" id="playerBox">
           <div id="ytplayer"></div>
 
           <div class="info">
-            <div id="author">Autor</div>
-            <div id="music">Música</div>
+            <p id="author">Autor</p>
+            <p id="music">Música</p>
           </div>
 
           <div class="time">
-            <div id="currentMusicTime">0:00</div>
-            <div id="musicDuration">0:00</div>
+            <p id="currentMusicTime">0:00</p>
+            <p id="musicDuration">0:00</p>
           </div>
 
           <div class="progress" role="progressbar">
@@ -115,10 +121,11 @@
       <!-- FILA -->
       <div class="queue" id="queue">
         <div class="queue-header">
-          <div>
-            <div class="queue-title">fila de espera</div>
-            <div class="queue-sub">Músicas</div>
-          </div>
+            <div>
+              <div class="queue-title">Fila de espera</div>
+              <div class="queue-sub">Músicas</div>
+            </div>
+            <div class="queue-genre">Gênero</div>
         </div>
 
         <div class="queue-list" id="queue-list"></div>

@@ -3,38 +3,46 @@
   display: flex;
   align-items: stretch;
   position: relative;
+  min-width: 60dvw;
+  width: auto;
   height: auto;
-  max-height: fit-content;
-  width: clamp(400px, 70%, 800px);
+  max-height: 50dvh;
+  max-width: 50dvw;
   aspect-ratio: 16/9;
 }
 
 /* ABA */
 .panel {
-  width: 32px;
+  position: relative;
+  width: 5%;
   height: 100%;
   background: #d8842c;
-  border-radius: 30px 0 0 30px;
-  cursor: pointer;
+  border-radius: 1vw 0 0 1vw;
   transition: 0.6s ease;
-  z-index: 2;
+  cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
+  z-index: 2;
 }
 
 .panel-content {
   opacity: 0;
-  font-size: 22px;
+  overflow-wrap: break-word;
+  overflow: auto;
+  font-size: 1rem;
+  text-align: left;
+  hyphens: auto;
   font-weight: bold;
-  min-width: 100px;
-  margin-left: 40px;
+  max-height: 90%;
+  max-width: 80%;
   color: black;
   transition: 0.4s;
 }
 
 .panel.open {
-  width: 380px;
+  width: 50%;
   margin-right: -42px;
 }
 
@@ -45,10 +53,10 @@
 /* SETA */
 .arrow {
   position: absolute;
-  left: 16px;
+  left: 0;
   top: 50%;
-  transform: translate(-50%, -50%) rotate(180deg);
-  font-size: 26px;
+  transform: translateY(-50%) rotate(180deg);
+  font-size: 1rem;
   z-index: 3;
   transition: transform 0.5s ease;
   pointer-events: none;
@@ -61,10 +69,11 @@
 /* PLAYER BOX */
 .player-box {
   background: #eeeeee;
-  border-radius: 0 40px 40px 0;
-  padding: 20px;
+  border-radius: 0 1vw 1vw 0;
   flex: 1;
+  padding: 3%;
   transition: 0.6s ease;
+  container-type: size;
 }
 
 .player-box.shift {
@@ -73,10 +82,11 @@
 
 /* VIDEO */
 #ytplayer {
-  width: 100%;
-  height: 260px;
-  border-radius: 25px;
-  overflow: hidden;
+  width: 100cqw;
+  height: auto;
+  max-height: 75cqh;
+  aspect-ratio: 16/9;
+  border-radius: 1vw;
   background: black;
   pointer-events: none;
 }
@@ -85,8 +95,7 @@
 .info {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
-  font-size: 26px;
+  font-size: 7cqh;
   font-weight: bold;
 }
 
@@ -94,24 +103,28 @@
 .time {
   display: flex;
   justify-content: space-between;
-  font-size: 24px;
+  font-size: 6cqh;
   font-weight: bold;
-  margin-top: 5px;
+}
+
+.info p, .time p {
+  margin: 0;
 }
 
 /* BARRA */
 .progress {
-  height: 10px;
+  height: 4%;
   background: #ccc;
-  border-radius: 10px;
-  margin-top: 10px;
+  border-radius: 0.5vw;
   position: relative;
   display: flex;
   align-items: center;
+  margin-top: 1%;
+  container-type: size;
 }
 
 .bar {
-  height: 10px;
+  height: 100cqh;
   background: black;
   width: 0%;
   border-top-left-radius: 10px;
@@ -119,11 +132,12 @@
 }
 
 .dot {
-  width: 20px;
-  height: 20px;
+  width: auto;
+  height: 150cqh;
+  aspect-ratio: 1;
   background: black;
   border-radius: 50%;
-  transform: translateX(-5%);
+  transform: translateX(-6%);
 }
 
 /* ========================= */
@@ -131,13 +145,18 @@
 /* ========================= */
 
 .queue {
-  margin-top: 15px;
+  margin-top: 2vh;
   position: relative;
-  width: clamp(400px, 70%, 800px);
+  width: 60dvw;
+  height: auto;
+  max-height: 30dvh;
+  aspect-ratio: 16/9;
   background: rgba(220, 220, 220, 0.7);
-  border-radius: 20px;
-  padding: 15px;
+  border-radius: 2dvh;
+  padding: 1.5dvh 2dvw 3dvh 2dvw;
   transition: 0.6s;
+  container-type: size;
+  overflow: hidden;
 }
 
 .queue-header {
@@ -147,7 +166,7 @@
 }
 
 .queue-title {
-  font-size: 34px;
+  font-size: 1rem;
   font-weight: bold;
   color: #1f5137;
 }
@@ -155,22 +174,18 @@
 .queue-sub {
   color: #d8842c;
   font-weight: bold;
+  font-size: 0.6rem;
 }
 
-.queue-arrow {
+.queue-genre {
+  font-size: 1rem;
+  font-weight: bold;
   color: #1f5137;
-  font-size: 28px;
-  cursor: pointer;
-  transition: 0.4s;
-}
-
-.queue.open .queue-arrow {
-  transform: rotate(180deg);
 }
 
 .queue-list {
-  margin-top: 10px;
-  height: 100px;
+  margin-top: 1cqh;
+  height: 70cqh;
   max-height: auto;
   overflow-y: auto;
   transition: 0.6s ease;
@@ -179,9 +194,10 @@
 .queue-item {
   display: flex;
   justify-content: space-between;
-  padding: 8px 5px;
-  font-size: 24px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 2cqh;
+  font-size: 1rem;
+  border-bottom: 1cqh solid rgba(0, 0, 0, 0.2);
+  border-top: 1cqh solid rgba(0, 0, 0, 0.2);
 }
 
 .left {
@@ -190,5 +206,5 @@
 
 .right {
   font-weight: bold;
-  color: #1f5137;
+  color: #2b9b38;
 }

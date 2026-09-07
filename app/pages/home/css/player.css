@@ -13,6 +13,7 @@
 
 /* ABA */
 .panel {
+  position: relative;
   width: 5%;
   height: 100%;
   background: #d8842c;
@@ -21,22 +22,27 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
   z-index: 2;
 }
 
 .panel-content {
   opacity: 0;
+  overflow-wrap: break-word;
+  overflow: auto;
   font-size: 1rem;
+  text-align: left;
+  hyphens: auto;
   font-weight: bold;
-  min-width: 50%;
-  margin-left: 40px;
+  max-height: 90%;
+  max-width: 80%;
   color: black;
   transition: 0.4s;
 }
 
 .panel.open {
-  width: 40%;
+  width: 50%;
   margin-right: -42px;
 }
 
@@ -47,9 +53,9 @@
 /* SETA */
 .arrow {
   position: absolute;
-  left: 2.5%;
+  left: 0;
   top: 50%;
-  transform: translate(-50%, -50%) rotate(180deg);
+  transform: translateY(-50%) rotate(180deg);
   font-size: 1rem;
   z-index: 3;
   transition: transform 0.5s ease;

@@ -12,7 +12,13 @@
   </head>
 
   <body>
-    <img src="/app/pages/assets/logo.avif" class="logo-bg" id="logo" />
+    <img src="/app/pages/assets/logo/160w"
+      srcset="
+        {{ url_for('static', filename='assets/logo/160.avif')}} 160w,
+        {{ url_for('static', filename='assets/logo/320.avif')}} 320w, 
+        {{ url_for('static', filename='assets/logo/480.avif')}} 480w
+        "
+      class="logo-bg" id="logo" />
 
     <div id="home" class="active">
       <div

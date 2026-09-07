@@ -44,7 +44,17 @@ export class CoverFlow {
             img.dataset.id = item["id"];
             img.draggable = false;
             img.className = "card";
-            img.src = `/storage/${item["path"]}`
+
+            img.src = `/storage/${item["path"]}/320.avif`;
+            img.srcset=`
+                /storage/${item['path']}/320.avif 320w,
+                /storage/${item['path']}/480.avif 480w,
+                /storage/${item['path']}/640.avif 640w,
+                /storage/${item['path']}/960.avif 960w,
+                /storage/${item['path']}/1280.avif 1280w
+            `;
+                img.sizes="17vw";
+            
             this.#cylinder.appendChild(img);
             this.#cards.push(img);
         });

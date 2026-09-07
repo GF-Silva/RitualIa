@@ -62,28 +62,28 @@ INSERT INTO songs (title, artist, source_id, explication_source, description) VA
 ('Satisfaction', 'The Rolling Stones', 'nrIPxlFzDi0', 'explication_audios/satisfaction.wav', 'O guitarrista literalmente sonhou o riff mais famoso do rock: acordou no meio da noite, gravou meio adormecido num toca-fitas ao lado da cama e voltou a dormir sem lembrar de nada. Na manhã seguinte, achou que estava tocando outra música — até rebobinar a fita e ouvir trinta segundos de genialidade seguidos de quarenta minutos de ronco puro. Ele mesmo duvidava que aquilo daria um single de sucesso.');
 
 INSERT INTO genres (name, path) VALUES
-("MPB", "genres/mpb.png"),
-("Sertanejo", "genres/sertanejo.png"),
-("Rock", "genres/rock.png"),
-("Tropicalismo", "genres/tropicalismo.png"),
-("Folk", "genres/folk.png"),
-("Folk Rock", "genres/folk_rock.png"),
-("Jazz", "genres/jazz.png"),
-("Pop Rock", "genres/pop_rock.png"),
-("Rock Nacional", "genres/rock_nacional.png"),
-("Rock Progressivo", "genres/rock_progressivo.png"),
-("Grunge", "genres/grunge.png"),
-("Samba", "genres/samba.png"),
-("Morna", "genres/morna.png"),
-("Afropop", "genres/afropop.png"),
-("Son Cubano", "genres/son_cubano.png"),
-("World Music", "genres/world_music.png"),
-("Axé", "genres/axe.png"),
-("Funk Pop", "genres/funk_pop.png"),
-("Pop", "genres/pop.png"),
-("Música Clássica", "genres/musica_classica.png"),
-("Choro", "genres/choro.png"),
-("Bossa Nova", "genres/bossa_nova.png");
+("MPB", "genres/mpb"),
+("Sertanejo", "genres/sertanejo"),
+("Rock", "genres/rock"),
+("Tropicalismo", "genres/tropicalismo"),
+("Folk", "genres/folk"),
+("Folk Rock", "genres/folk_rock"),
+("Jazz", "genres/jazz"),
+("Pop Rock", "genres/pop_rock"),
+("Rock Nacional", "genres/rock_nacional"),
+("Rock Progressivo", "genres/rock_progressivo"),
+("Grunge", "genres/grunge"),
+("Samba", "genres/samba"),
+("Morna", "genres/morna"),
+("Afropop", "genres/afropop"),
+("Son Cubano", "genres/son_cubano"),
+("World Music", "genres/world_music"),
+("Axé", "genres/axe"),
+("Funk Pop", "genres/funk_pop"),
+("Pop", "genres/pop"),
+("Música Clássica", "genres/musica_classica"),
+("Choro", "genres/choro"),
+("Bossa Nova", "genres/bossa_nova");
 
 INSERT INTO emotions (name) VALUES
 ("Esperança"),
@@ -251,19 +251,19 @@ INSERT INTO songs_emotions (song_id, emotion_id) VALUES
 
 
 INSERT INTO national_teams(name, anthem_source_id, explication_source, path) VALUES
-("brasil", "Z7pFwsX6UVc", "Brasil_nsuay7.wav", "copa_flags/brasil.png"),
-("canada", "RidIw0OXs9U", "Canada_sbu0lv.wav", "copa_flags/canada.png"),
-("colômbia", "yPSL78YDyZY", "Colombia_ysfnsi.wav", "copa_flags/colombia.png"),
-("Espanha", "BsWFAEytD24", "Espanha_rg4xxk.wav", "copa_flags/espanha.png"),
-("franca", "YLi5A7BiBVk", "Franca_cstqjd.wav", "copa_flags/franca.png"),
-("Inglaterra", "xianOAFljbs", "Inglaterra_ntug23.wav", "copa_flags/inglaterra.png"),
-("Japão", "tkXDCs8qX8Y", "Japao_rxyuwe.wav", "copa_flags/japao.png"),
-("mexico", "oZkTymsI7eI", "M%C3%A9xico_sw1kiv.wav", "copa_flags/mexico.png"),
-("portugal", "DdOEpfypWQA", "Portugal_nmuuhx.wav", "copa_flags/portugal.png"),
-("usa", "LroNerBwIV4", "EUA_supfbt.wav", "copa_flags/usa.png"),
-("argentina", "2zJ8UsfLa9I", "Argentina_zyowxx.wav", "copa_flags/argentina.png"),
-("alemanha", "-k07t4WsXtU", "Alemanha_za09q8.wav", "copa_flags/alemanha.png"),
-("holanda", "S1J1St_rU90", "Holanda_c6orvm.wav", "copa_flags/holanda.png");
+("brasil", "Z7pFwsX6UVc", "Brasil_nsuay7.wav", "copa_flags/brasil"),
+("canada", "RidIw0OXs9U", "Canada_sbu0lv.wav", "copa_flags/canada"),
+("colômbia", "yPSL78YDyZY", "Colombia_ysfnsi.wav", "copa_flags/colombia"),
+("Espanha", "BsWFAEytD24", "Espanha_rg4xxk.wav", "copa_flags/espanha"),
+("franca", "YLi5A7BiBVk", "Franca_cstqjd.wav", "copa_flags/franca"),
+("Inglaterra", "xianOAFljbs", "Inglaterra_ntug23.wav", "copa_flags/inglaterra"),
+("Japão", "tkXDCs8qX8Y", "Japao_rxyuwe.wav", "copa_flags/japao"),
+("mexico", "oZkTymsI7eI", "M%C3%A9xico_sw1kiv.wav", "copa_flags/mexico"),
+("portugal", "DdOEpfypWQA", "Portugal_nmuuhx.wav", "copa_flags/portugal"),
+("usa", "LroNerBwIV4", "EUA_supfbt.wav", "copa_flags/usa"),
+("argentina", "2zJ8UsfLa9I", "Argentina_zyowxx.wav", "copa_flags/argentina"),
+("alemanha", "-k07t4WsXtU", "Alemanha_za09q8.wav", "copa_flags/alemanha"),
+("holanda", "S1J1St_rU90", "Holanda_c6orvm.wav", "copa_flags/holanda");
 
 INSERT INTO brazilian_songs(name, source_id, explication_source) VALUES
 ("A Taça do Mundo É Nossa", "hJAriHOh1Jg", "A_Ta%C3%A7a_do_Mundo_%C3%89_Nossa_pznbtz.wav"),

@@ -123,8 +123,10 @@ async function addMusic(music) {
   playerControls.addMusic(music);
 }
 
-window.submitData = async () => {
+document.getElementById("submit__btn").addEventListener("click", async (e) => {
   try {
+    // Desativa o elemento que chamou temporariamente
+    e.target.disabled = true;
     const genre = genreCylinder.currentCard;
     const emotion = emotionDrum.currentEmotion;
 
@@ -134,11 +136,14 @@ window.submitData = async () => {
     addMusic(music[0]);
     painel.classList.remove("active");
     openPage("player");
-    
+
   } catch (e) {
     showError(e.message);
+
+  } finally {
+    setTimeout(() => e.target.disabled = false, 1000);
   }
-};
+});
 
 function showError(message) {
   const overlay = document.createElement("div");

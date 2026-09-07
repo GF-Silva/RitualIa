@@ -147,15 +147,24 @@ h1 {
 
 #submit__btn {
     position: relative;
-    width: 100%;
     height: fit-content;
+    width: 100%;
     border: unset;
     text-align: center;
     border-bottom-left-radius: 1vw;
     background-color: #f28c28;
-    font-size: 1.2rem;
-    color: #000;
+    pointer-events: auto;
     font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #000;
+}
+
+#submit__btn:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
 /* ===== TAMBOR DE EMOÇÕES ===== */

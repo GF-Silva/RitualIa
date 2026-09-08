@@ -20,6 +20,7 @@ export class CoverFlow {
         this.images = images;
         this.onCardClick = onCardClick;
 
+        this.#coverFlow = document.querySelector('.cover-flow');
         this.#cylinder  = document.getElementById("cylinder");
 
         this.#buildCards();
@@ -31,8 +32,8 @@ export class CoverFlow {
         this.#radius    = circleCircunference / (2 * Math.PI);
         // Angulo de um arco com o tamanho do card
         this.#angleStep = (cardWidth * 360) / circleCircunference;
+        this.#coverFlow.style.perspective = this.#radius * 2 / window.innerWidth * 100 + 'vw';
 
-        this.#coverFlow = document.querySelector('.cover-flow');
         this.#positionCards();
         this.#bindDragEvents();
         this.update(false);

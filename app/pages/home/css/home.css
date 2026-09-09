@@ -28,12 +28,11 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 150vw;
 }
 
 #cylinder {
     position: relative;
-    width: 17%;
+    width: 17vw;
     height: auto;
     aspect-ratio: 1;
     transform-style: preserve-3d;

@@ -19,28 +19,18 @@ export class CoverFlow {
     constructor(images, onCardClick) {
         this.images = images;
         this.onCardClick = onCardClick;
+        this.#total     = this.images.length;
 
         this.#coverFlow = document.querySelector('.cover-flow');
         this.#cylinder  = document.getElementById("cylinder");
 
         this.#buildCards();
-
-        this.#total     = this.#cards.length;
-        //  Pega a width presente no primeiro elemento de card e transforma em inteiro
-        const cardWidth = parseInt(window.getComputedStyle(this.#cards[0]).getPropertyValue('width'));
-        const circleCircunference = cardWidth * this.#total;
-        this.#radius    = circleCircunference / (2 * Math.PI);
-        // Angulo de um arco com o tamanho do card
-        this.#angleStep = (cardWidth * 360) / circleCircunference;
-        this.#coverFlow.style.perspective = this.#radius * 2 / window.innerWidth * 100 + 'vw';
-
-        this.#positionCards();
         this.#bindDragEvents();
         this.update(false);
     }
 
-    #buildCards() {
-        this.images.forEach((item) => {
+    async #buildCards() {
+        this.images.forEach((item, index) => {
             const img = document.createElement("img");
             img.dataset.id = item["id"];
             img.draggable = false;
@@ -54,18 +44,31 @@ export class CoverFlow {
                 /storage/${item['path']}/960.avif 960w,
                 /storage/${item['path']}/1280.avif 1280w
             `;
-                img.sizes="17vw";
+            img.sizes="17vw";
             
             this.#cylinder.appendChild(img);
             this.#cards.push(img);
-        });
-    }
 
-    #positionCards() {
-        this.#cards.forEach((card, i) => {
-            const angle = this.#angleStep * i;
-            card.style.transform = `rotateY(${angle}deg) translateZ(${(this.#radius / window.innerWidth) * 100}vw) translateY(-50%)`;
+            if (index == 0) {
+                //  Pega a width presente no primeiro elemento de card e transforma em inteiro
+                const cardWidth = parseInt(window.getComputedStyle(img).getPropertyValue('width'));
+
+                const circleCircunference = cardWidth * this.#total;
+
+                this.#radius    = circleCircunference / (2 * Math.PI);
+
+                // Angulo de um arco com o tamanho do card
+                this.#angleStep = (cardWidth * 360) / circleCircunference;
+                
+                const angle = this.#angleStep * index;
+                img.style.transform = `rotateY(${angle}deg) translateZ(${this.#radius / innerWidth * 100}vw) translateY(-50%)`;
+            }
+
+            const angle = this.#angleStep * index;
+            img.style.transform = `rotateY(${angle}deg) translateZ(${(this.#radius / window.innerWidth) * 100}vw) translateY(-50%)`;
         });
+
+        this.#coverFlow.style.perspective = `${(this.#radius * 2 / innerWidth * 100)}vw`;
     }
 
     async #handleCardClick(card, diff, newIndex) {

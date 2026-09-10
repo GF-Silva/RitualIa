@@ -14,13 +14,16 @@ class EmotionDrum {
 
   constructor(sentimentos) {
     this.#sentimentos = sentimentos;
-    this.#drumCylinder = document.getElementById("drumCylinder");
+    this.#drumCylinder = document.getElementById("drumCylinder")
     this.#total = this.#sentimentos.length;
     this.#angleStep = 360 / this.#total;
 
     const itemHeight = parseInt(window.getComputedStyle(this.#drumCylinder).getPropertyValue('height'));
     const circleCircunference = itemHeight * this.#total;
     this.#radius = circleCircunference / (2 * Math.PI);
+
+    const drumWrapper = document.querySelector('.drum-wrapper');
+    drumWrapper.style.perspective = this.#radius * 2 / window.innerHeight * 100 + 'vh';
     
     this.#buildItems();
     this.update();
@@ -77,10 +80,11 @@ function onCardClick(card) {
 }
 
 const genres = await fetch('/api/songs/genres');
+const jss = await genres.json();
 const emotions = await fetch('/api/songs/emotions');
 
 const emotionDrum = new EmotionDrum(await emotions.json());
-const genreCylinder = new CoverFlow(await genres.json(), onCardClick);
+const genreCylinder = new CoverFlow(jss, onCardClick);
 
 function isMusicRepeating(music) {
   if (playerControls.musics.some((queueMusic) => queueMusic.id === music['id'])) {

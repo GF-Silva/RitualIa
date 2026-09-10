@@ -170,7 +170,6 @@ h1 {
 .drum-wrapper {
     position: relative;
     flex: 1;
-    perspective: 200vh;
     perspective-origin: 50% 50%;
     overflow: hidden;
     display: flex;

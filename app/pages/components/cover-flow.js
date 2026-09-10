@@ -50,6 +50,7 @@ export class CoverFlow {
             this.#cards.push(img);
 
             if (index == 0) {
+                img.fetchPriority = "high";
                 //  Pega a width presente no primeiro elemento de card e transforma em inteiro
                 const cardWidth = parseInt(window.getComputedStyle(img).getPropertyValue('width'));
 
@@ -126,12 +127,12 @@ export class CoverFlow {
                 "transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1)";
             this.#cylinder.style.transform = `rotateY(${this.#currentRotation}deg)`;
 
-            const cardWidth = parseInt(window.getComputedStyle(this.#cards[0]).getPropertyValue('width'));
+            const cardWidth = this.#cards[this.#current].getBoundingClientRect().width;
             const windowCenter = window.innerWidth / 2;
-            const clickDistance = e.clientX - windowCenter;
-            const cardRelationFromDistance = clickDistance / cardWidth;
+            const centerDistance = e.clientX - windowCenter;
+            const cardRelDistance = centerDistance / (cardWidth );
 
-            const diff = cardRelationFromDistance >= 0 ? Math.floor(cardRelationFromDistance) : Math.ceil(cardRelationFromDistance);
+            const diff = Math.round(cardRelDistance);
             const newIndex = (this.#current + diff + this.#total) % this.#total;
             this.#handleCardClick(this.#cards[newIndex], diff, newIndex);
             

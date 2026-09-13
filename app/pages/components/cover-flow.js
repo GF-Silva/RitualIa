@@ -5,6 +5,7 @@ export class CoverFlow {
     #total;
     #angleStep;
     #radius;
+    #cardWidth;
     #current = 0;
 
     #isDragging = false;
@@ -15,14 +16,16 @@ export class CoverFlow {
     #sensitivity = 0.15;
     #clickThreshold = 6;
     #oldIndice;
+    #cardsOffset = 2;
+    #cardsRange;
 
     constructor(images, onCardClick) {
         this.images = images;
         this.onCardClick = onCardClick;
-        this.#total     = this.images.length;
+        this.#total = this.images.length;
 
         this.#coverFlow = document.querySelector('.cover-flow');
-        this.#cylinder  = document.getElementById("cylinder");
+        this.#cylinder = document.getElementById("cylinder");
 
         this.#buildCards();
         this.#bindDragEvents();
@@ -32,6 +35,7 @@ export class CoverFlow {
     async #buildCards() {
         this.images.forEach((item, index) => {
             const img = document.createElement("img");
+            img.title = `Gênero ${item["name"]}`;
             img.dataset.id = item["id"];
             img.draggable = false;
             img.className = "card";
@@ -45,31 +49,30 @@ export class CoverFlow {
                 /storage/${item['path']}/1280.avif 1280w
             `;
             img.sizes="17vw";
-            
+
             this.#cylinder.appendChild(img);
             this.#cards.push(img);
 
             if (index == 0) {
-                img.fetchPriority = "high";
                 //  Pega a width presente no primeiro elemento de card e transforma em inteiro
-                const cardWidth = parseInt(window.getComputedStyle(img).getPropertyValue('width'));
-
-                const circleCircunference = cardWidth * this.#total;
-
-                this.#radius    = circleCircunference / (2 * Math.PI);
-
+                this.#cardWidth = parseInt(window.getComputedStyle(img).getPropertyValue('width'));
+                const circleCircunference = this.#cardWidth * this.#total;
+                this.#radius = circleCircunference / (2 * Math.PI);
                 // Angulo de um arco com o tamanho do card
-                this.#angleStep = (cardWidth * 360) / circleCircunference;
-                
+                this.#angleStep = (this.#cardWidth * 360) / circleCircunference;
                 const angle = this.#angleStep * index;
-                img.style.transform = `rotateY(${angle}deg) translateZ(${this.#radius / innerWidth * 100}vw) translateY(-50%)`;
+                img.style.transform = `rotateY(${angle}deg) translateZ(${(this.#radius / window.innerWidth) * 100}vw) translateY(-50%)`;
+                this.#coverFlow.style.perspective = `${(this.#radius * 2 / innerWidth * 100)}vw`;
+                const relCardWidth = img.getBoundingClientRect().width;
+                const size = this.#coverFlow.getBoundingClientRect().width;
+                const cards = size / relCardWidth;
+                this.#cardsRange = Math.round(cards + this.#cardsOffset);
+                console.log("Cards range: ", this.#cardsRange);
             }
 
             const angle = this.#angleStep * index;
             img.style.transform = `rotateY(${angle}deg) translateZ(${(this.#radius / window.innerWidth) * 100}vw) translateY(-50%)`;
         });
-
-        this.#coverFlow.style.perspective = `${(this.#radius * 2 / innerWidth * 100)}vw`;
     }
 
     async #handleCardClick(card, diff, newIndex) {
@@ -131,12 +134,12 @@ export class CoverFlow {
             const cardWidth = this.#cards[this.#current].getBoundingClientRect().width;
             const windowCenter = window.innerWidth / 2;
             const centerDistance = e.clientX - windowCenter;
-            const cardRelDistance = centerDistance / (cardWidth );
+            const cardRelDistance = centerDistance / (cardWidth);
 
             const diff = Math.round(cardRelDistance);
             const newIndex = (this.#current + diff + this.#total) % this.#total;
             this.#handleCardClick(this.#cards[newIndex], diff, newIndex);
-            
+
             return;
         }
 

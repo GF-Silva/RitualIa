@@ -42,7 +42,42 @@ export class CoverFlow {
 
         const callback = (entries, observer) => {
             entries.forEach(entrie => {
-                console.log(entrie.target.title);
+                let cylinderRotation = this.#cylinder.style.transform.split(' ').find(item => item.includes('rotateY'));
+                let cardRotation = entrie.target.style.transform.split(' ').find(item => item.includes('rotateY'));
+                
+                if (!cylinderRotation || !cardRotation) return;
+
+                cylinderRotation = parseInt(cylinderRotation.replace('rotateY(', '').replace('deg)', ''));
+                cardRotation = parseInt(cardRotation.replace('rotateY(', '').replace('deg)', ''));
+                
+                const finalPos = Math.abs(cardRotation + cylinderRotation);
+                
+                const delta = Math.abs(360 - finalPos);
+                
+                const minRange = this.#cardsRange * this.#angleStep;
+                const maxRange = 360 - minRange;
+                
+                // console.log("\n -------------- \n")
+                // console.log("Cylinder rotation: ", cylinderRotation);
+                // console.log("Pos inicial: ", cardRotation);
+                // console.log("Distancia 1: ", finalPos);
+                // console.log("Distancia 2: ", delta);
+                // console.log(entrie.isIntersecting ? "Entrou" : "Saiu");
+                // console.log(minRange, maxRange);
+
+                if (
+                    finalPos < minRange && delta > maxRange 
+                    || delta < minRange && finalPos > maxRange
+                    && entrie.isIntersecting
+                ) {
+                    console.log("El na frente: ", entrie.target.title);
+                } else {
+                    console.log("El atraz", entrie.target.title);
+                }
+
+                // objetivo:
+                // carregar os elementos proximos
+                // descarregar os distantes
             });
         }
 

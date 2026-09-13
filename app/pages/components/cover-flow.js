@@ -33,6 +33,21 @@ export class CoverFlow {
     }
 
     async #buildCards() {
+        const options = {
+            root: null,
+            // TODO: Definir quantos cards quero visiveis
+            rootMargin: "300px",
+            threshold: 0.1
+        };
+
+        const callback = (entries, observer) => {
+            entries.forEach(entrie => {
+                console.log(entrie.target.title);
+            });
+        }
+
+        const observer = new IntersectionObserver(callback, options);
+
         this.images.forEach((item, index) => {
             const img = document.createElement("img");
             img.title = `Gênero ${item["name"]}`;
@@ -69,6 +84,36 @@ export class CoverFlow {
                 this.#cardsRange = Math.round(cards + this.#cardsOffset);
                 console.log("Cards range: ", this.#cardsRange);
             }
+
+            observer.observe(img);
+
+            // if (index <= this.#cardsRange || index >= this.#total - 1 - this.#cardsRange && index < this.#total) {
+            //     img.fetchPriority = 'high';
+            //     img.decoding = "sync";
+            // } else {
+            //     console.log(index);
+            //     img.decoding = "async";
+            //     img.loading = "lazy";
+            //     img.style.contentVisibility = "auto";
+            //     img.style.containIntrinsicSize = `${this.#cardWidth / innerWidth * 100}vw`;
+            // }
+            // Por default o loading de todos vai ser lazy, apenas o dos elementos visiveis q nao
+
+            /* Imagens principais:
+            <link rel="preload"> no head?
+            fetch-priority: high | low | auto(padrao)
+            */
+
+            /*  Imagens secundarias:
+            content-visibility: hidden | auto | visible -> 
+                hidden: Pula a renderizacao do elemento, mas permite q o conteudo seja renderizado rapido dps com js / css
+                auto: O navegador carrega apenas quando o elemento se aproximar do viewport
+                visible (padrao): O elemento é renderizado normalmente
+
+                ao usar auto ou hidden é importante usar contain-intrinsic-size para definir o tamanho estimado do elemento
+            
+            loading: lazy
+            */
 
             const angle = this.#angleStep * index;
             img.style.transform = `rotateY(${angle}deg) translateZ(${(this.#radius / window.innerWidth) * 100}vw) translateY(-50%)`;

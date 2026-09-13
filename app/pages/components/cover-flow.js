@@ -112,7 +112,8 @@ export class CoverFlow {
 
         const deltaX = e.clientX - this.#startX;
         this.#dragDistance = Math.abs(deltaX);
-        this.#dragRotation = this.#currentRotation + deltaX * this.#sensitivity;
+        // Limita a rotacao maxima do cilindro como 359, acima disso ele coloca como 0
+        this.#dragRotation = Math.abs(this.#currentRotation + deltaX * this.#sensitivity) >= 360 ? 0 : this.#currentRotation + deltaX * this.#sensitivity;
         this.#cylinder.style.transform = `rotateY(${this.#dragRotation}deg)`;
     };
 

@@ -13,7 +13,7 @@ export class CoverFlow {
     #currentRotation = 0;
     #dragRotation = 0;
     #dragDistance = 0;
-    #sensitivity = 0.15;
+    #sensitivity = 0.01;
     #clickThreshold = 6;
     #oldIndice;
     #cardsOffset = 2;
@@ -44,14 +44,12 @@ export class CoverFlow {
             entries.forEach(entrie => {
                 let cylinderRotation = this.#cylinder.style.transform.split(' ').find(item => item.includes('rotateY'));
                 let cardRotation = entrie.target.style.transform.split(' ').find(item => item.includes('rotateY'));
-                
                 if (!cylinderRotation || !cardRotation) return;
 
                 cylinderRotation = parseInt(cylinderRotation.replace('rotateY(', '').replace('deg)', ''));
                 cardRotation = parseInt(cardRotation.replace('rotateY(', '').replace('deg)', ''));
                 
                 const finalPos = Math.abs(cardRotation + cylinderRotation);
-                
                 const delta = Math.abs(360 - finalPos);
                 
                 const minRange = this.#cardsRange * this.#angleStep;
@@ -196,7 +194,7 @@ export class CoverFlow {
         const deltaX = e.clientX - this.#startX;
         this.#dragDistance = Math.abs(deltaX);
         // Limita a rotacao maxima do cilindro como 359, acima disso ele coloca como 0
-        this.#dragRotation = Math.abs(this.#currentRotation + deltaX * this.#sensitivity) >= 360 ? 0 : this.#currentRotation + deltaX * this.#sensitivity;
+        this.#dragRotation = Math.abs(this.#currentRotation + deltaX * this.#angleStep * this.#sensitivity) >= 360 ? 0 : this.#currentRotation + deltaX * this.#angleStep * this.#sensitivity;
         this.#cylinder.style.transform = `rotateY(${this.#dragRotation}deg)`;
     };
 

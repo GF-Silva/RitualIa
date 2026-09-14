@@ -13,10 +13,10 @@ export class CoverFlow {
     #currentRotation = 0;
     #dragRotation = 0;
     #dragDistance = 0;
-    #sensitivity = 0.15;
+    #sensitivity = 0.01;
     #clickThreshold = 6;
     #oldIndice;
-    #cardsOffset = 2;
+    #cardsOffset = 4;
     #cardsRange;
 
     constructor(images, onCardClick) {
@@ -34,45 +34,46 @@ export class CoverFlow {
 
     async #buildCards() {
         const options = {
-            root: null,
+            root: this.#coverFlow,
             // TODO: Definir quantos cards quero visiveis
-            rootMargin: "300px",
-            threshold: 0.1
+            rootMargin: "1%",
+            threshold: 0.001
         };
 
-        const callback = (entries, observer) => {
+        const callback = (entries) => {
             entries.forEach(entrie => {
                 let cylinderRotation = this.#cylinder.style.transform.split(' ').find(item => item.includes('rotateY'));
                 let cardRotation = entrie.target.style.transform.split(' ').find(item => item.includes('rotateY'));
-                
                 if (!cylinderRotation || !cardRotation) return;
 
                 cylinderRotation = parseInt(cylinderRotation.replace('rotateY(', '').replace('deg)', ''));
                 cardRotation = parseInt(cardRotation.replace('rotateY(', '').replace('deg)', ''));
-                
                 const finalPos = Math.abs(cardRotation + cylinderRotation);
-                
                 const delta = Math.abs(360 - finalPos);
-                
                 const minRange = this.#cardsRange * this.#angleStep;
                 const maxRange = 360 - minRange;
-                
-                // console.log("\n -------------- \n")
-                // console.log("Cylinder rotation: ", cylinderRotation);
-                // console.log("Pos inicial: ", cardRotation);
-                // console.log("Distancia 1: ", finalPos);
-                // console.log("Distancia 2: ", delta);
-                // console.log(entrie.isIntersecting ? "Entrou" : "Saiu");
-                // console.log(minRange, maxRange);
 
                 if (
-                    finalPos < minRange && delta > maxRange 
-                    || delta < minRange && finalPos > maxRange
+                    finalPos <= minRange && delta >= maxRange 
+                    || delta <= minRange && finalPos >= maxRange
                     && entrie.isIntersecting
                 ) {
-                    console.log("El na frente: ", entrie.target.title);
+                    // carrega apenas se ele estiver entrando
+                    const imgPath = entrie.target.dataset.src;
+                    if (!entrie.target.src) {
+                        entrie.target.src = `${imgPath}/320.avif`;
+                        entrie.target.srcset=`
+                            ${imgPath}/320.avif 320w,
+                            ${imgPath}/480.avif 480w,
+                            ${imgPath}/640.avif 640w,
+                            ${imgPath}/960.avif 960w,
+                            ${imgPath}/1280.avif 1280w
+                        `;
+                    }
+
+                    entrie.target.style.contentVisibility = "visible";
                 } else {
-                    console.log("El atraz", entrie.target.title);
+                    entrie.target.style.contentVisibility = "";
                 }
 
                 // objetivo:
@@ -89,15 +90,9 @@ export class CoverFlow {
             img.dataset.id = item["id"];
             img.draggable = false;
             img.className = "card";
-
-            img.src = `/storage/${item["path"]}/320.avif`;
-            img.srcset=`
-                /storage/${item['path']}/320.avif 320w,
-                /storage/${item['path']}/480.avif 480w,
-                /storage/${item['path']}/640.avif 640w,
-                /storage/${item['path']}/960.avif 960w,
-                /storage/${item['path']}/1280.avif 1280w
-            `;
+            img.decoding = "async";
+            img.fetchPriority = "high";
+            img.dataset.src = `/storage/${item["path"]}`;
             img.sizes="17vw";
 
             this.#cylinder.appendChild(img);
@@ -119,37 +114,8 @@ export class CoverFlow {
                 this.#cardsRange = Math.round(cards + this.#cardsOffset);
                 console.log("Cards range: ", this.#cardsRange);
             }
-
             observer.observe(img);
-
-            // if (index <= this.#cardsRange || index >= this.#total - 1 - this.#cardsRange && index < this.#total) {
-            //     img.fetchPriority = 'high';
-            //     img.decoding = "sync";
-            // } else {
-            //     console.log(index);
-            //     img.decoding = "async";
-            //     img.loading = "lazy";
-            //     img.style.contentVisibility = "auto";
-            //     img.style.containIntrinsicSize = `${this.#cardWidth / innerWidth * 100}vw`;
-            // }
-            // Por default o loading de todos vai ser lazy, apenas o dos elementos visiveis q nao
-
-            /* Imagens principais:
-            <link rel="preload"> no head?
-            fetch-priority: high | low | auto(padrao)
-            */
-
-            /*  Imagens secundarias:
-            content-visibility: hidden | auto | visible -> 
-                hidden: Pula a renderizacao do elemento, mas permite q o conteudo seja renderizado rapido dps com js / css
-                auto: O navegador carrega apenas quando o elemento se aproximar do viewport
-                visible (padrao): O elemento é renderizado normalmente
-
-                ao usar auto ou hidden é importante usar contain-intrinsic-size para definir o tamanho estimado do elemento
             
-            loading: lazy
-            */
-
             const angle = this.#angleStep * index;
             img.style.transform = `rotateY(${angle}deg) translateZ(${(this.#radius / window.innerWidth) * 100}vw) translateY(-50%)`;
         });
@@ -196,7 +162,7 @@ export class CoverFlow {
         const deltaX = e.clientX - this.#startX;
         this.#dragDistance = Math.abs(deltaX);
         // Limita a rotacao maxima do cilindro como 359, acima disso ele coloca como 0
-        this.#dragRotation = Math.abs(this.#currentRotation + deltaX * this.#sensitivity) >= 360 ? 0 : this.#currentRotation + deltaX * this.#sensitivity;
+        this.#dragRotation = Math.abs(this.#currentRotation + deltaX * this.#angleStep * this.#sensitivity) >= 360 ? 0 : this.#currentRotation + deltaX * this.#angleStep * this.#sensitivity;
         this.#cylinder.style.transform = `rotateY(${this.#dragRotation}deg)`;
     };
 

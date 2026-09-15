@@ -16,7 +16,7 @@ export class CoverFlow {
     #sensitivity = 0.01;
     #clickThreshold = 6;
     #oldIndice;
-    #cardsOffset = 4;
+    #cardsOffset = 3;
     #cardsRange;
 
     constructor(images, onCardClick) {
@@ -32,61 +32,16 @@ export class CoverFlow {
         this.update(false);
     }
 
+    #delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     async #buildCards() {
-        const options = {
-            root: this.#coverFlow,
-            // TODO: Definir quantos cards quero visiveis
-            rootMargin: "1%",
-            threshold: 0.001
-        };
-
-        const callback = (entries) => {
-            entries.forEach(entrie => {
-                let cylinderRotation = this.#cylinder.style.transform.split(' ').find(item => item.includes('rotateY'));
-                let cardRotation = entrie.target.style.transform.split(' ').find(item => item.includes('rotateY'));
-                if (!cylinderRotation || !cardRotation) return;
-
-                cylinderRotation = parseInt(cylinderRotation.replace('rotateY(', '').replace('deg)', ''));
-                cardRotation = parseInt(cardRotation.replace('rotateY(', '').replace('deg)', ''));
-                const finalPos = Math.abs(cardRotation + cylinderRotation);
-                const delta = Math.abs(360 - finalPos);
-                const minRange = this.#cardsRange * this.#angleStep;
-                const maxRange = 360 - minRange;
-
-                if (
-                    finalPos <= minRange && delta >= maxRange 
-                    || delta <= minRange && finalPos >= maxRange
-                    && entrie.isIntersecting
-                ) {
-                    // carrega apenas se ele estiver entrando
-                    const imgPath = entrie.target.dataset.src;
-                    if (!entrie.target.src) {
-                        entrie.target.src = `${imgPath}/320.avif`;
-                        entrie.target.srcset=`
-                            ${imgPath}/320.avif 320w,
-                            ${imgPath}/480.avif 480w,
-                            ${imgPath}/640.avif 640w,
-                            ${imgPath}/960.avif 960w,
-                            ${imgPath}/1280.avif 1280w
-                        `;
-                    }
-
-                    entrie.target.style.contentVisibility = "visible";
-                } else {
-                    entrie.target.style.contentVisibility = "";
-                }
-
-                // objetivo:
-                // carregar os elementos proximos
-                // descarregar os distantes
-            });
-        }
-
-        const observer = new IntersectionObserver(callback, options);
 
         this.images.forEach((item, index) => {
             const img = document.createElement("img");
-            img.title = `Gênero ${item["name"]}`;
+            img.alt = `Foto do gênero ${item["name"]}`;
+            img.title = `Clique para escolher o gênero ${item["name"]}`;
             img.dataset.id = item["id"];
             img.draggable = false;
             img.className = "card";
@@ -100,7 +55,7 @@ export class CoverFlow {
 
             if (index == 0) {
                 //  Pega a width presente no primeiro elemento de card e transforma em inteiro
-                this.#cardWidth = parseInt(window.getComputedStyle(img).getPropertyValue('width'));
+                this.#cardWidth = parseFloat(window.getComputedStyle(img).getPropertyValue('width'));
                 const circleCircunference = this.#cardWidth * this.#total;
                 this.#radius = circleCircunference / (2 * Math.PI);
                 // Angulo de um arco com o tamanho do card
@@ -114,11 +69,130 @@ export class CoverFlow {
                 this.#cardsRange = Math.round(cards + this.#cardsOffset);
                 console.log("Cards range: ", this.#cardsRange);
             }
-            observer.observe(img);
             
             const angle = this.#angleStep * index;
             img.style.transform = `rotateY(${angle}deg) translateZ(${(this.#radius / window.innerWidth) * 100}vw) translateY(-50%)`;
         });
+
+        this.#createObserver();
+    }
+
+    #createObserver() {
+        const rotateRegex = RegExp(/rotateY\((-?\d+(?:\.\d+)?)/);
+        const angleRange = this.#angleStep * this.#cardsRange;
+        const minAngle = angleRange;
+        const maxAngle = 360 - minAngle;
+        let isBusy = false;
+        let oldAngle = 0;
+        let firstCard;
+        let lastCard;
+
+        // percorre cada direcao, partindo do comeco e do fim
+        for (let index = 0; index < this.#total; index++) {
+            const card = this.#cards[index];
+            const cardAngle = this.#extractAngle(card.style.transform, rotateRegex, 0);
+            const cylinderRotation = this.#extractAngle(this.#cylinder.style.transform, rotateRegex, 0);
+            const finalAngle = Math.abs(cardAngle + cylinderRotation);
+            const delta = Math.abs(360 - finalAngle);
+            
+            if (
+                finalAngle <= minAngle && delta >= maxAngle 
+                || delta <= minAngle && finalAngle >= maxAngle
+            ) {
+                lastCard = index;
+            } else {
+                break;
+            }
+        }
+
+        for (let index = this.#total - 1; index >= 0; index--) {
+            const card = this.#cards[index];
+            const cardAngle = this.#extractAngle(card.style.transform, rotateRegex, 0);
+            const cylinderRotation = this.#extractAngle(this.#cylinder.style.transform, rotateRegex, 0);
+            const finalAngle = Math.abs(cardAngle + cylinderRotation);
+            const delta = Math.abs(360 - finalAngle);
+            
+            if (
+                finalAngle <= minAngle && delta >= maxAngle 
+                || delta <= minAngle && finalAngle >= maxAngle
+            ) {
+                firstCard = index;
+            } else {
+                break;
+            }
+        }
+
+        const observer = new MutationObserver(async (mutations) => {
+            // concorrencia: apenas 1 observer usa de cada vez
+            if (isBusy) return;
+
+            mutations.forEach(async (mutation) => {
+                // assegura a concorrencia
+                if (isBusy) return;
+
+                try {
+                    isBusy = true;
+                    
+                    let newRotation = this.#extractAngle(mutation.target.style.transform, rotateRegex, 0);
+                    const delta = (newRotation - oldAngle) / this.#angleStep;
+                    
+                    if (Math.abs(delta) < 0.7) return;
+                    
+                    // console.log('---------------------');
+                    // console.log("Delta: ", delta);
+                    // console.log("First card: ", firstCard);
+                    // console.log("Last card: ", lastCard);
+
+                    const dir = Math.abs(Math.round(delta));
+
+                    if (delta < 0) {
+                        // console.log("++++++++++++++++++++++++");
+                        // console.log("Delta negativo: ", dir);
+
+                        for (let i=0; i < dir; i++) {
+                            this.#cards[(firstCard + i + this.#total) % this.#total].style.background = "#f00";
+                            this.#cards[(lastCard + 1 + i + this.#total) % this.#total].style.background = '';
+                        }
+
+                        firstCard = (firstCard + dir + this.#total) % this.#total;
+                        lastCard = (lastCard + dir + this.#total) % this.#total;
+                        
+                        // console.log("Novo first card: ", firstCard);
+                        // console.log("Novo last card: ", lastCard);
+
+                    } else {
+                        // console.log("++++++++++++++++++++++++");
+                        // console.log("Delta positivo: ", dir);
+
+                        // remove os last card
+                        for (let i = 0; i < dir; i++) {
+                            this.#cards[(lastCard - i + this.#total) % this.#total].style.background = "#ff0";
+                            this.#cards[(firstCard - 1 - i + this.#total) % this.#total].style.background = '';
+                        }
+
+                        lastCard = (lastCard - dir + this.#total) % this.#total;
+                        firstCard = (firstCard - dir + this.#total) % this.#total
+
+                        // console.log("Novo first card: ", firstCard);
+                        // console.log("Novo last card: ", lastCard);
+                    }
+                    
+                    oldAngle = newRotation;
+                } finally {
+                    // devo ajustar o delay se ficar extremamente rapido
+                    // delay para limitar a quantidade de ocorrencias por segundo
+                    await this.#delay(100);
+                    isBusy = false;
+                }
+            });
+        });
+
+        observer.observe(this.#cylinder, { attributeOldValue: true, attributesFilter: "style" });
+    }
+
+    #extractAngle(str, regex, fallback = 0) {
+        const match = str?.match(regex);
+        return match ? parseFloat(match[1]) : fallback;
     }
 
     async #handleCardClick(card, diff, newIndex) {

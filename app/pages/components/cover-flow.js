@@ -69,8 +69,10 @@ export class CoverFlow {
 
                 const relCardWidth = img.getBoundingClientRect().width;
                 const coverSize = this.#coverFlow.getBoundingClientRect().width;
-                const cards = coverSize / relCardWidth;
-                this.#cardsRange = cards + this.#cardsOffset;
+                const cardsInScreen = coverSize / relCardWidth;
+                const totalOffset = cardsInScreen + this.#cardsOffset;
+                const isOverTotal = totalOffset * 2 + 1 > this.#total;
+                this.#cardsRange = Math.max(1, Math.round(isOverTotal ? this.#total / 2 - 1 : totalOffset));
                 console.log("Cards range: ", this.#cardsRange);
 
                 this.#firstCard = (0 - this.#cardsRange + this.#total) % this.#total;

@@ -16,8 +16,10 @@ export class CoverFlow {
     #sensitivity = 0.01;
     #clickThreshold = 6;
     #oldIndice;
-    #cardsOffset = 3;
+    #cardsOffset = 2;
     #cardsRange;
+    #firstCard;
+    #lastCard;
 
     constructor(images, onCardClick) {
         this.images = images;
@@ -32,12 +34,12 @@ export class CoverFlow {
         this.update(false);
     }
 
+    // TODO: dps mover pra utils
     #delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     async #buildCards() {
-
         this.images.forEach((item, index) => {
             const img = document.createElement("img");
             img.alt = `Foto do gênero ${item["name"]}`;
@@ -61,73 +63,43 @@ export class CoverFlow {
                 // Angulo de um arco com o tamanho do card
                 this.#angleStep = (this.#cardWidth * 360) / circleCircunference;
                 const angle = this.#angleStep * index;
+
                 img.style.transform = `rotateY(${angle}deg) translateZ(${(this.#radius / window.innerWidth) * 100}vw) translateY(-50%)`;
                 this.#coverFlow.style.perspective = `${(this.#radius * 2 / innerWidth * 100)}vw`;
+
                 const relCardWidth = img.getBoundingClientRect().width;
-                const size = this.#coverFlow.getBoundingClientRect().width;
-                const cards = size / relCardWidth;
-                this.#cardsRange = Math.round(cards + this.#cardsOffset);
+                const coverSize = this.#coverFlow.getBoundingClientRect().width;
+                const cards = coverSize / relCardWidth;
+                this.#cardsRange = cards + this.#cardsOffset;
                 console.log("Cards range: ", this.#cardsRange);
+
+                this.#firstCard = (0 - this.#cardsRange + this.#total) % this.#total;
+                this.#lastCard = (0 + this.#cardsRange + this.#total) % this.#total;
+                this.#createObserver(this.#firstCard, this.#lastCard);
+            }
+
+            if (index <= this.#lastCard || index >= this.#firstCard) {
+                this.#loadCard(img);
             }
             
             const angle = this.#angleStep * index;
             img.style.transform = `rotateY(${angle}deg) translateZ(${(this.#radius / window.innerWidth) * 100}vw) translateY(-50%)`;
         });
-
-        this.#createObserver();
     }
 
-    #createObserver() {
+    #createObserver(firstCard, lastCard) {
+        console.log("Total: ", this.#total);
+
         const rotateRegex = RegExp(/rotateY\((-?\d+(?:\.\d+)?)/);
-        const angleRange = this.#angleStep * this.#cardsRange;
-        const minAngle = angleRange;
-        const maxAngle = 360 - minAngle;
         let isBusy = false;
         let oldAngle = 0;
-        let firstCard;
-        let lastCard;
-
-        // percorre cada direcao, partindo do comeco e do fim
-        for (let index = 0; index < this.#total; index++) {
-            const card = this.#cards[index];
-            const cardAngle = this.#extractAngle(card.style.transform, rotateRegex, 0);
-            const cylinderRotation = this.#extractAngle(this.#cylinder.style.transform, rotateRegex, 0);
-            const finalAngle = Math.abs(cardAngle + cylinderRotation);
-            const delta = Math.abs(360 - finalAngle);
-            
-            if (
-                finalAngle <= minAngle && delta >= maxAngle 
-                || delta <= minAngle && finalAngle >= maxAngle
-            ) {
-                lastCard = index;
-            } else {
-                break;
-            }
-        }
-
-        for (let index = this.#total - 1; index >= 0; index--) {
-            const card = this.#cards[index];
-            const cardAngle = this.#extractAngle(card.style.transform, rotateRegex, 0);
-            const cylinderRotation = this.#extractAngle(this.#cylinder.style.transform, rotateRegex, 0);
-            const finalAngle = Math.abs(cardAngle + cylinderRotation);
-            const delta = Math.abs(360 - finalAngle);
-            
-            if (
-                finalAngle <= minAngle && delta >= maxAngle 
-                || delta <= minAngle && finalAngle >= maxAngle
-            ) {
-                firstCard = index;
-            } else {
-                break;
-            }
-        }
 
         const observer = new MutationObserver(async (mutations) => {
-            // concorrencia: apenas 1 observer usa de cada vez
+            // concorrencia: apenas 1 mutation usa de cada vez
             if (isBusy) return;
 
             mutations.forEach(async (mutation) => {
-                // assegura a concorrencia
+                // assegura a concorrencia de apenas 1 mutation
                 if (isBusy) return;
 
                 try {
@@ -137,44 +109,29 @@ export class CoverFlow {
                     const delta = (newRotation - oldAngle) / this.#angleStep;
                     
                     if (Math.abs(delta) < 0.7) return;
-                    
-                    // console.log('---------------------');
-                    // console.log("Delta: ", delta);
-                    // console.log("First card: ", firstCard);
-                    // console.log("Last card: ", lastCard);
-
                     const dir = Math.abs(Math.round(delta));
 
                     if (delta < 0) {
-                        // console.log("++++++++++++++++++++++++");
-                        // console.log("Delta negativo: ", dir);
-
                         for (let i=0; i < dir; i++) {
-                            this.#cards[(firstCard + i + this.#total) % this.#total].style.background = "#f00";
-                            this.#cards[(lastCard + 1 + i + this.#total) % this.#total].style.background = '';
+                            // descarrega o firstCard
+                            this.#unloadCard(this.#cards[(firstCard + i + this.#total) % this.#total]);
+                            // carrega o lastCard
+                            this.#loadCard(this.#cards[(lastCard + 1 + i + this.#total) % this.#total]);
                         }
 
                         firstCard = (firstCard + dir + this.#total) % this.#total;
                         lastCard = (lastCard + dir + this.#total) % this.#total;
-                        
-                        // console.log("Novo first card: ", firstCard);
-                        // console.log("Novo last card: ", lastCard);
 
                     } else {
-                        // console.log("++++++++++++++++++++++++");
-                        // console.log("Delta positivo: ", dir);
-
-                        // remove os last card
-                        for (let i = 0; i < dir; i++) {
-                            this.#cards[(lastCard - i + this.#total) % this.#total].style.background = "#ff0";
-                            this.#cards[(firstCard - 1 - i + this.#total) % this.#total].style.background = '';
+                        for (let i=0; i < dir; i++) {
+                            // descarrega o lastCard
+                            this.#unloadCard(this.#cards[(lastCard - i + this.#total) % this.#total]);
+                            // carrega o first card
+                            this.#loadCard(this.#cards[(firstCard - 1 - i + this.#total) % this.#total]);
                         }
 
                         lastCard = (lastCard - dir + this.#total) % this.#total;
-                        firstCard = (firstCard - dir + this.#total) % this.#total
-
-                        // console.log("Novo first card: ", firstCard);
-                        // console.log("Novo last card: ", lastCard);
+                        firstCard = (firstCard - dir + this.#total) % this.#total;
                     }
                     
                     oldAngle = newRotation;
@@ -188,6 +145,27 @@ export class CoverFlow {
         });
 
         observer.observe(this.#cylinder, { attributeOldValue: true, attributesFilter: "style" });
+    }
+
+    #loadCard(card) {
+        const src = card.dataset.src;
+        // carrega apenas se ele estiver entrando
+        if (!card.src) {
+            card.src = `${src}/320.avif`;
+            card.srcset=`
+                ${src}/320.avif 320w,
+                ${src}/480.avif 480w,
+                ${src}/640.avif 640w,
+                ${src}/960.avif 960w,
+                ${src}/1280.avif 1280w
+            `;
+        }
+
+        card.style.contentVisibility = "visible";
+    }
+
+    #unloadCard(card) {
+        card.style.contentVisibility = "";
     }
 
     #extractAngle(str, regex, fallback = 0) {

@@ -1,5 +1,13 @@
+import { AsyncEvent } from "./async-event.js";
 
-export function createPlayer({ playerId, sourceId, playerVars, events }) {
+const isFrameActive = new AsyncEvent(false);
+
+window.onYouTubeIframeAPIReady = () => {
+    isFrameActive.activate();
+}
+
+export async function createPlayer({ playerId, sourceId, playerVars, events }) {
+    if (!isFrameActive.peek()) await isFrameActive.whenActive();
     return new YT.Player(playerId, {
         videoId: sourceId ? sourceId : "",
         playerVars: playerVars ? playerVars : {

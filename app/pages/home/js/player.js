@@ -18,20 +18,24 @@ class PlayerControls {
   #explicationAudio;
 
   constructor(queueList, authorLabel, nameLabel, durationLabel, currentTimeLabel, musicDescriptionLabel) {
-    this.#queueList = queueList
-    this.#authorLabel = authorLabel
-    this.#nameLabel =  nameLabel
+    this.#queueList = queueList;
+    this.#authorLabel = authorLabel;
+    this.#nameLabel =  nameLabel;
     this.#durationLabel = durationLabel;
     this.#currentTimeLabel = currentTimeLabel;
     this.#musicDescriptionLabel = musicDescriptionLabel;
-    this.player = createPlayer({
+
+    createPlayer({
       playerId: "ytplayer",
       events: {
         onReady: _ => this.onPlayerReady(),
         onStateChange: (event) => this.onPlayerStateChange(event),
         onError: (event) => this.onPlayerError(event)
       }
+    }).then(result => {
+      this.player = result;
     })
+
     console.log('PlayerControls initialized');
   }
 
@@ -98,8 +102,20 @@ class PlayerControls {
     // Checa se o player esta pronto antes de continuar
     if (!this.#isPlayerReady.peek()) {
       console.log("Player: Esperando o player ficar pronto");
+
+      createToast({
+        message: "Esperando o player ficar pronto",
+        styles: {
+          bottom: "6%",
+          right: "2%"
+        },
+        time: 7
+      });
+
       await this.#isPlayerReady.whenActive();
     }
+
+    console.log(this.player);
     
     // Checa se tem algum video na queue, se n marca q n ta reproduzindo mais
     if (this.#musics.length <= 0) {
@@ -113,6 +129,7 @@ class PlayerControls {
     console.log("Video played: ", music);
 
     // Prepara o video
+
     this.player.cueVideoById(music["source_id"]);
 
     // Exibe as infos

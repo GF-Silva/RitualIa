@@ -12,13 +12,15 @@
   </head>
 
   <body>
-    <img src="/app/pages/assets/logo/160w"
-      srcset="
-        {{ url_for('static', filename='assets/logo/160.avif')}} 160w,
-        {{ url_for('static', filename='assets/logo/320.avif')}} 320w, 
-        {{ url_for('static', filename='assets/logo/480.avif')}} 480w
-        "
-      class="logo-bg" id="logo" />
+    <header>
+      <img src="/app/pages/assets/logo/160w"
+        srcset="
+          {{ url_for('static', filename='assets/logo/160.avif')}} 160w,
+          {{ url_for('static', filename='assets/logo/320.avif')}} 320w, 
+          {{ url_for('static', filename='assets/logo/480.avif')}} 480w
+          "
+        class="logo-bg" id="logo" alt="Logotípo do Ritualia" />
+    </header>
 
     <div id="home" class="active">
       <div
@@ -28,8 +30,11 @@
           event.stopPropagation();
           openPage('player');
         "
+        role="button"
+        aria-label="Abrir o player de músicas"
+        tabindex="0"
       >
-        <div class="play-icon"></div>
+        <div class="back-icon"></div>
 
         <div class="music-wave">
           <div></div>
@@ -41,34 +46,32 @@
         <span>PLAYER</span>
       </div>
 
-      <div class="main">
+      <main class="main">
         <h1>GÊNEROS MUSICAIS</h1>
 
-        <div class="cover-flow">
+        <section class="cover-flow" aria-roledescription="carousel" aria-label="Imagens dos gêneros disponiveis para escolha">
           <div id="cylinder"></div>
-        </div>
-      </div>
+        </section>
+      </main>
 
-      <div class="painel" id="painel">
+      <aside id="painel" aria-label="Selecionar a emoção">
         <button class="voltar" onclick="closePanel()">VOLTAR</button>
         <h2>RITMOS MUSICAIS</h2>
 
-        <img id="painelImg" />
+        <img id="painelImg" alt="Gênero selecionado" />
 
         <div class="emotion-selector">
-          <div class="drum-wrapper">
+          <section class="drum-wrapper" aria-roledescription="carousel" aria-label="Emoções disponiveis para escolha">
             <div class="drum-cylinder" id="drumCylinder"></div>
-          </div>
+          </section>
           <button id="submit__btn">Selecionar</button>
 
           <div class="buttons">
-            <button class="seta" onclick="mudarSentimento(1)"></button>
-            <button class="seta" onclick="mudarSentimento(-1)" style="transform: rotate(180deg)"></button>
+            <button class="seta" onclick="mudarSentimento(1)" aria-label="Subir o sentimento" ></button>
+            <button class="seta" onclick="mudarSentimento(-1)" style="transform: rotate(180deg)" aria-label="Descer o sentimento"></button>
           </div>
-
         </div>
-        
-      </div>
+      </aside>
     </div>
 
     <div id="player">
@@ -80,6 +83,9 @@
           event.stopPropagation();
           openPage('home');
         "
+        role="button"
+        aria-roledescription="Voltar para o seletor de gêneros"
+        tabindex="0"
       >
         <div class="back-icon"></div>
 
@@ -95,31 +101,30 @@
 
       <div class="row-player">
         <!-- ABA -->
-        <button class="panel" id="panel" onclick="togglePanel()">
-          <p id="music-description-label" class="panel-content">
+        <button class="panel" id="panel" onclick="togglePanel()" aria-label="Abrir a descrição em texto do vídeo">
+          <p id="music-description-label" class="panel-content" aria-label="descrição">
             História detalhada do autor, com imagens antigas e recentes.
           </p>
           <div class="arrow">➜</div>
         </button>
 
-
         <!-- PLAYER -->
         <div class="player-box" id="playerBox">
-          <div id="ytplayer"></div>
+          <div id="ytplayer" tabindex="-1"></div>
 
           <div class="info">
-            <p id="author">Autor</p>
-            <p id="music">Música</p>
+            <p id="author" aria-label="autor">Autor</p>
+            <p id="music" aria-label="Música">Música</p>
           </div>
 
           <div class="time">
-            <p id="currentMusicTime">0:00</p>
-            <p id="musicDuration">0:00</p>
+            <p id="currentMusicTime" aria-label="Tempo atual do vídeo">0:00</p>
+            <p id="musicDuration" aria-label="Duração do vídeo">0:00</p>
           </div>
 
-          <div class="progress" role="progressbar">
-            <div class="bar" id="bar"></div>
-            <div class="dot" id="dot"></div>
+          <div class="progress" role="progressbar" aria-label="Progresso do tempo do vídeo">
+            <div class="bar" id="bar" aria-hidden="true"></div>
+            <div class="dot" id="dot" aria-hidden="true"></div>
           </div>
         </div>
       </div>
@@ -134,8 +139,7 @@
             <div class="queue-genre">Gênero</div>
         </div>
 
-        <div class="queue-list" id="queue-list"></div>
-      </div>
+        <ul class="queue-list" id="queue-list" role="listbox" aria-label="Fila de músicas"></ul>
       </div>
     </div>
 

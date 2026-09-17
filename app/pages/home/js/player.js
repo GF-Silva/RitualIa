@@ -46,8 +46,9 @@ class PlayerControls {
   addMusic(params) {
     this.#musics.push(params);
 
-    const queueItem = document.createElement("div");
+    const queueItem = document.createElement("li");
     queueItem.className = "queue-item";
+    queueItem.ariaLabel = `Música ${params['title']}`;
 
     const itemName = document.createElement("span");
     itemName.className = "left";

@@ -66,25 +66,27 @@ h1 {
 }
 
 /* ===== PAINEL ===== */
-.painel {
+#painel {
     position: fixed;
+    display: flex;
+    visibility: hidden;
     width: 100vw;
     height: 100vh;
-    display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5%;
-    transform: translateX(100%);
-    transition: 0.6s;
+    transform: translateY(100%);
     background: linear-gradient(135deg, #0f1a14, #1e5b3a);
+    transition: transform 0.6s ease, visibility 0.6s ease;
     z-index: 999;
+    gap: 5%;
 }
 
-.painel.active {
-    transform: translateX(0);
+#painel.active {
+    visibility: visible;
+    transform: translateY(0);
 }
 
-.painel img {
+#painel img {
     width: auto;
     height: auto;
     max-height: 50%;
@@ -93,7 +95,7 @@ h1 {
     border-radius: 10%;
 }
 
-.painel h2 {
+#painel h2 {
     position: absolute;
     text-align: center;
     color: #f28c28;
@@ -204,7 +206,7 @@ h1 {
     right: 8px;
     top: 50%;
     transform: translateY(-50%);
-    height: 23%;
+    height: 13%;
     border-top: 1px solid rgba(242, 140, 40, 0.55);
     border-bottom: 1px solid rgba(242, 140, 40, 0.55);
     z-index: 25;

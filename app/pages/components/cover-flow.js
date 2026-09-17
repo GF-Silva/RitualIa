@@ -187,7 +187,7 @@ export class CoverFlow {
             return;
         }
 
-        await this.onCardClick(card);
+        await this.onCardClick(card, index);
     }
 
     #bindDragEvents() {

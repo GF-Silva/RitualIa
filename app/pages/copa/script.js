@@ -69,7 +69,7 @@ class CopaPlayer {
 
     async playVideo({ sourceId, explicationId, time }) {
         this.playerDiv.classList.add('active');
-        this.player = createPlayer({
+        this.player = await createPlayer({
             playerId: "ytplayer",
             sourceId: sourceId,
             events: {
@@ -111,7 +111,14 @@ async function onCardClick(card, index) {
         // Se for o btn do brasil -> exibe a escolha entre hino e musica
         if (index === 0) {
             const anthemSelector = document.createElement("img");
-            anthemSelector.src = "/storage/copa_flags/hino_br.png";
+            anthemSelector.src = "/storage/copa_flags/hino_br/320.avif";
+            anthemSelector.srcset = `
+                /storage/copa_flags/hino_br/320.avif 320w,
+                /storage/copa_flags/hino_br/480.avif 480w,
+                /storage/copa_flags/hino_br/640.avif 640w,
+                /storage/copa_flags/hino_br/960.avif 960w,
+                /storage/copa_flags/hino_br/1280.avif 1280w
+            `
 
             anthemSelector.addEventListener("click", async () => {
                 const videoResponse = await fetch(`/api/copa/teams/${teamsData[index]["id"]}`);
@@ -130,7 +137,14 @@ async function onCardClick(card, index) {
             });
 
             const musicSelector = document.createElement("img");
-            musicSelector.src = "/storage/copa_flags/musicas_br.png";
+            musicSelector.src = "/storage/copa_flags/musicas_br/320.avif";
+            musicSelector.srcset=`
+                /storage/copa_flags/musicas_br/320.avif 320w,
+                /storage/copa_flags/musicas_br/480.avif 480w,
+                /storage/copa_flags/musicas_br/640.avif 640w,
+                /storage/copa_flags/musicas_br/960.avif 960w,
+                /storage/copa_flags/musicas_br/1280.avif 1280w
+            `;
 
             musicSelector.addEventListener("click", async () => {
                 const videoResponse = await fetch('/api/copa/songs');

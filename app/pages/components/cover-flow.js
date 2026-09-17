@@ -16,7 +16,7 @@ export class CoverFlow {
     #sensitivity = 0.01;
     #clickThreshold = 6;
     #oldIndice;
-    #cardsOffset = 2;
+    #cardsOffset = 4;
     #cardsRange;
     #firstCard;
     #lastCard;
@@ -216,7 +216,9 @@ export class CoverFlow {
         const deltaX = e.clientX - this.#startX;
         this.#dragDistance = Math.abs(deltaX);
         // Limita a rotacao maxima do cilindro como 359, acima disso ele coloca como 0
-        this.#dragRotation = Math.abs(this.#currentRotation + deltaX * this.#angleStep * this.#sensitivity) >= 360 ? 0 : this.#currentRotation + deltaX * this.#angleStep * this.#sensitivity;
+        const dragRoation = this.#currentRotation + deltaX * this.#angleStep * this.#sensitivity;
+        const diff = dragRoation >= 0 ? dragRoation - 360 : dragRoation + 360;
+        this.#dragRotation = Math.abs(dragRoation) >= 360 ? diff : dragRoation;
         this.#cylinder.style.transform = `rotateY(${this.#dragRotation}deg)`;
     };
 

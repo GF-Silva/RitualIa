@@ -216,8 +216,8 @@ export class CoverFlow {
                 break;
             
             case "Enter":
-                this.#handleCardClick(this.#cards[this.#current], 0, this.#current);
                 e.target.blur();
+                this.#handleCardClick(this.#cards[this.#current], 0, this.#current);
                 break;
             
             case "Escape":

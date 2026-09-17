@@ -66,18 +66,21 @@ body::after {
 }
 
 #player.active, #home.active {
-  clip-path: inset(0 0 0 0); /* Revela o elemento todo */
   visibility: visible;
+  clip-path: inset(0 0 0 0); /* Revela o elemento todo */
 }
 
 .player-indicator, .genre-indicator {
+  padding-block: 0;
+  padding-inline: 0;
+  border: none;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
 
   max-height: 20%;
   min-height: 10%;
-  width: 4%;
+  width: 10%;
   height: auto;
   aspect-ratio: 1/2;
 

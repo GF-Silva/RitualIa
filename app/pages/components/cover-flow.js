@@ -182,7 +182,7 @@ export class CoverFlow {
         if (index != this.#current) {
             // Movimenta ate o card
             this.#updateIndice(newIndex);
-            this.#currentRotation += -diff * this.#angleStep;
+            this.#currentRotation = this.#newRotation(this.#currentRotation - diff * this.#angleStep);
             this.update();
             return;
         }
@@ -195,8 +195,43 @@ export class CoverFlow {
         this.#coverFlow.addEventListener("pointermove", this.#onPointerMove);
         this.#coverFlow.addEventListener("pointerup", this.#onPointerUp);
         this.#coverFlow.addEventListener("pointercancel", this.#onPointerCancel);
-
         this.#coverFlow.addEventListener("dragstart", (e) => e.preventDefault());
+        this.#coverFlow.addEventListener("keydown", this.#keyDown);
+    }
+
+    #keyDown = (e) => {
+        switch (e.key) {
+            case "ArrowLeft":
+                // Movimenta ate o card
+                this.#updateIndice((this.#current - 1 + this.#total) % this.#total);
+                this.#currentRotation = this.#newRotation(this.#currentRotation + (1 * this.#angleStep));
+                this.update();
+                break;
+
+            case "ArrowRight":
+                // Movimenta ate o card
+                this.#updateIndice((this.#current + 1 + this.#total) % this.#total);
+                this.#currentRotation = this.#newRotation(this.#currentRotation + (-1 * this.#angleStep));
+                this.update();
+                break;
+            
+            case "Enter":
+                this.#handleCardClick(this.#cards[this.#current], 0, this.#current);
+                e.target.blur();
+                break;
+            
+            case "Escape":
+                e.target.blur();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    #newRotation(rotation) {
+        const diff = rotation >= 0 ? rotation - 360 : rotation + 360;
+        return Math.abs(rotation) >= 360 ? diff : rotation;
     }
 
     #onPointerDown = (e) => {
@@ -215,10 +250,9 @@ export class CoverFlow {
 
         const deltaX = e.clientX - this.#startX;
         this.#dragDistance = Math.abs(deltaX);
+        const dragRotation = this.#currentRotation + deltaX * this.#angleStep * this.#sensitivity;
         // Limita a rotacao maxima do cilindro como 359, acima disso ele coloca como 0
-        const dragRoation = this.#currentRotation + deltaX * this.#angleStep * this.#sensitivity;
-        const diff = dragRoation >= 0 ? dragRoation - 360 : dragRoation + 360;
-        this.#dragRotation = Math.abs(dragRoation) >= 360 ? diff : dragRoation;
+        this.#dragRotation = this.#newRotation(dragRotation);
         this.#cylinder.style.transform = `rotateY(${this.#dragRotation}deg)`;
     };
 
@@ -246,9 +280,8 @@ export class CoverFlow {
         }
 
         const steps = Math.round((this.#dragRotation - this.#currentRotation) / -this.#angleStep);
-
-        this.#updateIndice(((this.#current + steps) % this.#total + this.#total) % this.#total)
-        this.#currentRotation = this.#currentRotation - steps * this.#angleStep;
+        this.#updateIndice((this.#current + steps + this.#total) % this.#total);
+        this.#currentRotation = this.#newRotation(this.#currentRotation - steps * this.#angleStep);
 
         this.update();
     };

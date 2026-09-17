@@ -42,146 +42,79 @@ body::after {
   width: 15%;
 }
 
-#home {
+#home, #player {
   position: fixed;
   display: flex;
-  left: 0;
-  top: 0;
   width: 100vw;
   height: 100vh;
+  transition: clip-path 0.4s ease, visibility 0.4s ease;
   align-items: center;
-  justify-items: center;
+  justify-content: center;
+  flex-direction: column;
+  visibility: hidden;
   overflow: hidden;
-  transition: 0.6s;
-  clip-path: inset(0 100% 0 0); /* Esconde tudo da direita para esquerda */
-  transition: clip-path 0.4s ease;
   z-index: 100;
 }
 
+#home {
+  clip-path: inset(0 100% 0 0); /* Esconde tudo da direita para esquerda */
+}
+
 #player {
-  position: fixed;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  transition: 0.6s;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  clip-path: inset(0 0 0 100%); /* Esconde tudo da direita para esquerda */
-  transition: clip-path 0.4s ease;
   container-type: size;
-  overflow: hidden;
-  z-index: 100;
+  clip-path: inset(0 0 0 100%); /* Esconde tudo da direita para esquerda */
 }
 
 #player.active, #home.active {
   clip-path: inset(0 0 0 0); /* Revela o elemento todo */
+  visibility: visible;
+}
+
+.player-indicator, .genre-indicator {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  max-height: 20%;
+  min-height: 10%;
+  width: 4%;
+  height: auto;
+  aspect-ratio: 1/2;
+
+  background: linear-gradient(180deg,
+      rgba(17, 81, 56, 0.98),
+      rgba(11, 44, 31, 0.98));
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8%;
+  overflow: hidden;
+  z-index: 300;
+  pointer-events: auto;
+  padding: 2.5%;
+  container-type: size;
+
+  box-shadow:
+    0 0 35px rgba(17, 81, 56, 0.65),
+    inset 0 0 25px rgba(255, 255, 255, 0.08);
+
+  animation: pulsePlayer 2s infinite ease-in-out;
 }
 
 .player-indicator {
-  position: absolute;
-  top: 50%;
   right: 0;
-  transform: translateY(-50%);
-  
-  max-height: 20%;
-  min-height: 10%;
-  width: 4%;
-  height: auto;
-  aspect-ratio: 1/2;
-
-  background: linear-gradient(180deg,
-      rgba(17, 81, 56, 0.98),
-      rgba(11, 44, 31, 0.98));
-
   border-radius: 12% 0 0 12%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8%;
-  overflow: hidden;
-  z-index: 300;
-  pointer-events: auto;
-  padding: 2.5%;
-  container-type: size;
-
-  border-left: 1% solid rgba(255, 255, 255, 0.15);
-  border-top: 1% solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1% solid rgba(255, 255, 255, 0.08);
-
-  box-shadow:
-    0 0 35px rgba(17, 81, 56, 0.65),
-    inset 0 0 25px rgba(255, 255, 255, 0.08);
-
-  animation: pulsePlayer 2s infinite ease-in-out;
 }
-
-.play-icon {
-  width: 0;
-  height: 0;
-
-  border-top: 20cqh solid transparent;
-  border-bottom: 20cqh solid transparent;
-  border-left: 80cqw solid white;
-
-  filter: drop-shadow(0 0 48px rgba(255, 255, 255, 0.7));
-
-  animation: playMove 1.5s infinite ease-in-out;
-}
-
-.player-indicator span {
-  color: white;
-  font-size: 38cqw;
-  font-weight: bold;
-  text-transform: uppercase;
-  opacity: 0.92;
-}
-
-/* ===== INDICADOR GÊNEROS ===== */
 
 .genre-indicator {
-  position: absolute;
-  top: 50%;
   left: 0;
-  transform: translateY(-50%);
-  
-  max-height: 20%;
-  min-height: 10%;
-  width: 4%;
-  height: auto;
-  aspect-ratio: 1/2;
-
-  background: linear-gradient(180deg,
-      rgba(17, 81, 56, 0.98),
-      rgba(11, 44, 31, 0.98));
-
   border-radius: 0 12% 12% 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8%;
-  overflow: hidden;
-  z-index: 300;
-  pointer-events: auto;
-  padding: 2.5%;
-  container-type: size;
-
-  border-right: 1% solid rgba(255, 255, 255, 0.15);
-  border-top: 1% solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1% solid rgba(255, 255, 255, 0.08);
-
-  box-shadow:
-    0 0 35px rgba(17, 81, 56, 0.65),
-    inset 0 0 25px rgba(255, 255, 255, 0.08);
-
-  animation: pulsePlayer 2s infinite ease-in-out;
 }
 
-.back-icon {
+.play-icon, .back-icon {
   width: 0;
   height: 0;
 
@@ -190,11 +123,10 @@ body::after {
   border-left: 80cqw solid white;
   
   filter: drop-shadow(0 0 48px rgba(255, 255, 255, 0.7));
-  
   animation: backMove 1.5s infinite ease-in-out;
 }
 
-.genre-indicator span {
+.player-indicator span, .genre-indicator span {
   color: white;
   font-size: 38cqw;
   font-weight: bold;
@@ -229,7 +161,6 @@ body::after {
   animation-delay: 0.15s;
 }
 
-
 .music-wave div:nth-child(3) {
   height: 60%;
   animation-delay: 0.3s;
@@ -253,23 +184,6 @@ body::after {
 
   100% {
     transform: translateY(-50%) scale(1);
-  }
-}
-
-@keyframes playMove {
-  0% {
-    transform: translateX(0);
-    opacity: 0.7;
-  }
-
-  50% {
-    transform: translateX(10%);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateX(0);
-    opacity: 0.7;
   }
 }
 

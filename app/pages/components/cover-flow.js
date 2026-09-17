@@ -196,6 +196,42 @@ export class CoverFlow {
         this.#coverFlow.addEventListener("pointerup", this.#onPointerUp);
         this.#coverFlow.addEventListener("pointercancel", this.#onPointerCancel);
         this.#coverFlow.addEventListener("dragstart", (e) => e.preventDefault());
+        this.#coverFlow.addEventListener("keydown", this.#keyDown);
+    }
+
+    #keyDown = (e) => {
+        switch (e.key) {
+            case "ArrowLeft":
+                // Movimenta ate o card
+                this.#updateIndice((this.#current - 1 + this.#total) % this.#total);
+                this.#currentRotation = this.#newRotation(this.#currentRotation + (1 * this.#angleStep));
+                this.update();
+                break;
+
+            case "ArrowRight":
+                // Movimenta ate o card
+                this.#updateIndice((this.#current + 1 + this.#total) % this.#total);
+                this.#currentRotation = this.#newRotation(this.#currentRotation + (-1 * this.#angleStep));
+                this.update();
+                break;
+            
+            case "Enter":
+                e.target.blur();
+                this.#handleCardClick(this.#cards[this.#current], 0, this.#current);
+                break;
+            
+            case "Escape":
+                e.target.blur();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    #newRotation(rotation) {
+        const diff = rotation >= 0 ? rotation - 360 : rotation + 360;
+        return Math.abs(rotation) >= 360 ? diff : rotation;
     }
 
     #newRotation(rotation) {

@@ -176,6 +176,7 @@ export class CoverFlow {
     }
 
     async #handleCardClick(card, diff, newIndex) {
+        console.log(11111);
         const index = this.#cards.indexOf(card);
         if (index === -1) return;
 
@@ -227,11 +228,6 @@ export class CoverFlow {
             default:
                 break;
         }
-    }
-
-    #newRotation(rotation) {
-        const diff = rotation >= 0 ? rotation - 360 : rotation + 360;
-        return Math.abs(rotation) >= 360 ? diff : rotation;
     }
 
     #newRotation(rotation) {

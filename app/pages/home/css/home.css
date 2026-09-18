@@ -4,6 +4,8 @@ h1 {
     text-align: center;
     background: linear-gradient(90deg, #1e5b3a, #f28c28);
     -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-stroke: 1% black;
     -webkit-text-fill-color: transparent;
     margin: 0;
 }

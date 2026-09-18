@@ -185,13 +185,8 @@
       const home = document.getElementById("home");
       const plr = document.getElementById("player");
       window.openPage = (page) => {
-        if (page == "home") {
-          plr.classList.remove("active");
-          home.classList.add("active");
-        } else {
-          home.classList.remove("active");
-          plr.classList.add("active");
-        }
+        plr.classList.toggle("active");
+        home.classList.toggle("active");
       };
       
     </script>

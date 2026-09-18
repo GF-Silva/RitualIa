@@ -176,7 +176,6 @@ export class CoverFlow {
     }
 
     async #handleCardClick(card, diff, newIndex) {
-        console.log(11111);
         const index = this.#cards.indexOf(card);
         if (index === -1) return;
 

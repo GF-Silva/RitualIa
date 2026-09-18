@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="pt-br">
   <head>
-    <title>RitualIA</title>
+    <title>Ritualia | Aprenda ouvindo música e se divertindo</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aprenda novos assuntos de forma leve e divertida ouvindo música no Ritualia. Combine entretenimento e estudos em uma única experiência. Experimente grátis!">
     <link rel="icon" href="app/pages/assets/favicon.ico" />
     <link rel="stylesheet" href="app/pages/globals.css" />
     <link rel="stylesheet" href="/app/pages/home/css/home.css" />
@@ -184,13 +185,8 @@
       const home = document.getElementById("home");
       const plr = document.getElementById("player");
       window.openPage = (page) => {
-        if (page == "home") {
-          plr.classList.remove("active");
-          home.classList.add("active");
-        } else {
-          home.classList.remove("active");
-          plr.classList.add("active");
-        }
+        plr.classList.toggle("active");
+        home.classList.toggle("active");
       };
       
     </script>

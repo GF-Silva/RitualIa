@@ -1,17 +1,12 @@
 # API
 
+**Notice:** This guide was written in portuguese and just portuguese, if u speak another language, please use the translator build-in your browser, appreciate.
+
 ## Overview
 
-A API conecta o backend flask + database com o frontend.
-
-Url base: <http://localhost:5000/api>
-
-As respostas são formatadas em JSON
-
-## Quick Start
-
-Com o servidor rodando, teste quais rotas existem com:
-comando pra rota...
+- A API conecta o backend flask + database com o frontend.
+- Url base: <http://localhost:5000/api>
+- As respostas são formatadas em JSON
 
 ## Referência de cada endpoint
 
@@ -21,11 +16,11 @@ Retorna todas as músicas que atendam os params
 
 **Parâmetros de Query:**
 
-| Nome    | Tipo   | Obrigatório | Descrição               |
-|---------|--------|-------------|-------------------------|
+| Nome       | Tipo   | Obrigatório | Descrição               |
+|------------|--------|-------------|-------------------------|
 | genre_id   | str    | Não         | Gênero para buscar      |
 | emotion_id | str    | Não         | Emotion para buscar     |
-| limit   | int    | Não         | Tamanho limite de busca |
+| limit      | int    | Não         | Tamanho limite de busca |
 
 **Request de exemplo:**
 

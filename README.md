@@ -2,6 +2,8 @@
 
 O Ritualia é um sistema Web desenvolvido para quebrar a bolha músical gerado pelo algoritmo de plataformas de músicas.
 
+**Notice:** This guide was written in portuguese and just portuguese, if u speak another language, please use the translator build-in your browser, appreciate.
+
 ## Instalar
 
 Os tutoriais para instalar, presentes para arch, ubuntu e windows, estão em [docs/install.md](docs/install.md)

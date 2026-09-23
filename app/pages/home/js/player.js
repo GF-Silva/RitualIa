@@ -75,7 +75,7 @@ class PlayerControls {
   async isValidAudioUrl(url) {
     try {
       const res = await fetch(url, {method: 'HEAD'});
-      return res.ok && res.headers.get('content-type').startsWith('audio');
+      return res.ok && res.headers.get('content-type').startsWith('audio') || res.ok && res.headers.get('content-type').startsWith('video/webm');
     } catch {
       return false
     }

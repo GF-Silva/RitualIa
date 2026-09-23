@@ -144,8 +144,17 @@
       </div>
     </div>
 
+    <script type="module">
+      import { AsyncEvent } from "/app/pages/helpers/async-event.js";
+
+      window.isFrameActive = new AsyncEvent(false);
+
+      window.onYouTubeIframeAPIReady = () => {
+        isFrameActive.activate();
+      }
+    </script>
+
     <script src="/app/pages/config.js"></script>
-    <script type="module" src="/app/pages/helpers/youtubeHelpers.js"></script>
     <script type="module" src="/app/pages/home/js/home.js"></script>
     <script type="module" src="/app/pages/home/js/player.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>

@@ -1,5 +1,22 @@
+import { AsyncEvent } from "./async-event.js";
+
+const isFrameActive = new AsyncEvent(false);
+
+window.onYouTubeIframeAPIReady = () => {
+    isFrameActive.activate();
+    console.log("pronto");
+}
+
+function addIframeAPI() {
+    const script = document.createElement("script");
+    script.src = "https://www.youtube.com/iframe_api";
+    document.body.append(script);
+}
+
 export async function createPlayer({ playerId, sourceId, playerVars, events }) {
-    if (!window.isFrameActive.peek()) await window.isFrameActive.whenActive();
+    addIframeAPI();
+
+    if (!isFrameActive.peek()) await isFrameActive.whenActive();
     return new YT.Player(playerId, {
         videoId: sourceId ? sourceId : "",
         playerVars: playerVars ? playerVars : {

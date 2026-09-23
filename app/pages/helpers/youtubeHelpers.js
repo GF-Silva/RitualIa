@@ -20,6 +20,8 @@ export async function createPlayer({ playerId, sourceId, playerVars, events }) {
     return new YT.Player(playerId, {
         videoId: sourceId ? sourceId : "",
         playerVars: playerVars ? playerVars : {
+            enablejsapi: 1,
+            origin: window.location.origin,
             modestbranding: 1,  // menos logo do YouTube
             fs: 0,              // remove fullscreen button
             rel: 0,             // não mostra vídeos relacionados

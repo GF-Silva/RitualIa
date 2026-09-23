@@ -40,5 +40,4 @@ Thumbs.db
 *.mp3
 *.mp4
 *.wav
-*.jpeg
-*.jpg
+!*.webm

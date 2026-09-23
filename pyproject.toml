@@ -13,3 +13,6 @@ dependencies = [
     "python-slugify>=8.0.4",
     "requests>=2.34.2",
 ]
+
+[tool.setuptools]
+py-modules = []

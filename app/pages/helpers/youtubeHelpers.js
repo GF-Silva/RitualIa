@@ -3,6 +3,7 @@ import { AsyncEvent } from "./async-event.js";
 const isFrameActive = new AsyncEvent(false);
 
 window.onYouTubeIframeAPIReady = () => {
+    console.log("iframe ready");
     isFrameActive.activate();
 }
 

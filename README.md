@@ -1,11 +1,11 @@
+# RitualIa - Ritmo, Cultura, Alegria e IA
+
+[![Demo](https://img.shields.io/badge/Demo-Ver_Projeto-blue?style=for-the-badge&logo=chrome)](http://ritualia.duckdns.org/)
+
 <img width="50%" height="auto" alt="image" src="https://github.com/user-attachments/assets/923bc5e8-1a3d-412b-8337-60a48e928c5e" />
 
-[![Demo URL](http://ritualia.duckdns.org/)
-
-# RitualIa - Ritmo, Cultura, Alegria e IA
-=========================================================
-
 O Ritualia é um sistema Web desenvolvido para quebrar a bolha músical gerado pelo algoritmo de plataformas de músicas.
+Teste o acesso em <http://ritualia.duckdns.org/>
 
 **Notice:** This guide was written in portuguese and just portuguese, if u speak another language, please use the translator build-in your browser, appreciate.
 

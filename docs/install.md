@@ -1,7 +1,5 @@
 # Como instalar e preparar o ambiente
 
-**Notice:** This guide was written in portuguese and just portuguese, if u speak another language, please use the translator build-in your browser, appreciate.
-
 **AVISO**: Meu computador é o CachyOS (Arch) e tem pouca RAM, não consegui validar os comandos em testes praticos e seus usos podem estar incorretos, consultem a documentação das aplicações caso de erro.
 Caso encontre erros ou bugs durante a instalação, peço que busque tutoriais na web sobre como resolver.
 

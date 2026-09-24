@@ -1,7 +1,5 @@
 # API
 
-**Notice:** This guide was written in portuguese and just portuguese, if u speak another language, please use the translator build-in your browser, appreciate.
-
 ## Overview
 
 - A API conecta o backend flask + database com o frontend.

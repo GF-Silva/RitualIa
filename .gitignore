@@ -37,7 +37,7 @@ uv.lock
 Thumbs.db
 
 # Músicas e Imagens
-*.mp3
+!*.mp3
 *.mp4
 *.wav
 !*.webm

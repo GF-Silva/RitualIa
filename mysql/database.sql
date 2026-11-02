@@ -27,6 +27,13 @@ create table emotions (
 	UNIQUE (name)
 ) engine=InnoDB;
 
+create table themes (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(45) NOT NULL,
+	path VARCHAR(150) NOT NULL,
+	unique (name)
+) engine = InnoDB;
+
 
 CREATE TABLE songs_emotions (
 	song_id INT NOT NULL,
@@ -36,6 +43,15 @@ CREATE TABLE songs_emotions (
 	FOREIGN KEY (song_id) REFERENCES songs(id),
 	FOREIGN KEY (emotion_id) REFERENCES emotions(id)
 ) engine=InnoDB;
+
+CREATE TABLE songs_themes (
+	song_id INT NOT NULL,
+	theme_id INT NOT NULL,
+	
+	PRIMARY KEY (song_id, theme_id),
+	FOREIGN KEY (song_id) REFERENCES songs(id),
+	FOREIGN KEY (theme_id) REFERENCES themes(id)
+);
 
 CREATE TABLE songs_genres (
 	song_id INT NOT NULL,

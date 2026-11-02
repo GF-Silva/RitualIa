@@ -149,14 +149,15 @@
     <script type="module" src="/app/pages/home/js/player.js"></script>
 
     <script type="module">
-      function changeMode() {
-        if (window.location.pathname == "/copa") {
-          alert("Alterando para o modo normal");
-          window.location.href = "/";
-        } else {
-          alert("Alterando para o modo 'Copa'");
-          window.location.href = "/copa";
+      async function changeMode(path) {
+        const res = await fetch(`/${path}`);
+
+        if (!res.ok) {
+          alert("Rota invalida");
+          return
         }
+
+        window.location.href = `/${path}`;
       }
 
       let clicks = 0;
@@ -174,7 +175,8 @@
 
         // Se atingir 5 cliques dentro do intervalo
         if (clicks === 5) {
-          changeMode();
+          const tela = prompt("Rota? ");
+          changeMode(tela);
 
           // Opcional: Reinicia o contador para poder detectar novamente
           clicks = 0;

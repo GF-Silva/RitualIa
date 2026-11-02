@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <title>Ritualia | Aprenda ouvindo música e se divertindo</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aprenda novos assuntos de forma leve e divertida ouvindo música no Ritualia. Combine entretenimento e estudos em uma única experiência. Experimente grátis!">
+    <link rel="icon" href="/app/pages/assets/favicon.ico" />
+    <link rel="stylesheet" href="/app/pages/globals.css" />
+    <link rel="stylesheet" href="/app/pages/themes/css/styles.css" />
+    <link rel="stylesheet" href="/app/pages/themes/css/player.css" />
+    <link rel="stylesheet" href="{{url_for('static', filename='components/toast/style.css') }}" />
+  </head>
+
+  <body>
+    <header>
+      <img src="/app/pages/assets/logo/160w"
+        srcset="
+          {{ url_for('static', filename='assets/logo/160.avif')}} 160w,
+          {{ url_for('static', filename='assets/logo/320.avif')}} 320w, 
+          {{ url_for('static', filename='assets/logo/480.avif')}} 480w
+          "
+        class="logo-bg" id="logo" alt="Logotípo do Ritualia" />
+    </header>
+
+    <div id="home" class="active">
+      <button
+        class="player-indicator"
+        id="open-player-btn"
+        onclick="
+          event.stopPropagation();
+          openPage('player');
+        "
+        role="button"
+        aria-label="Abrir o player de músicas"
+        tabindex="0"
+      >
+        <div class="back-icon"></div>
+
+        <div class="music-wave">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <span>PLAYER</span>
+      </button>
+
+      <main class="main">
+        <h1>TEMAS MUSICAIS</h1>
+
+        <section class="cover-flow" aria-roledescription="carousel" aria-label="Imagens dos temas disponiveis para escolha" tabindex="0">
+          <div id="cylinder"></div>
+        </section>
+      </main>
+    </div>
+
+    <div id="player">
+      <!-- INDICADOR Temas -->
+      <button
+        class="genre-indicator"
+        id="open-home-btn"
+        onclick="
+          event.stopPropagation();
+          openPage('home');
+        "
+        role="button"
+        aria-roledescription="Voltar para o seletor de Temas"
+        tabindex="0"
+      >
+        <div class="back-icon"></div>
+
+        <div class="music-wave">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <span>Temas</span>
+      </button>
+
+      <div class="row-player">
+        <!-- ABA -->
+        <button class="panel" id="panel" onclick="togglePanel()" aria-label="Abrir a descrição em texto do vídeo">
+          <p id="music-description-label" class="panel-content" aria-label="descrição">
+            História detalhada do autor, com imagens antigas e recentes.
+          </p>
+          <div class="arrow">➜</div>
+        </button>
+
+        <!-- PLAYER -->
+        <div class="player-box" id="playerBox">
+          <div id="ytplayer" tabindex="-1"></div>
+
+          <div class="info">
+            <p id="author" aria-label="autor">Autor</p>
+            <p id="music" aria-label="Música">Música</p>
+          </div>
+
+          <div class="time">
+            <p id="currentMusicTime" aria-label="Tempo atual do vídeo">0:00</p>
+            <p id="musicDuration" aria-label="Duração do vídeo">0:00</p>
+          </div>
+
+          <div class="progress" role="progressbar" aria-label="Progresso do tempo do vídeo">
+            <div class="bar" id="bar" aria-hidden="true"></div>
+            <div class="dot" id="dot" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILA -->
+      <div class="queue" id="queue">
+        <div class="queue-header">
+            <div>
+              <div class="queue-title">Fila de espera</div>
+              <div class="queue-sub">Músicas</div>
+            </div>
+            <div class="queue-genre">Gênero</div>
+        </div>
+
+        <ul class="queue-list" id="queue-list" role="listbox" aria-label="Fila de músicas"></ul>
+      </div>
+    </div>
+
+    <script src="/app/pages/config.js"></script>
+    <script type="module" src="/app/pages/themes/js/script.js"></script>
+    <script type="module" src="/app/pages/themes/js/player.js"></script>
+
+    <script type="module">
+      async function changeMode(path) {
+        const res = await fetch(`/${path}`);
+
+        if (!res.ok) {
+          alert("Rota invalida");
+          return
+        }
+
+        window.location.href = `/${path}`;
+      }
+
+      let clicks = 0;
+      let ultimoClique = 0;
+      document.getElementById("logo").addEventListener("click", () => {
+        const agora = Date.now(); // Pega o tempo atual em milissegundos
+
+        // Se o tempo desde o último clique for maior que 500ms, reinicia o contador
+        if (agora - ultimoClique > 500) {
+          clicks = 0;
+        }
+
+        clicks++; // Incrementa o clique atual
+        ultimoClique = agora; // Atualiza o tempo do último clique
+
+        // Se atingir 5 cliques dentro do intervalo
+        if (clicks === 5) {
+          const tela = prompt("Rota? ");
+          changeMode(tela);
+
+          // Opcional: Reinicia o contador para poder detectar novamente
+          clicks = 0;
+        }
+      });
+
+      const home = document.getElementById("home");
+      const plr = document.getElementById("player");
+      window.openPage = (page) => {
+        plr.classList.toggle("active");
+        home.classList.toggle("active");
+      };
+      
+    </script>
+  </body>
+</html>

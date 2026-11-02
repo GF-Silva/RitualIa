@@ -24,3 +24,12 @@ def get_genres():
 def get_emotions():
     limit = request.args.get('limit', type=int)
     return database.get_emotions(limit)
+
+@songs_bp.route('/themes', methods=['GET'])
+def get_themes():
+    limit = request.args.get('limit', type=int)
+    return database.get_themes(limit)
+
+@songs_bp.route('/themes/<int:id>')
+def get_song_theme(id):
+    return database.get_theme_song(id)

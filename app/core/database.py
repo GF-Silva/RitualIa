@@ -110,8 +110,6 @@ class Database:
             LIMIT %s
         """
 
-        print(query)
-
         return self.__execute_query(
             query=query,
             params=params
@@ -124,6 +122,30 @@ class Database:
             query=query,
             params=[emotion]
         )
+
+    def get_themes(self, limit: int | None = None):
+        if limit:
+            return self.__execute_query(
+                query='SELECT * FROM themes LIMIT %s',
+                params=[limit]
+            )
+        
+        query = "SELECT * FROM themes"
+        return self.__execute_query(query)
+
+    def get_theme_song(self, theme_id: int):
+        query = """
+            select s.*, t.name as theme_name from songs_themes st
+            join songs s on s.id = st.song_id
+            join themes t on t.id = st.theme_id
+            where st.theme_id = %s
+            order by rand()
+            limit 1;
+        """
+
+        params = [theme_id]
+
+        return self.__execute_query(query, params)
 
     def get_genre_id(self, genre: str) -> list[dict[str, Any]]:
         query = "SELECT id FROM genres WHERE name = %s"

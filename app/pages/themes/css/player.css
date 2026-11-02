@@ -1,0 +1,212 @@
+/* PLAYER */
+.row-player {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  min-width: 60dvw;
+  width: auto;
+  height: auto;
+  max-height: 50dvh;
+  max-width: 50dvw;
+  aspect-ratio: 16/9;
+}
+
+/* ABA */
+.panel {
+  position: relative;
+  width: 5%;
+  height: 100%;
+  background: #d8842c;
+  border-radius: 1vw 0 0 1vw;
+  transition: 0.6s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.panel-content {
+  opacity: 0;
+  overflow-wrap: break-word;
+  overflow: auto;
+  font-size: 1rem;
+  text-align: left;
+  hyphens: auto;
+  font-weight: bold;
+  max-height: 90%;
+  max-width: 80%;
+  color: black;
+  transition: 0.4s;
+}
+
+.panel.open {
+  width: 50%;
+  margin-right: -42px;
+}
+
+.panel.open .panel-content {
+  opacity: 1;
+}
+
+/* SETA */
+.arrow {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  font-size: 1rem;
+  z-index: 3;
+  transition: transform 0.5s ease;
+  pointer-events: none;
+}
+
+.panel.open + .arrow {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+/* PLAYER BOX */
+.player-box {
+  background: #eeeeee;
+  border-radius: 0 1vw 1vw 0;
+  flex: 1;
+  padding: 3%;
+  transition: 0.6s ease;
+  container-type: size;
+}
+
+.player-box.shift {
+  transform: translateX(40px);
+}
+
+/* VIDEO */
+#ytplayer {
+  width: 100cqw;
+  height: auto;
+  max-height: 75cqh;
+  aspect-ratio: 16/9;
+  border-radius: 1vw;
+  background: black;
+  pointer-events: none;
+}
+
+/* INFO */
+.info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 7cqh;
+  font-weight: bold;
+}
+
+/* TEMPO */
+.time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 6cqh;
+  font-weight: bold;
+}
+
+.info p, .time p {
+  margin: 0;
+}
+
+/* BARRA */
+.progress {
+  height: 4%;
+  background: #ccc;
+  border-radius: 0.5vw;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 1%;
+  container-type: size;
+}
+
+.bar {
+  height: 100cqh;
+  background: black;
+  width: 0%;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.dot {
+  width: auto;
+  height: 150cqh;
+  aspect-ratio: 1;
+  background: black;
+  border-radius: 50%;
+  transform: translateX(-6%);
+}
+
+/* ========================= */
+/* FILA DE ESPERA */
+/* ========================= */
+
+.queue {
+  margin-top: 2vh;
+  position: relative;
+  width: 60dvw;
+  height: auto;
+  max-height: 30dvh;
+  aspect-ratio: 16/9;
+  background: rgba(220, 220, 220, 0.7);
+  border-radius: 2dvh;
+  padding: 1.5dvh 2dvw 3dvh 2dvw;
+  transition: 0.6s;
+  container-type: size;
+  overflow: hidden;
+}
+
+.queue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.queue-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1f5137;
+}
+
+.queue-sub {
+  color: #d8842c;
+  font-weight: bold;
+  font-size: 0.6rem;
+}
+
+.queue-genre {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1f5137;
+}
+
+.queue-list {
+  margin-block: 0;
+  padding: 0;
+  margin-top: 1cqh;
+  height: 70cqh;
+  overflow-y: auto;
+}
+
+.queue-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 2cqh;
+  border-bottom: 1cqh solid rgba(0, 0, 0, 0.2);
+  border-top: 1cqh solid rgba(0, 0, 0, 0.2);
+}
+
+.left {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.right {
+  font-size: 0.65rem;
+  text-align: right;
+  font-weight: bold;
+  color: #2b9b38;
+}

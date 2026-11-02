@@ -40,6 +40,8 @@ body::after {
   top: 0;
   right: 0;
   width: 15%;
+  pointer-events: all;
+  z-index: 1000;
 }
 
 #home, #player {

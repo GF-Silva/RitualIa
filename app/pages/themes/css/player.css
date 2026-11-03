@@ -88,7 +88,7 @@
   aspect-ratio: 16/9;
   border-radius: 1vw;
   background: black;
-  pointer-events: all;
+  pointer-events: none;
 }
 
 /* INFO */

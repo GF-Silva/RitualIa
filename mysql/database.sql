@@ -1,5 +1,7 @@
 DROP DATABASE IF EXISTS Ritualia;
-CREATE DATABASE Ritualia;
+CREATE DATABASE Ritualia
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_0900_ai_ci;
 USE Ritualia;
 
 -- Tabela de músicas

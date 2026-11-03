@@ -49,6 +49,7 @@ class PlayerControls {
     const queueItem = document.createElement("li");
     queueItem.className = "queue-item";
     queueItem.ariaLabel = `Música ${params['title']}`;
+    queueItem.dataset.id = params["id"];
 
     const itemName = document.createElement("span");
     itemName.className = "left";
@@ -57,10 +58,14 @@ class PlayerControls {
     const itemGenre = document.createElement("span");
     itemGenre.className = "right";
     itemGenre.textContent = params["theme_name"];
-    
+
+    queueItem.addEventListener("click", (e) => {
+      this.playMusicCard(e.target);
+    });
+
     queueItem.append(itemName, itemGenre);
     this.#queueList.append(queueItem);
-
+    
     if (!this.#isPlaying) {
       this.playMusic();
     }
@@ -95,6 +100,62 @@ class PlayerControls {
         this.#explicationAudio.play();
       })
     });
+  }
+
+  async playMusicCard(card) {
+    this.#isPlaying ||= true;
+
+    // Checa se o player esta pronto antes de continuar
+    if (!this.#isPlayerReady.peek()) {
+      console.log("Player: Esperando o player ficar pronto");
+
+      createToast({
+        message: "Esperando o player ficar pronto",
+        styles: {
+          bottom: "6%",
+          right: "2%"
+        },
+        time: 7
+      });
+
+      await this.#isPlayerReady.whenActive();
+    }
+    
+    // Checa se tem algum video na queue, se n marca q n ta reproduzindo mais
+    if (this.#musics.length <= 0) {
+      this.#isPlaying = false
+      return;
+    }
+
+    const musicIndex = this.#musics.findIndex(music => music.id == card.dataset.id);
+    
+    if (musicIndex == -1) {
+      console.log("not found");
+      return
+    }
+    
+    // Remove da queue original
+    this.#queueList.removeChild(card);
+    const music = this.#musics.splice(musicIndex, 1);
+
+    // Limpa os estados da musica
+    this.cleanStates();
+
+    // Prepara o video
+    this.player.cueVideoById(music[0]["source_id"]);
+
+    // Exibe as infos
+    this.#showMusicInfos(music[0]["title"], music[0]["artist"], music[0]["description"]);
+    
+    // Comeca a explicacao
+    await this.startExplication(`/storage/${music[0]['explication_source']}`).catch(e => console.error("Explication audio error: ", e));
+
+    // Espera o video ficar pronto
+    await this.#isVideoReady.whenActive();
+    this.#isVideoReady.deactivate();
+
+    // Comeca o video
+    this.player.playVideo();
   }
 
   async playMusic() {

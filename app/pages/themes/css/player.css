@@ -88,7 +88,7 @@
   aspect-ratio: 16/9;
   border-radius: 1vw;
   background: black;
-  pointer-events: none;
+  pointer-events: all;
 }
 
 /* INFO */
@@ -202,6 +202,7 @@
 .left {
   font-size: 0.8rem;
   font-weight: bold;
+  pointer-events: none;
 }
 
 .right {
@@ -209,4 +210,5 @@
   text-align: right;
   font-weight: bold;
   color: #2b9b38;
+  pointer-events: none;
 }

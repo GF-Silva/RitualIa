@@ -10,13 +10,15 @@ app = Flask(__name__,
             static_folder='app/pages',
             static_url_path='/app/pages')
 
+app.json.ensure_ascii = False # type: ignore
+
 STORAGE_ROOT = Path(__file__).resolve().parent / "storage"
 
 @app.route("/storage/<path:filename>")
 def storage(filename):
     return send_from_directory(STORAGE_ROOT, filename)
 
-@app.errorhandler(HTTPException)
+@api_bp.errorhandler(HTTPException)
 def handle_http_error(error):
     return jsonify({
         'error': f'{error.name}',

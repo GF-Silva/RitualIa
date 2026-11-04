@@ -188,6 +188,10 @@ class PlayerControls {
     const music = this.#musics.shift();
     this.#queueList.removeChild(this.#queueList.children[0]);
 
+    // Limpa os estados da musica
+    this.player.stopVideo();
+    this.cleanStates();
+
     // Prepara o video
     this.player.cueVideoById(music["source_id"]);
 

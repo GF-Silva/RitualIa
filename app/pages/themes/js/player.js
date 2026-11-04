@@ -144,6 +144,7 @@ class PlayerControls {
 
     // Prepara o video
     this.player.cueVideoById(music[0]["source_id"]);
+    this.player.stopVideo();
 
     // Exibe as infos
     this.#showMusicInfos(music[0]["title"], music[0]["artist"], music[0]["description"]);
@@ -194,6 +195,7 @@ class PlayerControls {
 
     // Prepara o video
     this.player.cueVideoById(music["source_id"]);
+    this.player.stopVideo();
 
     // Exibe as infos
     this.#showMusicInfos(music["title"], music["artist"], music["description"]);

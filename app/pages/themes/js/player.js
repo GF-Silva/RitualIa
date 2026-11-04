@@ -127,6 +127,10 @@ class PlayerControls {
       return;
     }
 
+    // Limpa os estados da musica
+    this.player.stopVideo();
+    this.cleanStates();
+
     const musicIndex = this.#musics.findIndex(music => music.id == card.dataset.id);
     
     if (musicIndex == -1) {
@@ -137,9 +141,6 @@ class PlayerControls {
     // Remove da queue original
     this.#queueList.removeChild(card);
     const music = this.#musics.splice(musicIndex, 1);
-
-    // Limpa os estados da musica
-    this.cleanStates();
 
     // Prepara o video
     this.player.cueVideoById(music[0]["source_id"]);

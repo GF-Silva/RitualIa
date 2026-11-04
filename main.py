@@ -18,7 +18,7 @@ STORAGE_ROOT = Path(__file__).resolve().parent / "storage"
 def storage(filename):
     return send_from_directory(STORAGE_ROOT, filename)
 
-@api_bp.errorhandler(HTTPException)
+@app.errorhandler(HTTPException)
 def handle_http_error(error):
     return jsonify({
         'error': f'{error.name}',

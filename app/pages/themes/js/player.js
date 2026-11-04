@@ -127,16 +127,15 @@ class PlayerControls {
       return;
     }
 
-    // Limpa os estados da musica
-    this.player.stopVideo();
-    this.cleanStates();
-
     const musicIndex = this.#musics.findIndex(music => music.id == card.dataset.id);
     
     if (musicIndex == -1) {
       console.log("not found");
       return
     }
+
+    // Limpa os estados da musica
+    this.cleanStates();
     
     // Remove da queue original
     this.#queueList.removeChild(card);
@@ -144,8 +143,7 @@ class PlayerControls {
 
     // Prepara o video
     this.player.cueVideoById(music[0]["source_id"]);
-    this.player.stopVideo();
-
+    
     // Exibe as infos
     this.#showMusicInfos(music[0]["title"], music[0]["artist"], music[0]["description"]);
     
@@ -190,12 +188,10 @@ class PlayerControls {
     this.#queueList.removeChild(this.#queueList.children[0]);
 
     // Limpa os estados da musica
-    this.player.stopVideo();
     this.cleanStates();
 
     // Prepara o video
     this.player.cueVideoById(music["source_id"]);
-    this.player.stopVideo();
 
     // Exibe as infos
     this.#showMusicInfos(music["title"], music["artist"], music["description"]);
@@ -213,9 +209,10 @@ class PlayerControls {
 
   cleanStates() {
     console.log("Limpando estados...")
+    this.player.stopVideo();
+    this.#isVideoReady.deactivate();
     clearInterval(this.#currentTimeInterval);
     if (this.#explicationAudio) this.#explicationAudio.currentTime = this.#explicationAudio.duration;
-    this.#isVideoReady.deactivate();
   }
 
   onPlayerError(event) {
